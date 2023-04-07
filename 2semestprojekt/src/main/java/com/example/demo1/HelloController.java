@@ -33,11 +33,19 @@ public class HelloController implements Initializable{
 
     private String url2;
 
+    TreeItem allProductsTreeItem = new TreeItem();
+
     @FXML
-    private TreeTableView<String> productList;
+    private TreeTableView productList = new TreeTableView<>(allProductsTreeItem) ;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            loadProducts();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         engine = webView.getEngine();
         engine.load("https://www.komplett.dk/category/28003/hardware/pc-komponenter");
 
@@ -86,7 +94,7 @@ public class HelloController implements Initializable{
         return files_arrayList;
     }
 
-    //Hvorvidt den her er korrekt er et godt spørgsmål. TreeTableViews er fucking besværlige. 
+    //Hvorvidt den her er korrekt er et godt spørgsmål. TreeTableViews er fucking besværlige.
 
     public void loadProducts() throws IOException {
         Path filePath = Paths.get("src/main/data");
@@ -95,25 +103,26 @@ public class HelloController implements Initializable{
 
         ArrayList<String> files_arrayList = listFilesInFolder(folder);
 
-        String[] columns = {"ID", "NAME", "DESCRIPTION", "PRODUCER", "PRICE", "PICTURE"};
+        try{
+            productList.getColumns().removeAll();
+        } catch (NullPointerException ex){
 
-        TreeItem allProductsTreeItem = new TreeItem(columns);
-
-        productList.setRoot(null);
-
+        }
 
         for(int i = 0; i < files_arrayList.size(); i++) {
 
             String[] product_array = files_arrayList.get(i).split(";");
 
-            allProductsTreeItem.getChildren().add(product_array);
+            for(int n = 0; n < product_array.length; n++){
+                productList.getColumns().add(n, product_array[n]);
+            }
         }
 
         productList.setRoot(allProductsTreeItem);
 
         //Skal det her overhovedet bruges?
 
-        //productList.refresh();
+        productList.refresh();
     }
 
 }

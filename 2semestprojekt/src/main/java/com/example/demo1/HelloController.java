@@ -87,6 +87,7 @@ public class HelloController implements Initializable{
 
         //This part makes an ArrayList of String and reads the first line of all the files in the given folder.
         //The read information is stripped of all white space before and after the actual information
+        // ("  This  " --> "This")
         //and put into the ArrayList. Then the ArrayList is returned.
         ArrayList<String> files_arrayList = new ArrayList<>();
         for (final File fileEntry : Objects.requireNonNull(folder.listFiles())) {

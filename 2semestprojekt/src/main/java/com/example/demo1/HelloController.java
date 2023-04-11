@@ -33,10 +33,8 @@ public class HelloController implements Initializable{
 
     private String url2;
 
-    TreeItem allProductsTreeItem = new TreeItem();
-
     @FXML
-    private TreeTableView productList = new TreeTableView<>(allProductsTreeItem) ;
+    private ListView<String> productList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -97,32 +95,34 @@ public class HelloController implements Initializable{
     //Hvorvidt den her er korrekt er et godt spørgsmål. TreeTableViews er fucking besværlige.
 
     public void loadProducts() throws IOException {
+
+        //This part gets the file path and makes an ArrayList of Strings
+        //from the information in every file therein.
         Path filePath = Paths.get("src/main/data");
 
         final File folder = new File(String.valueOf(filePath));
 
         ArrayList<String> files_arrayList = listFilesInFolder(folder);
 
-        try{
-            productList.getColumns().removeAll();
-        } catch (NullPointerException ex){
+        //This part clears the information in ListView containing the product list.
 
+        productList.getItems().clear();
+
+
+        //Make a part that gets the information out of the HTML-files.
+
+
+
+        //This part copies the information in the previously mentioned ArrayList
+        //into the previously mentioned ListView and refreshes/updates the ListView.
+
+        for(String product: files_arrayList) {
+            productList.getItems().add(product);
         }
-
-        for(int i = 0; i < files_arrayList.size(); i++) {
-
-            String[] product_array = files_arrayList.get(i).split(";");
-
-            for(int n = 0; n < product_array.length; n++){
-                productList.getColumns().add(n, product_array[n]);
-            }
-        }
-
-        productList.setRoot(allProductsTreeItem);
-
-        //Skal det her overhovedet bruges?
 
         productList.refresh();
+
+
     }
 
 }

@@ -83,7 +83,11 @@ public class HelloController implements Initializable{
     }
 
     //Understand and comment this method. This method is necessary for the next method.
-    public static ArrayList<String> listFilesInFolder(final File folder) throws IOException {
+    public static ArrayList<String> productFilesInFolder(final File folder) throws IOException {
+
+        //This part makes an ArrayList of String and reads the first line of all the files in the given folder.
+        //The read information is stripped of all white space before and after the actual information
+        //and put into the ArrayList. Then the ArrayList is returned.
         ArrayList<String> files_arrayList = new ArrayList<>();
         for (final File fileEntry : Objects.requireNonNull(folder.listFiles())) {
             String read = Files.readAllLines(Paths.get(fileEntry.getPath())).get(0);
@@ -92,7 +96,6 @@ public class HelloController implements Initializable{
         return files_arrayList;
     }
 
-    //Hvorvidt den her er korrekt er et godt spørgsmål. TreeTableViews er fucking besværlige.
 
     public void loadProducts() throws IOException {
 

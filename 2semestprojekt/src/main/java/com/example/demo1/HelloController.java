@@ -128,8 +128,6 @@ public class HelloController implements Initializable{
         if(productList != null){
             productList.refresh();
         }
-
-
     }
 
 }

@@ -37,17 +37,20 @@ public class HelloController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        //This part loads our products during the start of our application.
         try {
             loadProducts();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        engine = webView.getEngine();
-        engine.load("https://www.komplett.dk/category/28003/hardware/pc-komponenter");
+        //Preview af vores HTML-filer med test-webside.
+        //engine = webView.getEngine();
+        //engine.load("https://www.komplett.dk/category/28003/hardware/pc-komponenter");
 
-        engine = webView2.getEngine();
-        engine.load("https://www.instructables.com/How-To-Replace-the-Processor-in-a-Desktop-Computer/");
+        //engine = webView2.getEngine();
+        //engine.load("https://www.instructables.com/How-To-Replace-the-Processor-in-a-Desktop-Computer/");
     }
 
     @FXML
@@ -120,6 +123,9 @@ public class HelloController implements Initializable{
 
         //This part copies the information in the previously mentioned ArrayList
         //into the previously mentioned ListView and refreshes/updates the ListView.
+
+        //This part needs an update to "create(product)" instead of "product",
+        //when the create()-function has been created. 
 
         for(String product: files_arrayList) {
             productList.getItems().add(product);

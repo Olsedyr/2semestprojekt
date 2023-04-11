@@ -60,7 +60,7 @@ public class HelloController implements Initializable{
 
             //This part gets the information from the selected index and changes it to the correct Path.
 
-            String product = productList.getSelectionModel().getSelectedIndices().toString();
+            String product = productList.getItems().get(selectedIndices.get(0));
 
             String previousID = product.split(";")[0];
 

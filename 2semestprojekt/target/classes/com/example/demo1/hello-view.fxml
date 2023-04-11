@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -17,6 +18,7 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
+                  <ListView fx:id="productList" layoutX="81.0" layoutY="168.0" prefHeight="200.0" prefWidth="922.0" />
                   <WebView fx:id="webView" layoutX="82.0" layoutY="412.0" prefHeight="343.0" prefWidth="920.0" />
                   <Text layoutX="463.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Content Management System UI">
                      <font>
@@ -32,22 +34,12 @@
                   </Text>
                   <Button layoutX="1042.0" layoutY="170.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="75.0" text="Add" />
                   <Button layoutX="1042.0" layoutY="250.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="75.0" text="Edit" />
-                  <Button layoutX="1042.0" layoutY="330.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="75.0" text="Remove" />
+                  <Button layoutX="1042.0" layoutY="330.0" mnemonicParsing="false" onAction="#deleteItem" prefHeight="39.0" prefWidth="75.0" text="Remove" />
                   <Text layoutX="84.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Website Preview">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <TreeTableView layoutX="84.0" layoutY="170.0" prefHeight="200.0" prefWidth="915.0">
-                    <columns>
-                      <TreeTableColumn prefWidth="75.0" text="ID" />
-                      <TreeTableColumn prefWidth="144.0000762939453" text="NAME" />
-                        <TreeTableColumn prefWidth="251.199951171875" text="DESCRIPTION" />
-                        <TreeTableColumn prefWidth="98.4000244140625" text="PRODUCER" />
-                        <TreeTableColumn prefWidth="75.0" text="PRICE" />
-                        <TreeTableColumn prefWidth="268.79997558593755" text="PICTURE" />
-                    </columns>
-                  </TreeTableView>
                </children></AnchorPane>
       </content>
     </Tab>

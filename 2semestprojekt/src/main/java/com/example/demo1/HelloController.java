@@ -68,9 +68,6 @@ public class HelloController implements Initializable{
         String price = inputFields[4].trim();
         String picture = inputFields[5].trim();
 
-        // Call create() method to generate the HTML content and store it in a .txt file
-        create(id, name, description, producer, price, picture);
-
         StringBuilder sb = new StringBuilder();
         sb.append(id);
         sb.append(";");
@@ -96,7 +93,10 @@ public class HelloController implements Initializable{
 
         searchBar.setText(""); // Clear the input TextField
 
-        this.loadProducts(); // Refresh the product list
+        productList.getItems().add(data); // Add the new item to the ListView
+        productList.refresh(); // Refresh the ListView
+
+        create(id, name, description, producer, price, picture); // Generate the HTML file
     }
 
     public void create(String id, String name, String description, String producer, String price, String picture) throws IOException {

@@ -4,8 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.control.ListView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -110,7 +109,9 @@ public class HelloController implements Initializable{
 
         //This part clears the information in ListView containing the product list.
 
-        productList.getItems().clear();
+        if(productList != null){
+            productList.getItems().clear();
+        }
 
 
         //Make a part that gets the information out of the HTML-files.
@@ -124,7 +125,9 @@ public class HelloController implements Initializable{
             productList.getItems().add(product);
         }
 
-        productList.refresh();
+        if(productList != null){
+            productList.refresh();
+        }
 
 
     }

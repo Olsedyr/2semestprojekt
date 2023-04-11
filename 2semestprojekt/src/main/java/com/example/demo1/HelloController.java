@@ -106,7 +106,7 @@ public class HelloController implements Initializable{
 
         final File folder = new File(String.valueOf(filePath));
 
-        ArrayList<String> files_arrayList = listFilesInFolder(folder);
+        ArrayList<String> files_arrayList = productFilesInFolder(folder);
 
         //This part clears the information in ListView containing the product list.
 

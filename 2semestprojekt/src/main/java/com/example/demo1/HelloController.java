@@ -21,7 +21,6 @@ import java.util.ResourceBundle;
 
 
 
-
 public class HelloController implements Initializable{
 
     @FXML
@@ -93,12 +92,13 @@ public class HelloController implements Initializable{
 
         searchBar.setText(""); // Clear the input TextField
 
-        productList.getItems().add(htmlContent); // Add the new item to the ListView
+        productList.getItems().add(sb.toString()); // Add the new String sb to the ListView
         productList.refresh(); // Refresh the ListView
     }
 
     public String create(String id, String name, String description, String producer, String price, String picture) {
-        String html = "<!DOCTYPE html>\n" +
+        String html =
+                "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
                 "<title>" + name + "</title>\n" +

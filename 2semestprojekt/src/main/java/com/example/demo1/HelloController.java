@@ -162,20 +162,25 @@ public class HelloController implements Initializable{
         if (files == null) {
             throw new IOException("Unable to list files in the directory: " + folder.getPath());
         }
-        for (final File fileEntry : files) {
-            List<String> list = Files.readAllLines(Paths.get(fileEntry.getPath()));
+
+        for(int i = 0; i < files.length; i++){
+            Path filePath = Paths.get(files[i].getPath());
+            List<String> list = Files.readAllLines(filePath);
 
             String read;
 
-            String product_String = "";
+            String product_String = ((Integer)(i + 1)).toString() + ";";
 
-            for(int i = 0; i < list.size(); i++){
-                read = list.get(i);
+            for(int n = 0; n < list.size(); n++){
+                read = list.get(n);
 
                 product_String += read;
             }
 
             files_arrayList.add(htmlToString(product_String));
+        }
+        for (final File fileEntry : files) {
+
         }
         return files_arrayList;
     }
@@ -217,6 +222,8 @@ public class HelloController implements Initializable{
         String[] productFields = productInfo.split(";");
         String id = productFields[0].trim();
 
+        System.out.println(id);
+
         Path htmlFilePath = Paths.get("src/main/data/" + id + "_html.txt");
         String htmlContent = Files.readString(htmlFilePath);
 
@@ -233,7 +240,8 @@ public class HelloController implements Initializable{
         document.select("p").prepend("\\n\\n");
         String s = document.html().replaceAll("\\\\n", "\n");
 
-        s = s.replace("\n",";").replace(";;",";");
+        s = s.replace("\n",";").replace(";;",";").replace("Name: ","")
+                .replace("Description: ","").replace("Producer: ", "").replace("Price: ", "");
 
         return Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
     }

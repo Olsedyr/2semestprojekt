@@ -30,7 +30,6 @@ public class HelloController implements Initializable{
     @FXML
     private TextField searchBar;
     private WebEngine engine;
-    private String url2;
     @FXML
     private ListView<String> productList;
 
@@ -43,7 +42,15 @@ public class HelloController implements Initializable{
         }
 
         engine = webView.getEngine();
-        engine.load("https://www.komplett.dk/category/28003/hardware/pc-komponenter");
+        productList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                try {
+                    webViewShowHtml(newValue);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         engine = webView2.getEngine();
         engine.load("https://www.instructables.com/How-To-Replace-the-Processor-in-a-Desktop-Computer/");
@@ -66,18 +73,8 @@ public class HelloController implements Initializable{
         String price = inputFields[4].trim();
         String picture = inputFields[5].trim();
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(id);
-        sb.append(";");
-        sb.append(name);
-        sb.append(";");
-        sb.append(description);
-        sb.append(";");
-        sb.append(producer);
-        sb.append(";");
-        sb.append(price);
-        sb.append(";");
-        sb.append(picture);
+        // Generate the List content
+        String listRow = id + ";" + name + ";" + description + ";" + producer + ";" + price + ";" + picture;
 
         // Generate the HTML content
         String htmlContent = create(id, name, description, producer, price, picture);
@@ -92,7 +89,7 @@ public class HelloController implements Initializable{
 
         searchBar.setText(""); // Clear the input TextField
 
-        productList.getItems().add(sb.toString()); // Add the new String sb to the ListView
+        productList.getItems().add(listRow); // Add the new String sb to the ListView
         productList.refresh(); // Refresh the ListView
     }
 
@@ -187,19 +184,30 @@ public class HelloController implements Initializable{
             productList.getItems().clear();
         }
 
-
-        //Make a part that gets the information out of the HTML-files.
+        //Make a part that gets the information out of the HTML.txt-files.
 
 
         //This part copies the information in the previously mentioned ArrayList
         //into the previously mentioned ListView and refreshes/updates the ListView.
 
         for(String product: files_arrayList) {
+            assert productList != null;
             productList.getItems().add(product);
         }
 
         if(productList != null){
             productList.refresh();
         }
+    }
+
+    private void webViewShowHtml(String productInfo) throws IOException {
+        String[] productFields = productInfo.split(";");
+        String id = productFields[0].trim();
+
+        Path htmlFilePath = Paths.get("src/main/data/" + id + "_html.txt");
+        String htmlContent = Files.readString(htmlFilePath);
+
+        engine = webView.getEngine();
+        engine.loadContent(htmlContent);
     }
 }

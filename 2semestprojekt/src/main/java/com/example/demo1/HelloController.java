@@ -19,8 +19,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Safelist;
 
 public class HelloController implements Initializable{
 
@@ -99,10 +100,10 @@ public class HelloController implements Initializable{
                 "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
-                "<title>" + name + "</title>\n" +
+                "<title>Name: " + name + "</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "<h1>" + name + "</h1>\n" +
+                "<h1>Name: " + name + "</h1>\n" +
                 "<img src=\"" + picture + "\" alt=\"" + name + "\">\n" +
                 "<p>Description: " + description + "</p>\n" +
                 "<p>Producer: " + producer + "</p>\n" +
@@ -171,17 +172,10 @@ public class HelloController implements Initializable{
             for(int i = 0; i < list.size(); i++){
                 read = list.get(i);
 
-                read = read.replace("\n", ";");
-
-                if(i != 0){
-                    product_String += ";";
-                }
-                product_String += read.strip();
-
-
+                product_String += read;
             }
 
-            files_arrayList.add(product_String);
+            files_arrayList.add(htmlToString(product_String));
         }
         return files_arrayList;
     }
@@ -228,5 +222,19 @@ public class HelloController implements Initializable{
 
         engine = webView.getEngine();
         engine.loadContent(htmlContent);
+    }
+
+    public static String htmlToString(String html) {
+        if(html==null)
+            return html;
+        Document document = Jsoup.parse(html);
+        document.outputSettings(new Document.OutputSettings().prettyPrint(false));//makes html() preserve linebreaks and spacing
+        document.select("br").append("\\n");
+        document.select("p").prepend("\\n\\n");
+        String s = document.html().replaceAll("\\\\n", "\n");
+
+        s = s.replace("\n",";").replace(";;",";");
+
+        return Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
     }
 }

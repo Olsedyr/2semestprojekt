@@ -76,7 +76,7 @@ public class HelloController implements Initializable{
         String picture = inputFields[5].trim();
 
         // Generate the List content
-        String listRow = id + ";" + name + ";" + description + ";" + producer + ";" + price + ";" + picture;
+        String listRow = id + ";" + name + ";" + description + ";" + producer + ";" + price;
 
         // Generate the HTML content
         String htmlContent = create(id, name, description, producer, price, picture);
@@ -240,8 +240,16 @@ public class HelloController implements Initializable{
         document.select("p").prepend("\\n\\n");
         String s = document.html().replaceAll("\\\\n", "\n");
 
-        s = s.replace("\n",";").replace(";;",";").replace("Name: ","")
-                .replace("Description: ","").replace("Producer: ", "").replace("Price: ", "");
+        String id = s.substring(0, s.indexOf(";"));
+
+        s = s.replace("\n",";").replace("Name:", ";;").replace(";;",";").substring(s.indexOf(";") + 1);
+
+        String name = s.substring(0, s.indexOf(";"));
+
+        name = name.substring(0, (name.length()/2) + 1);
+
+        s = id + name + s.substring(s.indexOf(";") + 1).replace("Description: ","")
+                .replace("Producer: ", "").replace("Price: ", "").replace("; ", ";");
 
         return Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
     }

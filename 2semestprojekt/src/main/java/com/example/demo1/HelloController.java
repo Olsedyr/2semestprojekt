@@ -127,7 +127,7 @@ public class HelloController implements Initializable{
 
             String product = productList.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";")[0];
-            Path filePath = Paths.get("src/main/data/" + previousID + ".txt");
+            Path filePath = Paths.get("src/main/data/" + previousID + "_html.txt");
 
             //This part converts the Path into a File and deletes it.
 

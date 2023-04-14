@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -161,8 +162,26 @@ public class HelloController implements Initializable{
             throw new IOException("Unable to list files in the directory: " + folder.getPath());
         }
         for (final File fileEntry : files) {
-            String read = Files.readAllLines(Paths.get(fileEntry.getPath())).get(0);
-            files_arrayList.add(read.strip());
+            List<String> list = Files.readAllLines(Paths.get(fileEntry.getPath()));
+
+            String read;
+
+            String product_String = "";
+
+            for(int i = 0; i < list.size(); i++){
+                read = list.get(i);
+
+                read = read.replace("\n", ";");
+
+                if(i != 0){
+                    product_String += ";";
+                }
+                product_String += read.strip();
+
+
+            }
+
+            files_arrayList.add(product_String);
         }
         return files_arrayList;
     }

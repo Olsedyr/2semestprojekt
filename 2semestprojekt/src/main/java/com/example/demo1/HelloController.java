@@ -17,7 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 
@@ -81,25 +80,24 @@ public class HelloController implements Initializable{
         sb.append(";");
         sb.append(picture);
 
-        String data = new String(sb);
-        Path p = Paths.get("src/main/data/" + id + ".txt");
-        Files.createDirectories(p.getParent());
-        File myObj = new File(String.valueOf(p));
-        if (myObj.createNewFile()) {
-            FileWriter myWriter = new FileWriter(String.valueOf(p));
-            myWriter.write(data);
+        // Generate the HTML content
+        String htmlContent = create(id, name, description, producer, price, picture);
+
+        Path htmlFilePath = Paths.get("src/main/data/" + id + "_html.txt");
+        File htmlFile = new File(String.valueOf(htmlFilePath));
+        if (htmlFile.createNewFile()) {
+            FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
+            myWriter.write(htmlContent);
             myWriter.close();
         }
 
         searchBar.setText(""); // Clear the input TextField
 
-        productList.getItems().add(data); // Add the new item to the ListView
+        productList.getItems().add(htmlContent); // Add the new item to the ListView
         productList.refresh(); // Refresh the ListView
-
-        create(id, name, description, producer, price, picture); // Generate the HTML file
     }
 
-    public void create(String id, String name, String description, String producer, String price, String picture) throws IOException {
+    public String create(String id, String name, String description, String producer, String price, String picture) {
         String html = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
@@ -114,13 +112,7 @@ public class HelloController implements Initializable{
                 "</body>\n" +
                 "</html>";
 
-        Path p = Paths.get("src/main/data/" + id + ".txt");
-        File htmlFile = new File(String.valueOf(p));
-        if (htmlFile.createNewFile()) {
-            FileWriter myWriter = new FileWriter(String.valueOf(p));
-            myWriter.write(html);
-            myWriter.close();
-        }
+        return html;
     }
 
     @FXML
@@ -134,15 +126,12 @@ public class HelloController implements Initializable{
             //This part gets the information from the selected index and changes it to the correct Path.
 
             String product = productList.getItems().get(selectedIndices.get(0));
-
             String previousID = product.split(";")[0];
-
             Path filePath = Paths.get("src/main/data/" + previousID + ".txt");
 
             //This part converts the Path into a File and deletes it.
 
             File fileToDelete = new File(filePath.toString());
-
             fileToDelete.delete();
 
             //This part isn't entirely implemented yet.

@@ -4,8 +4,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -18,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,6 +36,7 @@ public class CMSController implements Initializable{
     private WebEngine engine;
     @FXML
     private ListView<String> productList;
+    private String result;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -76,7 +79,7 @@ public class CMSController implements Initializable{
         String picture = inputFields[5].trim();
 
         // Generate the List content
-        String listRow = id + ";" + name + ";" + description + ";" + producer + ";" + price;
+        String listRow = id + ";" + name + ";" + description + ";" + producer + ";" + price + ";" + picture;
 
         // Generate the HTML content
         String htmlContent = create(name, description, producer, price, picture);
@@ -223,6 +226,113 @@ public class CMSController implements Initializable{
             productList.refresh();
         }
     }
+
+
+
+    public void EditProduct() {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Edit Product");
+        dialog.setHeaderText("Edit Product");
+
+        ButtonType confirm = new ButtonType("Apply");
+        dialog.getDialogPane().getButtonTypes().add(confirm);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(25);
+        grid.setVgap(25);
+        grid.setPadding(new Insets(30, 160, 20, 20));
+
+
+        ObservableList<Integer> selectedIndices = productList.getSelectionModel().getSelectedIndices();
+
+        //This checks if what is selected is only one item.
+        if (selectedIndices.size() == 1) {
+
+            //This part gets the information from the selected index and changes it to the correct Path.
+
+            String product = productList.getItems().get(selectedIndices.get(0));
+
+            //Gets the correct string
+            String previousID = product.split(";")[0];
+
+            String previousName = product.split(";")[1];
+
+            String previousDescription = product.split(";")[2];
+
+            String previousProducer = product.split(";")[3];
+
+            String previousPrice = product.split(";")[4];
+
+            String previousImage = product.split(";")[5];
+
+            Path filePath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
+
+
+            //Sets all the labels and TextPrompts
+            Label id = new Label();
+            id.setText(previousID);
+
+            TextField productName = new TextField();
+            productName.setPromptText(previousName);
+
+            TextField productDescription = new TextField();
+            productDescription.setPromptText(previousDescription);
+
+            TextField productProducer = new TextField();
+            productProducer.setPromptText(previousProducer);
+
+            TextField productPrice = new TextField();
+            productPrice.setPromptText(previousPrice);
+
+            TextField productImage = new TextField();
+            productImage.setPromptText(previousImage);
+
+
+            //Adds all labels and textPromts to the pop-up window
+            grid.add(new Label("ID:"), 0, 0);
+            grid.add(id, 1, 0);
+
+            grid.add(new Label("Product Name:"), 0, 1);
+            grid.add(productName, 1, 1);
+
+            grid.add(new Label("Description:"), 0, 2);
+            grid.add(productDescription, 1, 2);
+
+            grid.add(new Label("Producer:"), 0, 3);
+            grid.add(productProducer, 1, 3);
+
+            grid.add(new Label("Price:"), 0, 4);
+            grid.add(productPrice, 1, 4);
+
+            grid.add(new Label("Image:"), 0, 5);
+            grid.add(productImage, 1, 5);
+
+            dialog.getDialogPane().setContent(grid);
+
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == confirm) {
+
+                    //Prints the new info if apply is clicked
+                    System.out.println("Changed Product Info:" + "\n" +
+                            "ID: " + previousID+ "\n" +
+                            "Name: " +productName.getText() + "\n" +
+                            "Description: " +productDescription.getText()+ "\n" +
+                            "Producer: " + productProducer.getText()+ "\n" +
+                            "Price: " + productPrice.getText() + "\n" +
+                            "Image: " + productImage.getText());
+
+                    return id.getText() + ";" + productName.getText() + ";" + productDescription.getText() + ";" + productProducer.getText()+ ";" + productPrice.getText()+ ";" + productImage.getText();
+                }
+                return null;
+            });
+
+            Optional<String> rslt = dialog.showAndWait();
+            if (rslt.isPresent()) {
+                this.result = rslt.get();
+            } else this.result = null;
+        }
+    }
+
 
     private void webViewShowHtml(String productInfo) throws IOException {
         String[] productFields = productInfo.split(";");

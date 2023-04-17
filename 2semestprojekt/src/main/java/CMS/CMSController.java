@@ -1,4 +1,4 @@
-package com.example.demo1;
+package CMS;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,7 +23,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Safelist;
 
-public class HelloController implements Initializable{
+public class CMSController implements Initializable{
 
     @FXML
     private WebView webView;

@@ -79,9 +79,9 @@ public class CMSController implements Initializable{
         String listRow = id + ";" + name + ";" + description + ";" + producer + ";" + price;
 
         // Generate the HTML content
-        String htmlContent = create(id, name, description, producer, price, picture);
+        String htmlContent = create(name, description, producer, price, picture);
 
-        Path htmlFilePath = Paths.get("src/main/CMS/data/" + id + "_html.txt");
+        Path htmlFilePath = Paths.get("src/main/CMS/data/" + id + ".txt");
         File htmlFile = new File(String.valueOf(htmlFilePath));
         if (htmlFile.createNewFile()) {
             FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
@@ -95,7 +95,7 @@ public class CMSController implements Initializable{
         productList.refresh(); // Refresh the ListView
     }
 
-    public String create(String id, String name, String description, String producer, String price, String picture) {
+    public String create(String name, String description, String producer, String price, String picture) {
         String html =
                 "<!DOCTYPE html>\n" +
                 "<html>\n" +
@@ -126,7 +126,7 @@ public class CMSController implements Initializable{
 
             String product = productList.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";")[0];
-            Path filePath = Paths.get("src/main/CMS/data/" + previousID + "_html.txt");
+            Path filePath = Paths.get("src/main/CMS/data/" + previousID + ".txt");
 
             //This part converts the Path into a File and deletes it.
 
@@ -167,20 +167,13 @@ public class CMSController implements Initializable{
             Path filePath = Paths.get(files[i].getPath());
             List<String> list = Files.readAllLines(filePath);
 
-            String read;
-
-            String product_String = ((Integer)(i + 1)).toString() + ";";
+            String product_String = files[i].getName() + ";";
 
             for(int n = 0; n < list.size(); n++){
-                read = list.get(n);
-
-                product_String += read;
+                product_String += list.get(n);
             }
 
             files_arrayList.add(htmlToString(product_String));
-        }
-        for (final File fileEntry : files) {
-
         }
         return files_arrayList;
     }
@@ -222,9 +215,7 @@ public class CMSController implements Initializable{
         String[] productFields = productInfo.split(";");
         String id = productFields[0].trim();
 
-        System.out.println(id);
-
-        Path htmlFilePath = Paths.get("src/main/CMS/data/" + id + "_html.txt");
+        Path htmlFilePath = Paths.get("src/main/CMS/data/" + id + ".txt");
         String htmlContent = Files.readString(htmlFilePath);
 
         engine = webView.getEngine();
@@ -240,17 +231,19 @@ public class CMSController implements Initializable{
         document.select("p").prepend("\\n\\n");
         String s = document.html().replaceAll("\\\\n", "\n");
 
-        String id = s.substring(0, s.indexOf(";"));
+        s = s.replace("\n",";").replace(";;",";").replace("Name: ","")
+                .replace("Description: ","").replace("Producer: ", "").replace("Price: $", "").replace(".txt", "");
 
-        s = s.replace("\n",";").replace("Name:", ";;").replace(";;",";").substring(s.indexOf(";") + 1);
-
-        String name = s.substring(0, s.indexOf(";"));
-
-        name = name.substring(0, (name.length()/2) + 1);
-
-        s = id + name + s.substring(s.indexOf(";") + 1).replace("Description: ","")
-                .replace("Producer: ", "").replace("Price: ", "").replace("; ", ";");
-
+        //String id = s.substring(0, s.indexOf(";"));
+        //
+        //s = s.replace("\n",";").replace("Name:", ";;").replace(";;",";").substring(s.indexOf(";") + 1);
+        //
+        //String name = s.substring(0, s.indexOf(";"));
+        //
+        //name = name.substring(0, (name.length()/2) + 1);
+        //
+        //s = id + name + s.substring(s.indexOf(";") + 1).replace("Description: ","")
+        //                .replace("Producer: ", "").replace("Price: ", "").replace("; ", ";");
         return Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
     }
 }

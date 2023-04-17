@@ -81,7 +81,7 @@ public class CMSController implements Initializable{
         // Generate the HTML content
         String htmlContent = create(name, description, producer, price, picture);
 
-        Path htmlFilePath = Paths.get("src/main/CMS/data/" + id + ".txt");
+        Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + ".txt");
         File htmlFile = new File(String.valueOf(htmlFilePath));
         if (htmlFile.createNewFile()) {
             FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
@@ -126,7 +126,7 @@ public class CMSController implements Initializable{
 
             String product = productList.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";")[0];
-            Path filePath = Paths.get("src/main/CMS/data/" + previousID + ".txt");
+            Path filePath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
 
             //This part converts the Path into a File and deletes it.
 
@@ -149,7 +149,7 @@ public class CMSController implements Initializable{
         //The read information is stripped of all white space before and after the actual information
         // ("  This  " --> "This")
         //and put into the ArrayList. Then the ArrayList is returned.
-        Path dataPath = Paths.get("src/main/CMS/data/");
+        Path dataPath = Paths.get("src/main/data/CMS/");
         if (!Files.exists(dataPath)) {
             Files.createDirectories(dataPath);
         }
@@ -183,7 +183,7 @@ public class CMSController implements Initializable{
 
         //This part gets the file path and makes an ArrayList of Strings
         //from the information in every file therein.
-        Path filePath = Paths.get("src/main/CMS/data/");
+        Path filePath = Paths.get("src/main/data/CMS/");
 
         final File folder = new File(String.valueOf(filePath));
 
@@ -215,7 +215,7 @@ public class CMSController implements Initializable{
         String[] productFields = productInfo.split(";");
         String id = productFields[0].trim();
 
-        Path htmlFilePath = Paths.get("src/main/CMS/data/" + id + ".txt");
+        Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + ".txt");
         String htmlContent = Files.readString(htmlFilePath);
 
         engine = webView.getEngine();

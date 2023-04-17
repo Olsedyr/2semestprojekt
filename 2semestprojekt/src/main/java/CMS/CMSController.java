@@ -91,7 +91,20 @@ public class CMSController implements Initializable{
 
         searchBar.setText(""); // Clear the input TextField
 
-        productList.getItems().add(listRow); // Add the new String sb to the ListView
+        boolean fileExists = false;
+
+        for(String file: productList.getItems()){
+            if(listRow.substring(0, listRow.indexOf(";")).equals(file.substring(0, listRow.indexOf(";"))) ){
+                fileExists = true;
+            }
+
+        }
+
+        if(!fileExists){
+            productList.getItems().add(listRow); // Add the new String sb to the ListView
+        }
+
+        //productList.getItems().add(listRow); // Add the new String sb to the ListView
         productList.refresh(); // Refresh the ListView
     }
 
@@ -231,19 +244,17 @@ public class CMSController implements Initializable{
         document.select("p").prepend("\\n\\n");
         String s = document.html().replaceAll("\\\\n", "\n");
 
-        s = s.replace("\n",";").replace(";;",";").replace("Name: ","")
-                .replace("Description: ","").replace("Producer: ", "").replace("Price: $", "").replace(".txt", "");
+        String id = s.substring(0, s.indexOf(";")).replace(".txt", "");
 
-        //String id = s.substring(0, s.indexOf(";"));
-        //
-        //s = s.replace("\n",";").replace("Name:", ";;").replace(";;",";").substring(s.indexOf(";") + 1);
-        //
-        //String name = s.substring(0, s.indexOf(";"));
-        //
-        //name = name.substring(0, (name.length()/2) + 1);
-        //
-        //s = id + name + s.substring(s.indexOf(";") + 1).replace("Description: ","")
-        //                .replace("Producer: ", "").replace("Price: ", "").replace("; ", ";");
+        s = s.replace("\n",";").replace("Name:", ";;").replace(";;",";").substring(s.indexOf(";") + 1);
+
+        String name = s.substring(0, s.indexOf(";"));
+
+        name = name.substring(0, (name.length()/2) + 1);
+
+        s = id + name + s.substring(s.indexOf(";") + 1).replace("Description: ","")
+                .replace("Producer: ", "").replace("Price: $", "").replace("; ", ";");
+
         return Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
     }
 }

@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,6 +38,24 @@ public class CMSController implements Initializable{
     private WebEngine engine;
     @FXML
     private ListView<String> productList;
+
+
+    @FXML
+    private Label id;
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField description;
+
+    @FXML
+    private TextField producer;
+
+    @FXML
+    private TextField price;
+
+
     private String result;
 
     @Override
@@ -158,6 +178,44 @@ public class CMSController implements Initializable{
         }
     }
 
+
+    @FXML
+    protected void editProduct() throws IOException {
+        ObservableList<Integer> selectedIndices = productList.getSelectionModel().getSelectedIndices();
+
+        if (selectedIndices.size() == 1) {
+
+
+            String product = productList.getItems().get(selectedIndices.get(0));
+            String previousID = product.split(";")[0];
+            Path filePath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
+
+
+            EditProduct ep = new EditProduct();
+            String str = ep.getResult();
+
+            if (str != null) {
+                Path p = Paths.get("src/main/data/CMS/" + previousID + ".txt");
+
+                File fileToDelete = new File(p.toString());
+                fileToDelete.delete();
+
+                Path p2 = p;
+                File newFile = new File(p2.toString());
+
+                if(newFile.createNewFile()) {
+                    FileWriter myWriter = new FileWriter(String.valueOf(p2));
+                    myWriter.write(str);
+                    myWriter.close();
+                }
+                loadProducts();
+                System.out.println(create(name.getText(), description.getText(), producer.getText(), price.getText(), "example.pic"));
+            }
+        }
+    }
+
+
+
     //Understand and comment this method. This method is necessary for the next method.
     public static ArrayList<String> productFilesInFolder(final File folder) throws IOException {
 
@@ -229,111 +287,6 @@ public class CMSController implements Initializable{
 
 
 
-    public void EditProduct() {
-        Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle("Edit Product");
-        dialog.setHeaderText("Edit Product");
-
-        ButtonType confirm = new ButtonType("Apply");
-        dialog.getDialogPane().getButtonTypes().add(confirm);
-
-        GridPane grid = new GridPane();
-        grid.setHgap(25);
-        grid.setVgap(25);
-        grid.setPadding(new Insets(30, 160, 20, 20));
-
-
-        ObservableList<Integer> selectedIndices = productList.getSelectionModel().getSelectedIndices();
-
-        //This checks if what is selected is only one item.
-        if (selectedIndices.size() == 1) {
-
-            //This part gets the information from the selected index and changes it to the correct Path.
-
-            String product = productList.getItems().get(selectedIndices.get(0));
-
-            //Gets the correct string
-            String previousID = product.split(";")[0];
-
-            String previousName = product.split(";")[1];
-
-            String previousDescription = product.split(";")[2];
-
-            String previousProducer = product.split(";")[3];
-
-            String previousPrice = product.split(";")[4];
-
-            String previousImage = product.split(";")[5];
-
-            Path filePath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
-
-
-            //Sets all the labels and TextPrompts
-            Label id = new Label();
-            id.setText(previousID);
-
-            TextField productName = new TextField();
-            productName.setPromptText(previousName);
-
-            TextField productDescription = new TextField();
-            productDescription.setPromptText(previousDescription);
-
-            TextField productProducer = new TextField();
-            productProducer.setPromptText(previousProducer);
-
-            TextField productPrice = new TextField();
-            productPrice.setPromptText(previousPrice);
-
-            TextField productImage = new TextField();
-            productImage.setPromptText(previousImage);
-
-
-            //Adds all labels and textPromts to the pop-up window
-            grid.add(new Label("ID:"), 0, 0);
-            grid.add(id, 1, 0);
-
-            grid.add(new Label("Product Name:"), 0, 1);
-            grid.add(productName, 1, 1);
-
-            grid.add(new Label("Description:"), 0, 2);
-            grid.add(productDescription, 1, 2);
-
-            grid.add(new Label("Producer:"), 0, 3);
-            grid.add(productProducer, 1, 3);
-
-            grid.add(new Label("Price:"), 0, 4);
-            grid.add(productPrice, 1, 4);
-
-            grid.add(new Label("Image:"), 0, 5);
-            grid.add(productImage, 1, 5);
-
-            dialog.getDialogPane().setContent(grid);
-
-            dialog.setResultConverter(dialogButton -> {
-                if (dialogButton == confirm) {
-
-                    //Prints the new info if apply is clicked
-                    System.out.println("Changed Product Info:" + "\n" +
-                            "ID: " + previousID+ "\n" +
-                            "Name: " +productName.getText() + "\n" +
-                            "Description: " +productDescription.getText()+ "\n" +
-                            "Producer: " + productProducer.getText()+ "\n" +
-                            "Price: " + productPrice.getText() + "\n" +
-                            "Image: " + productImage.getText());
-
-                    return id.getText() + ";" + productName.getText() + ";" + productDescription.getText() + ";" + productProducer.getText()+ ";" + productPrice.getText()+ ";" + productImage.getText();
-                }
-                return null;
-            });
-
-            Optional<String> rslt = dialog.showAndWait();
-            if (rslt.isPresent()) {
-                this.result = rslt.get();
-            } else this.result = null;
-        }
-    }
-
-
     private void webViewShowHtml(String productInfo) throws IOException {
         String[] productFields = productInfo.split(";");
         String id = productFields[0].trim();
@@ -367,4 +320,6 @@ public class CMSController implements Initializable{
 
         return Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
     }
+
+
 }

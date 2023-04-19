@@ -252,7 +252,7 @@ public class CMSController implements Initializable{
 
         name = name.substring(0, (name.length()/2) + 1);
 
-        s = id + name + s.substring(s.indexOf(";") + 1).replace("Description: ","")
+        s = id.replace(".txt", "") + name + s.substring(s.indexOf(";") + 1).replace("Description: ","")
                 .replace("Producer: ", "").replace("Price: $", "").replace("; ", ";");
 
         return Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));

@@ -4,8 +4,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -13,11 +14,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,6 +38,36 @@ public class CMSController implements Initializable{
     private WebEngine engine;
     @FXML
     private ListView<String> productList;
+
+
+    @FXML
+    private Label id;
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField description;
+
+    @FXML
+    private TextField producer;
+
+    @FXML
+    private TextField price;
+
+
+    private String result;
+
+    public ListView<String> getProductList(){
+        return productList;
+    }
+
+    public ObservableList<Integer> getSelectedIndices(){
+        return productList.getSelectionModel().getSelectedIndices();
+    }
+    public void setSearchBarText(String product){
+        searchBar.setText(product);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -76,7 +110,7 @@ public class CMSController implements Initializable{
         String picture = inputFields[5].trim();
 
         // Generate the List content
-        String listRow = id + ";" + name + ";" + description + ";" + producer + ";" + price;
+        String listRow = id + ";" + name + ";" + description + ";" + producer + ";" + price + ";" + picture;
 
         // Generate the HTML content
         String htmlContent = create(name, description, producer, price, picture);
@@ -104,7 +138,6 @@ public class CMSController implements Initializable{
             productList.getItems().add(listRow); // Add the new String sb to the ListView
         }
 
-        //productList.getItems().add(listRow); // Add the new String sb to the ListView
         productList.refresh(); // Refresh the ListView
     }
 
@@ -146,14 +179,47 @@ public class CMSController implements Initializable{
             File fileToDelete = new File(filePath.toString());
             fileToDelete.delete();
 
-            //This part isn't entirely implemented yet.
-
             //This part loads the productList again and resets the search bar's text.
 
             loadProducts();
-            //searchBar.setText("");
+            searchBar.setText("");
         }
     }
+
+
+    @FXML
+    protected void editProduct() throws IOException {
+        ObservableList<Integer> selectedIndices = productList.getSelectionModel().getSelectedIndices();
+
+        if (selectedIndices.size() == 1) {
+
+            String product = productList.getItems().get(selectedIndices.get(0));
+            String previousID = product.split(";")[0];
+            Path filePath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
+
+            EditProduct ep = new EditProduct();
+            String str = ep.getResult();
+
+            if (str != null) {
+                Path filepath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
+
+                File fileToDelete = new File(filepath.toString());
+                fileToDelete.delete();
+
+                File newFile = new File(Paths.get("src/main/data/CMS/" + str.substring(0, str.indexOf(";")) + ".txt").toString());
+
+                if(newFile.createNewFile()) {
+                    FileWriter myWriter = new FileWriter(String.valueOf(newFile));
+                    myWriter.write(str.substring(str.indexOf(";")));
+                    myWriter.close();
+                }
+
+                loadProducts();
+            }
+        }
+    }
+
+
 
     //Understand and comment this method. This method is necessary for the next method.
     public static ArrayList<String> productFilesInFolder(final File folder) throws IOException {
@@ -224,6 +290,8 @@ public class CMSController implements Initializable{
         }
     }
 
+
+
     private void webViewShowHtml(String productInfo) throws IOException {
         String[] productFields = productInfo.split(";");
         String id = productFields[0].trim();
@@ -257,4 +325,6 @@ public class CMSController implements Initializable{
 
         return Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
     }
+
+
 }

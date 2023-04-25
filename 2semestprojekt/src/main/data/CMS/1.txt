@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Name: Example Product</title>
+<title>Name: htrejtry</title>
 </head>
 <body>
-<h1>Name: Example Product</h1>
-<img src="https://example.com/image.png" alt="Example Product">
-<p>Description: This is an example product</p>
-<p>Producer: Example Producer</p>
-<p>Price: $49.99</p>
+<h1>Name: htrejtry</h1>
+<img src="jtyejyte" alt="htrejtry">
+<p>Description: tyktyk</p>
+<p>Producer: kuelku6ye</p>
+<p>Price: $kueytyk</p>
 </body>
 </html>

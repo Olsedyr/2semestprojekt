@@ -58,6 +58,17 @@ public class CMSController implements Initializable{
 
     private String result;
 
+    public ListView<String> getProductList(){
+        return productList;
+    }
+
+    public ObservableList<Integer> getSelectedIndices(){
+        return productList.getSelectionModel().getSelectedIndices();
+    }
+    public void setSearchBarText(String product){
+        searchBar.setText(product);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -127,7 +138,6 @@ public class CMSController implements Initializable{
             productList.getItems().add(listRow); // Add the new String sb to the ListView
         }
 
-        //productList.getItems().add(listRow); // Add the new String sb to the ListView
         productList.refresh(); // Refresh the ListView
     }
 
@@ -169,12 +179,10 @@ public class CMSController implements Initializable{
             File fileToDelete = new File(filePath.toString());
             fileToDelete.delete();
 
-            //This part isn't entirely implemented yet.
-
             //This part loads the productList again and resets the search bar's text.
 
             loadProducts();
-            //searchBar.setText("");
+            searchBar.setText("");
         }
     }
 
@@ -208,6 +216,9 @@ public class CMSController implements Initializable{
                     myWriter.write(str);
                     myWriter.close();
                 }
+
+                productList.refresh(); // Refresh the ListView
+
                 loadProducts();
                 System.out.println(create(name.getText(), description.getText(), producer.getText(), price.getText(), "example.pic"));
             }

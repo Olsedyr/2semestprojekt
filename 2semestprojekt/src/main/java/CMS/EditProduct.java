@@ -1,4 +1,5 @@
 package CMS;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -6,6 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Optional;
 
@@ -29,14 +35,14 @@ public class EditProduct extends CMSController {
             grid.setVgap(10);
             grid.setPadding(new Insets(30,160,20,20));
 
-            Label id = new Label();
-            id.setText("1");
+            TextField id = new TextField();
+            id.setPromptText("ID");
 
             TextField name = new TextField();
             name.setPromptText("Product Name");
 
-            TextField producI = new TextField();
-            producI.setPromptText("Product Image");
+            TextField productImage = new TextField();
+            productImage.setPromptText("Product Image");
 
             TextField description = new TextField();
             description.setPromptText("Description");
@@ -65,15 +71,29 @@ public class EditProduct extends CMSController {
             grid.add(price, 1, 4);
 
             grid.add(new Label("Image:"), 0, 5);
-            grid.add(producI, 1,5);
+            grid.add(productImage, 1,5);
 
 
             dialog.getDialogPane().setContent(grid);
 
             dialog.setResultConverter(dialogButton -> {
                 if (dialogButton == confirm) {
-                    return  id.getText() + ";" + name.getText() + ";" + description.getText() + ";" + producer.getText() + ";" + price.getText() + ";";
+                    Path htmlFilePath = Paths.get("src/main/data/CMS/" + id.getText() + ".txt");
+                    File fileToDelete = new File(String.valueOf(htmlFilePath));
+                    fileToDelete.delete();
+
+                    String htmlContent = create(name.getText(), description.getText(), producer.getText(),
+                            price.getText(), productImage.getText());
+                    try {
+                        FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
+                        myWriter.write(htmlContent);
+                        myWriter.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return null;
                 }
+
                 return null;
             });
 

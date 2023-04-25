@@ -82,16 +82,10 @@ public class EditProduct extends CMSController {
                     File fileToDelete = new File(String.valueOf(htmlFilePath));
                     fileToDelete.delete();
 
-                    String htmlContent = create(name.getText(), description.getText(), producer.getText(),
+                    String htmlContent = id.getText() + ";" + create(name.getText(), description.getText(), producer.getText(),
                             price.getText(), productImage.getText());
-                    try {
-                        FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
-                        myWriter.write(htmlContent);
-                        myWriter.close();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return null;
+
+                    return htmlContent;
                 }
 
                 return null;

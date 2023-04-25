@@ -193,34 +193,28 @@ public class CMSController implements Initializable{
 
         if (selectedIndices.size() == 1) {
 
-
             String product = productList.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";")[0];
             Path filePath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
-
 
             EditProduct ep = new EditProduct();
             String str = ep.getResult();
 
             if (str != null) {
-                Path p = Paths.get("src/main/data/CMS/" + previousID + ".txt");
+                Path filepath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
 
-                File fileToDelete = new File(p.toString());
+                File fileToDelete = new File(filepath.toString());
                 fileToDelete.delete();
 
-                Path p2 = p;
-                File newFile = new File(p2.toString());
+                File newFile = new File(Paths.get("src/main/data/CMS/" + str.substring(0, str.indexOf(";")) + ".txt").toString());
 
                 if(newFile.createNewFile()) {
-                    FileWriter myWriter = new FileWriter(String.valueOf(p2));
-                    myWriter.write(str);
+                    FileWriter myWriter = new FileWriter(String.valueOf(newFile));
+                    myWriter.write(str.substring(str.indexOf(";")));
                     myWriter.close();
                 }
 
-                productList.refresh(); // Refresh the ListView
-
                 loadProducts();
-                System.out.println(create(name.getText(), description.getText(), producer.getText(), price.getText(), "example.pic"));
             }
         }
     }

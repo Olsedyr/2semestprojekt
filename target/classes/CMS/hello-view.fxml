@@ -5,8 +5,6 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -84,10 +82,11 @@
                      <font>
                         <Font size="20.0" />
                      </font></Button>
-                  <Button layoutX="1042.0" layoutY="170.0" mnemonicParsing="false" onAction="#addItem" prefHeight="39.0" prefWidth="221.0" text="Add">
+                  <Button layoutX="1042.0" layoutY="170.0" mnemonicParsing="false" onAction="#addItem" prefHeight="39.0" prefWidth="221.0" text="Create ">
                      <font>
                         <Font size="20.0" />
-                     </font></Button>
+                     </font>
+                  </Button>
                   <Button layoutX="1042.0" layoutY="250.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="221.0" text="Edit">
                      <font>
                         <Font size="20.0" />
@@ -101,18 +100,6 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <Text fill="WHITE" layoutX="84.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information Page preview:">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Text>
-                  <TreeTableView layoutX="81.0" layoutY="168.0" prefHeight="200.0" prefWidth="922.0">
-                    <columns>
-                      <TreeTableColumn prefWidth="75.0" text="Page_ID" />
-                      <TreeTableColumn prefWidth="185.60000610351562" text="NAME" />
-                    </columns>
-                  </TreeTableView>
-                  <WebView fx:id="webView2" layoutX="81.0" layoutY="412.0" prefHeight="343.0" prefWidth="920.0" />
                   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="35.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@uiLogo.png" />
@@ -121,6 +108,12 @@
                         <ColorAdjust brightness="1.0" />
                      </effect>
                   </ImageView>
+                  <ListView layoutX="81.0" layoutY="175.0" prefHeight="500.0" prefWidth="922.0" />
+                  <Button layoutX="1042.0" layoutY="450.0" mnemonicParsing="false" onAction="#addItem" prefHeight="39.0" prefWidth="221.0" text="Read">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
                </children></AnchorPane>
       </content>
     </Tab>

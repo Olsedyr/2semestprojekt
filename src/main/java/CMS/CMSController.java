@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import javafx.stage.Popup;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Safelist;
@@ -32,13 +34,10 @@ public class CMSController implements Initializable{
     @FXML
     private WebView webView;
     @FXML
-    private WebView webView2;
-    @FXML
     private TextField searchBar;
     private WebEngine engine;
     @FXML
     private ListView<String> productList;
-
 
     @FXML
     private Label id;
@@ -55,7 +54,6 @@ public class CMSController implements Initializable{
     @FXML
     private TextField price;
 
-
     private String result;
 
     public ListView<String> getProductList(){
@@ -69,6 +67,20 @@ public class CMSController implements Initializable{
         searchBar.setText(product);
     }
 
+
+
+    @FXML
+    private TextField searchbar_page;
+
+    @FXML
+    private ListView<String> pageList;
+    public ListView<String> getPageList(){
+        return pageList;
+    }
+
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -77,7 +89,6 @@ public class CMSController implements Initializable{
             e.printStackTrace();
         }
 
-        engine = webView.getEngine();
         productList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 try {
@@ -88,8 +99,6 @@ public class CMSController implements Initializable{
             }
         });
 
-        engine = webView2.getEngine();
-        engine.load("https://www.instructables.com/How-To-Replace-the-Processor-in-a-Desktop-Computer/");
     }
 
     @FXML
@@ -325,6 +334,18 @@ public class CMSController implements Initializable{
 
         return Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
     }
+
+
+    public void create_page(){
+        CreatePage cp = new CreatePage();
+        String str = cp.getResult();
+
+    }
+
+
+
+
+
 
 
 }

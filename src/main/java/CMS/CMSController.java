@@ -113,7 +113,7 @@ public class CMSController implements Initializable{
         String listRow = id + ";" + name + ";" + description + ";" + producer + ";" + price + ";" + picture;
 
         // Generate the HTML content
-        String htmlContent = create(name, description, producer, price, picture);
+        String htmlContent = Create.create(name, description, producer, price, picture, Integer.parseInt(id));
 
         Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + ".txt");
         File htmlFile = new File(String.valueOf(htmlFilePath));
@@ -139,25 +139,6 @@ public class CMSController implements Initializable{
         }
 
         productList.refresh(); // Refresh the ListView
-    }
-
-    public String create(String name, String description, String producer, String price, String picture) {
-        String html =
-                "<!DOCTYPE html>\n" +
-                "<html>\n" +
-                "<head>\n" +
-                "<title>Name: " + name + "</title>\n" +
-                "</head>\n" +
-                "<body>\n" +
-                "<h1>Name: " + name + "</h1>\n" +
-                "<img src=\"" + picture + "\" alt=\"" + name + "\">\n" +
-                "<p>Description: " + description + "</p>\n" +
-                "<p>Producer: " + producer + "</p>\n" +
-                "<p>Price: $" + price + "</p>\n" +
-                "</body>\n" +
-                "</html>";
-
-        return html;
     }
 
     @FXML

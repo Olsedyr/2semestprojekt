@@ -1,7 +1,10 @@
 package CMS;
 
+import java.io.FileNotFoundException;
+
 public class Create {
-    public static String create(String name, String description, String producer, String price, String picture, int id) {
+    public static String create(String name, String description, String producer, String price,
+                                String picture, int id) throws Exception{
         String html;
         switch (id){
             case 1:
@@ -21,8 +24,8 @@ public class Create {
             break;
             default:
                 System.out.println("A template with this id doesn't exist.");
-                html = "null";
-                break;
+                
+                throw new Exception();
         }
 
         return html;

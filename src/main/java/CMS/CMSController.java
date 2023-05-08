@@ -113,7 +113,12 @@ public class CMSController implements Initializable{
         String listRow = id + ";" + name + ";" + description + ";" + producer + ";" + price + ";" + picture;
 
         // Generate the HTML content
-        String htmlContent = Create.create(name, description, producer, price, picture, Integer.parseInt(id));
+        String htmlContent = null;
+        try {
+            htmlContent = Create.create(name, description, producer, price, picture, Integer.parseInt(id));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + ".txt");
         File htmlFile = new File(String.valueOf(htmlFilePath));

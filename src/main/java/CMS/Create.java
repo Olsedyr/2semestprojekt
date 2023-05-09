@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 
 public class Create {
     public static String create(String name, String description, String producer, String price,
-                                String picture, int id) throws Exception{
+                                String picture, int template_id) throws Exception{
         String html;
-        switch (id){
+        switch (template_id){
             case 1:
             html = "<!DOCTYPE html>\n" +
                             "<html>\n" +

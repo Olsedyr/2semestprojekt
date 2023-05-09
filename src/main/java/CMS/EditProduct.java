@@ -53,9 +53,6 @@ public class EditProduct extends CMSController {
             TextField price = new TextField();
             price.setPromptText("Price");
 
-            TextField templateID = new TextField();
-            templateID.setPromptText("Template ID");
-
 
 
             grid.add(new Label("Id:"), 0, 0);
@@ -76,9 +73,6 @@ public class EditProduct extends CMSController {
             grid.add(new Label("Image:"), 0, 5);
             grid.add(productImage, 1,5);
 
-            grid.add(new Label("Template ID:"), 0, 6);
-            grid.add(templateID, 1,6);
-
 
             dialog.getDialogPane().setContent(grid);
 
@@ -88,13 +82,28 @@ public class EditProduct extends CMSController {
                     File fileToDelete = new File(String.valueOf(htmlFilePath));
                     fileToDelete.delete();
 
-                    String htmlContent = null;
-                    try {
-                        htmlContent = id.getText() + ";" + Create.create(name.getText(), description.getText(), producer.getText(),
-                                price.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+                    String htmlContent = id.getText() + ";" + Create.create(name.getText(), description.getText(), producer.getText(),
+                            price.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
+=======
+                    String htmlContent = id.getText() + ";" + create(name.getText(), description.getText(), producer.getText(),
+                            price.getText(), productImage.getText());
+>>>>>>> parent of 9c72ef6 (Merge branch 'Patrick-Changes')
+=======
+                    String htmlContent = id.getText() + ";" + create(name.getText(), description.getText(), producer.getText(),
+                            price.getText(), productImage.getText());
+>>>>>>> parent of 9c72ef6 (Merge branch 'Patrick-Changes')
+=======
+                    String htmlContent = id.getText() + ";" + create(name.getText(), description.getText(), producer.getText(),
+                            price.getText(), productImage.getText());
+>>>>>>> parent of 4fdeab8 (SwitchCreatedButDefaultInSwitchCausesAnException)
+=======
+                    String htmlContent = id.getText() + ";" + create(name.getText(), description.getText(), producer.getText(),
+                            price.getText(), productImage.getText());
+>>>>>>> parent of 9c72ef6 (Merge branch 'Patrick-Changes')
 
                     return htmlContent;
                 }

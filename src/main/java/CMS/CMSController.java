@@ -229,7 +229,7 @@ public class CMSController implements Initializable{
 
         Path dataPath = Paths.get("src/main/data/CMS/");
 
-        //
+        //This part creats the file path if it doesn't exist. 
         if (!Files.exists(dataPath)) {
             Files.createDirectories(dataPath);
         }
@@ -247,8 +247,8 @@ public class CMSController implements Initializable{
         if (files == null) {
             throw new IOException("Unable to list files in the directory: " + folder.getPath());
         }
-        //This part reads the lines of all the files in folder, removes the HTML parts for each file
-        //and puts the info of each file into the ArrayList.
+
+        //This part reads the lines of all the files in folder.
         for(int i = 0; i < files.length; i++){
             Path filePath = Paths.get(files[i].getPath());
             List<String> list = Files.readAllLines(filePath);
@@ -258,6 +258,8 @@ public class CMSController implements Initializable{
             for(int n = 0; n < list.size(); n++){
                 product_String += list.get(n);
             }
+
+            //This part removes the HTML parts of the read files and puts the info of each file into the ArrayList.
 
             files_arrayList.add(htmlToString(product_String));
         }

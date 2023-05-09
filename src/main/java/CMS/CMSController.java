@@ -265,9 +265,6 @@ public class CMSController implements Initializable{
             productList.getItems().clear();
         }
 
-        //Make a part that gets the information out of the HTML.txt-files.
-
-
         //This part copies the information in the previously mentioned ArrayList
         //into the previously mentioned ListView and refreshes/updates the ListView.
 
@@ -350,5 +347,23 @@ public class CMSController implements Initializable{
         return cleanedHTML;
     }
 
+    @FXML
+    protected void searchProducts() throws IOException {
 
+        String search_text = searchBar.getText().strip().toLowerCase();
+        loadProducts();
+        if (search_text.length() >= 3) {
+            ArrayList<String> results = new ArrayList<>();
+
+            for(String product: productList.getItems()) {
+                if (product.toLowerCase().contains(search_text)) results.add(product);
+            }
+
+            productList.getItems().clear();
+            if (results.size() > 0) {
+                for(String found_product: results) productList.getItems().add(found_product);
+                productList.refresh();
+            }
+        }
+    }
 }

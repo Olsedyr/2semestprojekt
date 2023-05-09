@@ -225,24 +225,30 @@ public class CMSController implements Initializable{
     //Understand and comment this method. This method is necessary for the next method.
     public static ArrayList<String> productFilesInFolder(final File folder) throws IOException {
 
-        //This part makes an ArrayList of String and reads the first line of all the files in the given folder.
-        //The read information is stripped of all white space before and after the actual information
-        // ("  This  " --> "This")
-        //and put into the ArrayList. Then the ArrayList is returned.
+        //This part gets the file path, which should be checked for our product files.
+
         Path dataPath = Paths.get("src/main/data/CMS/");
+
+        //
         if (!Files.exists(dataPath)) {
             Files.createDirectories(dataPath);
         }
 
+        //This part makes an ArrayList of String to put our products' info into.
         ArrayList<String> files_arrayList = new ArrayList<>();
+
+        //This part throws Exceptions if the folder/files cannot be read.
         if (!folder.isDirectory()) {
             throw new IOException("Path is not a directory: " + folder.getPath());
         }
+
         File[] files = folder.listFiles();
+
         if (files == null) {
             throw new IOException("Unable to list files in the directory: " + folder.getPath());
         }
-
+        //This part reads the lines of all the files in folder, removes the HTML parts for each file
+        //and puts the info of each file into the ArrayList.
         for(int i = 0; i < files.length; i++){
             Path filePath = Paths.get(files[i].getPath());
             List<String> list = Files.readAllLines(filePath);
@@ -255,6 +261,7 @@ public class CMSController implements Initializable{
 
             files_arrayList.add(htmlToString(product_String));
         }
+
         return files_arrayList;
     }
 
@@ -390,7 +397,7 @@ public class CMSController implements Initializable{
                 if (product.toLowerCase().contains(search_text)) results.add(product);
             }
 
-            //This part clears the ListView and shows the results.
+            //This part clears the ListView and shows the resulting products instead.
 
             productList.getItems().clear();
             if (results.size() > 0) {

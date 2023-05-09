@@ -56,20 +56,7 @@ public class CMSController implements Initializable{
 
     @FXML
     private TextField price;
-
-
-    private String result;
-
-    public ListView<String> getProductList(){
-        return productList;
-    }
-
-    public ObservableList<Integer> getSelectedIndices(){
-        return productList.getSelectionModel().getSelectedIndices();
-    }
-    public void setSearchBarText(String product){
-        searchBar.setText(product);
-    }
+    
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -100,7 +87,8 @@ public class CMSController implements Initializable{
         String[] inputFields = inputText.split(",");
 
         if (inputFields.length != 7) {
-            // Show an error message or do nothing if the input format is incorrect
+            // Show an error message and returns nothing if the input format is incorrect.
+            System.out.println("The given input is not the correct lenght or format. Please try again.");
             return;
         }
 
@@ -292,8 +280,9 @@ public class CMSController implements Initializable{
     }
 
     public static String htmlToString(String html) {
-        if(html==null)
+        if(html==null){
             return html;
+        }
 
 
         Document document = Jsoup.parse(html);

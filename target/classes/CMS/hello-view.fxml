@@ -10,6 +10,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
@@ -68,52 +69,46 @@
       </Tab>
       <Tab text="Info Page">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <HBox layoutX="-3.0" layoutY="-2.0" prefHeight="779.0" prefWidth="1284.0" style="-fx-background-color: #6F5CC2;" />
-                  <Text layoutX="464.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                  <Text fill="WHITE" layoutX="90.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information Page">
+                  <HBox prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #6F5CC2;" />
+                  <Text fill="WHITE" layoutX="90.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Content Management Info Pages" textAlignment="CENTER">
                      <font>
                         <Font name="Agency FB Bold" size="33.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="searchbar_page" layoutX="86.0" layoutY="87.0" prefHeight="38.0" prefWidth="921.0" promptText="Search information..." />
-                  <Button fx:id="search_page" layoutX="1042.0" layoutY="85.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="221.0" text="Search">
+                  <Button fx:id="createPageButton" layoutX="1100.0" layoutY="170.0" mnemonicParsing="false" onAction="#loadFXML_createPage" prefHeight="39.0" prefWidth="150.0" text="Create page">
                      <font>
                         <Font size="20.0" />
                      </font></Button>
-                  <Button fx:id="read_page" layoutX="1042.0" layoutY="250.0" mnemonicParsing="false" onAction="#addItem" prefHeight="39.0" prefWidth="221.0" text="Read">
+                  <Pane fx:id="contentPane" layoutX="460.0" layoutY="153.0" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" />
+                  <Button fx:id="createPageButton1" layoutX="1100.0" layoutY="250.0" mnemonicParsing="false" onAction="#loadFXML_editPage" prefHeight="39.0" prefWidth="150.0" text="Edit Page">
                      <font>
                         <Font size="20.0" />
-                     </font></Button>
-                  <Button fx:id="edit_page" layoutX="1042.0" layoutY="325.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="221.0" text="Edit">
-                     <font>
-                        <Font size="20.0" />
-                     </font></Button>
-                  <Button fx:id="remove_page" layoutX="1042.0" layoutY="400.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="221.0" text="Remove">
-                     <font>
-                        <Font size="20.0" />
-                     </font></Button>
-                  <Text fill="WHITE" layoutX="84.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information Page List:">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
                      </font>
-                  </Text>
+                  </Button>
+                  <Button fx:id="createPageButton2" layoutX="1100.0" layoutY="330.0" mnemonicParsing="false" onAction="#loadFXML_readPage" prefHeight="39.0" prefWidth="150.0" text="Read Page">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <ListView layoutX="20.0" layoutY="153.0" prefHeight="605.0" prefWidth="399.0" />
                   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="35.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@uiLogo.png" />
                      </image>
                      <effect>
-                        <ColorAdjust brightness="1.0" />
+                        <ColorAdjust brightness="1.0" contrast="1.0" />
                      </effect>
                   </ImageView>
-                  <ListView fx:id="listview_page" layoutX="81.0" layoutY="168.0" prefHeight="550.0" prefWidth="922.0" />
-                  <Button fx:id="create_page" layoutX="1042.0" layoutY="175.0" mnemonicParsing="false" onAction="#create_page" prefHeight="39.0" prefWidth="221.0" text="Create">
+                  <TextField fx:id="searchBar1" layoutX="20.0" layoutY="86.0" prefHeight="38.0" prefWidth="1041.0" promptText="Search..." />
+                  <Button layoutX="1100.0" layoutY="85.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="Search">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Button>
-               </children></AnchorPane>
+               </children>
+            </AnchorPane>
          </content>
       </Tab>
    </tabs>

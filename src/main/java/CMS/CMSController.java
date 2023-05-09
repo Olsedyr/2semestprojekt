@@ -1,12 +1,18 @@
 package CMS;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -29,7 +35,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Safelist;
 
-public class CMSController implements Initializable{
+public class CMSController implements Initializable {
 
     @FXML
     private WebView webView;
@@ -56,17 +62,23 @@ public class CMSController implements Initializable{
 
     private String result;
 
-    public ListView<String> getProductList(){
+    public ListView<String> getProductList() {
         return productList;
     }
 
-    public ObservableList<Integer> getSelectedIndices(){
+    public ObservableList<Integer> getSelectedIndices() {
         return productList.getSelectionModel().getSelectedIndices();
     }
-    public void setSearchBarText(String product){
+
+    public void setSearchBarText(String product) {
         searchBar.setText(product);
     }
 
+    @FXML
+    private Pane contentPane;
+
+    @FXML
+    private Button createPageButton;
 
 
     @FXML
@@ -74,11 +86,10 @@ public class CMSController implements Initializable{
 
     @FXML
     private ListView<String> pageList;
-    public ListView<String> getPageList(){
+
+    public ListView<String> getPageList() {
         return pageList;
     }
-
-
 
 
     @Override
@@ -136,14 +147,14 @@ public class CMSController implements Initializable{
 
         boolean fileExists = false;
 
-        for(String file: productList.getItems()){
-            if(listRow.substring(0, listRow.indexOf(";")).equals(file.substring(0, listRow.indexOf(";"))) ){
+        for (String file : productList.getItems()) {
+            if (listRow.substring(0, listRow.indexOf(";")).equals(file.substring(0, listRow.indexOf(";")))) {
                 fileExists = true;
             }
 
         }
 
-        if(!fileExists){
+        if (!fileExists) {
             productList.getItems().add(listRow); // Add the new String sb to the ListView
         }
 
@@ -153,18 +164,18 @@ public class CMSController implements Initializable{
     public String create(String name, String description, String producer, String price, String picture) {
         String html =
                 "<!DOCTYPE html>\n" +
-                "<html>\n" +
-                "<head>\n" +
-                "<title>Name: " + name + "</title>\n" +
-                "</head>\n" +
-                "<body>\n" +
-                "<h1>Name: " + name + "</h1>\n" +
-                "<img src=\"" + picture + "\" alt=\"" + name + "\">\n" +
-                "<p>Description: " + description + "</p>\n" +
-                "<p>Producer: " + producer + "</p>\n" +
-                "<p>Price: $" + price + "</p>\n" +
-                "</body>\n" +
-                "</html>";
+                        "<html>\n" +
+                        "<head>\n" +
+                        "<title>Name: " + name + "</title>\n" +
+                        "</head>\n" +
+                        "<body>\n" +
+                        "<h1>Name: " + name + "</h1>\n" +
+                        "<img src=\"" + picture + "\" alt=\"" + name + "\">\n" +
+                        "<p>Description: " + description + "</p>\n" +
+                        "<p>Producer: " + producer + "</p>\n" +
+                        "<p>Price: $" + price + "</p>\n" +
+                        "</body>\n" +
+                        "</html>";
 
         return html;
     }
@@ -217,7 +228,7 @@ public class CMSController implements Initializable{
 
                 File newFile = new File(Paths.get("src/main/data/CMS/" + str.substring(0, str.indexOf(";")) + ".txt").toString());
 
-                if(newFile.createNewFile()) {
+                if (newFile.createNewFile()) {
                     FileWriter myWriter = new FileWriter(String.valueOf(newFile));
                     myWriter.write(str.substring(str.indexOf(";")));
                     myWriter.close();
@@ -227,7 +238,6 @@ public class CMSController implements Initializable{
             }
         }
     }
-
 
 
     //Understand and comment this method. This method is necessary for the next method.
@@ -251,13 +261,13 @@ public class CMSController implements Initializable{
             throw new IOException("Unable to list files in the directory: " + folder.getPath());
         }
 
-        for(int i = 0; i < files.length; i++){
+        for (int i = 0; i < files.length; i++) {
             Path filePath = Paths.get(files[i].getPath());
             List<String> list = Files.readAllLines(filePath);
 
             String product_String = files[i].getName() + ";";
 
-            for(int n = 0; n < list.size(); n++){
+            for (int n = 0; n < list.size(); n++) {
                 product_String += list.get(n);
             }
 
@@ -279,7 +289,7 @@ public class CMSController implements Initializable{
 
         //This part clears the information in ListView containing the product list.
 
-        if(productList != null){
+        if (productList != null) {
             productList.getItems().clear();
         }
 
@@ -289,16 +299,15 @@ public class CMSController implements Initializable{
         //This part copies the information in the previously mentioned ArrayList
         //into the previously mentioned ListView and refreshes/updates the ListView.
 
-        for(String product: files_arrayList) {
+        for (String product : files_arrayList) {
             assert productList != null;
             productList.getItems().add(product);
         }
 
-        if(productList != null){
+        if (productList != null) {
             productList.refresh();
         }
     }
-
 
 
     private void webViewShowHtml(String productInfo) throws IOException {
@@ -313,7 +322,7 @@ public class CMSController implements Initializable{
     }
 
     public static String htmlToString(String html) {
-        if(html==null)
+        if (html == null)
             return html;
         Document document = Jsoup.parse(html);
         document.outputSettings(new Document.OutputSettings().prettyPrint(false));//makes html() preserve linebreaks and spacing
@@ -323,29 +332,51 @@ public class CMSController implements Initializable{
 
         String id = s.substring(0, s.indexOf(";")).replace(".txt", "");
 
-        s = s.replace("\n",";").replace("Name:", ";;").replace(";;",";").substring(s.indexOf(";") + 1);
+        s = s.replace("\n", ";").replace("Name:", ";;").replace(";;", ";").substring(s.indexOf(";") + 1);
 
         String name = s.substring(0, s.indexOf(";"));
 
-        name = name.substring(0, (name.length()/2) + 1);
+        name = name.substring(0, (name.length() / 2) + 1);
 
-        s = id.replace(".txt", "") + name + s.substring(s.indexOf(";") + 1).replace("Description: ","")
+        s = id.replace(".txt", "") + name + s.substring(s.indexOf(";") + 1).replace("Description: ", "")
                 .replace("Producer: ", "").replace("Price: $", "").replace("; ", ";");
 
         return Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
     }
 
 
-    public void create_page(){
-        CreatePage cp = new CreatePage();
-        String str = cp.getResult();
 
+        @FXML
+        private void loadFXML_createPage() {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("create-page.fxml"));
+                Pane newContent = loader.load();
+                contentPane.getChildren().setAll(newContent);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    @FXML
+    private void loadFXML_editPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("edit_page.fxml"));
+            Pane newContent = loader.load();
+            contentPane.getChildren().setAll(newContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-
-
-
-
-
+    @FXML
+    private void loadFXML_readPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("read_page.fxml"));
+            Pane newContent = loader.load();
+            contentPane.getChildren().setAll(newContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

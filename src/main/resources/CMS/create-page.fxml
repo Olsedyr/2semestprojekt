@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CMS.CMSInfoController">
+   <children>
+      <Text layoutX="153.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="89.5999755859375" />
+      <Text layoutX="53.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:  " />
+      <Text layoutX="52.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject: " />
+      <Text layoutX="52.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Article text:" />
+      <TextField layoutX="79.0" layoutY="51.0" prefHeight="16.0" prefWidth="150.0" />
+      <TextField layoutX="103.0" layoutY="84.0" />
+      <Text layoutX="52.0" layoutY="554.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Image: " />
+      <TextField layoutX="91.0" layoutY="537.0" prefHeight="26.0" prefWidth="222.0" promptText="Image path..." />
+      <Button layoutX="512.0" layoutY="537.0" mnemonicParsing="false" text="Save" />
+      <Button layoutX="442.0" layoutY="538.0" mnemonicParsing="false" text="Cancel" />
+      <TextField alignment="TOP_LEFT" layoutX="52.0" layoutY="155.0" prefHeight="354.0" prefWidth="526.0" promptText="Write your product article here..." />
+   </children>
+</AnchorPane>

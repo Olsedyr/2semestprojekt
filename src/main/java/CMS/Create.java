@@ -3,9 +3,10 @@ package CMS;
 import java.io.FileNotFoundException;
 
 public class Create {
-    public static String create(String name, String description, String producer, String price,
+    public static String create(String name, String description, String price, String stock,
                                 String picture, int template_id) throws Exception{
         String html;
+
         switch (template_id){
             case 1:
             html = "<!DOCTYPE html>\n" +
@@ -17,8 +18,8 @@ public class Create {
                             "<h1>Name: " + name + "</h1>\n" +
                             "<img src=\"" + picture + "\" alt=\"" + name + "\">\n" +
                             "<p>Description: " + description + "</p>\n" +
-                            "<p>Producer: " + producer + "</p>\n" +
                             "<p>Price: $" + price + "</p>\n" +
+                            "<p>Stock: " + stock + "</p>\n" +
                             "</body>\n" +
                             "</html>";
             break;

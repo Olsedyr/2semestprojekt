@@ -47,11 +47,11 @@ public class EditProduct extends CMSController {
             TextField description = new TextField();
             description.setPromptText("Description");
 
-            TextField producer = new TextField();
-            producer.setPromptText("Producer");
-
             TextField price = new TextField();
             price.setPromptText("Price");
+
+            TextField stock = new TextField();
+            stock.setPromptText("Stock");
 
             TextField templateID = new TextField();
             templateID.setPromptText("Template ID");
@@ -67,11 +67,12 @@ public class EditProduct extends CMSController {
             grid.add(new Label("Description:"), 0, 2);
             grid.add(description, 1, 2);
 
-            grid.add(new Label("Producer:"), 0, 3);
-            grid.add(producer, 1, 3);
-
             grid.add(new Label("Price:"), 0, 4);
             grid.add(price, 1, 4);
+
+            grid.add(new Label("Stock:"), 0, 3);
+            grid.add(stock, 1, 3);
+
 
             grid.add(new Label("Image:"), 0, 5);
             grid.add(productImage, 1,5);
@@ -90,8 +91,8 @@ public class EditProduct extends CMSController {
 
                     String htmlContent = null;
                     try {
-                        htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(name.getText(), description.getText(), producer.getText(),
-                                price.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
+                        htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(name.getText(), description.getText(),
+                                price.getText(), stock.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

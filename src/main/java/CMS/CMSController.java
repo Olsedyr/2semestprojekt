@@ -13,9 +13,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Safelist;
@@ -44,11 +43,57 @@ public class CMSController implements Initializable{
     private TextField description;
 
     @FXML
-    private TextField producer;
+    private TextField stock;
 
     @FXML
     private TextField price;
-    
+    private final static CMSController instance = new CMSController();
+    public static CMSController getCMSController() {
+        return instance;
+    }
+
+    String getProductPage(String id, String template_id){
+        try {
+
+            Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "-" + template_id + ".txt");
+
+            return Files.readString(htmlFilePath);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    String getProductPage(String name, String description, double price, int stock, String id, File imageFile,
+                          int template_id){
+
+        String price_String = price + "";
+
+        String stock_String = stock + "";
+
+        String filepath = imageFile.getPath();
+        try {
+            String html = Create.create(name, description, price_String, stock_String, filepath, template_id);
+
+            Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "-" + template_id + ".txt");
+
+            File htmlFile = new File(String.valueOf(htmlFilePath));
+
+            if (!htmlFile.createNewFile()) {
+                htmlFile.delete();
+            }
+
+            FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
+            myWriter.write(html);
+            myWriter.close();
+
+            return html;
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -101,18 +146,18 @@ public class CMSController implements Initializable{
         String id = inputFields[0].trim();
         String name = inputFields[1].trim();
         String description = inputFields[2].trim();
-        String producer = inputFields[3].trim();
-        String price = inputFields[4].trim();
+        String price = inputFields[3].trim();
+        String stock = inputFields[4].trim();
         String picture = inputFields[5].trim();
         String template_id = inputFields[6].trim();
 
         // This part generates new content in the productList.
-        String listRow = id + "-" + template_id + ";" + name + ";" + description + ";" + producer + ";" + price + ";" + picture + ";";
+        String listRow = id + "-" + template_id + ";" + name + ";" + description + ";" + price + ";" + stock + ";" + picture + ";";
 
         // This part generates the HTML content.
         String htmlContent = null;
         try {
-            htmlContent = Create.create(name, description, producer, price, picture, Integer.parseInt(template_id));
+            htmlContent = Create.create(name, description, price, stock, picture, Integer.parseInt(template_id));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -373,8 +418,8 @@ public class CMSController implements Initializable{
 
         //And this part removes the last bits of unnecessary information.
 
-        cleanedHTML = cleanedHTML.replace("Description: ", "").replace("Producer: ", "")
-                .replace("Price: ", "").replace("$", "");
+        cleanedHTML = cleanedHTML.replace("Description: ", "").replace("Price: ", "")
+                .replace("Stock: ", "").replace("$", "");
 
         return cleanedHTML;
     }

@@ -2,30 +2,22 @@ package CMS;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.safety.Safelist;
 import org.jsoup.select.Elements;
 
@@ -60,13 +52,20 @@ public class CMSController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //loads our products when the application is started up.
+
         try {
             loadProducts();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        //Ensures that we can load our HTML-files.
+
         engine = webView.getEngine();
+
+        //Xinyu, please comment this.
+
         productList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 try {
@@ -77,20 +76,27 @@ public class CMSController implements Initializable{
             }
         });
 
+        //Why do we have 2 WebViews?
+
         engine = webView2.getEngine();
         engine.load("https://www.instructables.com/How-To-Replace-the-Processor-in-a-Desktop-Computer/");
     }
 
     @FXML
     protected void addItem() throws IOException {
-        String inputText = searchBar.getText(); // Assuming searchBar is the TextField for input
+        // Assuming searchBar is the TextField for input, this get the text in the search bar.
+        String inputText = searchBar.getText();
+
+        // This splits the text up into smaller parts that can be put into the appropriate places.
         String[] inputFields = inputText.split(",");
 
+        // This shows an error message and returns nothing if the input format is incorrect.
         if (inputFields.length != 7) {
-            // Show an error message and returns nothing if the input format is incorrect.
             System.out.println("The given input is not the correct lenght or format. Please try again.");
             return;
         }
+
+        // And the split info is put into different Strings to be placed.
 
         String id = inputFields[0].trim();
         String name = inputFields[1].trim();
@@ -100,16 +106,18 @@ public class CMSController implements Initializable{
         String picture = inputFields[5].trim();
         String template_id = inputFields[6].trim();
 
-        // Generate the List content
+        // This part generates new content in the productList.
         String listRow = id + "-" + template_id + ";" + name + ";" + description + ";" + producer + ";" + price + ";" + picture + ";";
 
-        // Generate the HTML content
+        // This part generates the HTML content.
         String htmlContent = null;
         try {
             htmlContent = Create.create(name, description, producer, price, picture, Integer.parseInt(template_id));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        //This part puts the HTML content into a file.
 
         Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "-" + template_id + ".txt");
         File htmlFile = new File(String.valueOf(htmlFilePath));
@@ -119,7 +127,11 @@ public class CMSController implements Initializable{
             myWriter.close();
         }
 
-        searchBar.setText(""); // Clear the input TextField
+        //This part resets the search bar.
+
+        searchBar.setText("");
+
+        //This part ensures that no file with the same id can be made.
 
         boolean fileExists = false;
 
@@ -130,9 +142,13 @@ public class CMSController implements Initializable{
 
         }
 
+        // This part adds the new String sb to the ListView.
+
         if(!fileExists){
-            productList.getItems().add(listRow); // Add the new String sb to the ListView
+            productList.getItems().add(listRow);
         }
+
+        //And this part refreshes the Listview.
 
         productList.refresh(); // Refresh the ListView
     }
@@ -174,18 +190,24 @@ public class CMSController implements Initializable{
 
             String product = productList.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";")[0];
-            String previousTemplate_id = product.split(";")[6];
+            String previousTemplateID;
+            try {
+                previousTemplateID = product.split(";")[6];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                previousTemplateID = product.split(";")[5];;
+            }
 
             EditProduct ep = new EditProduct();
             String str = ep.getResult();
 
             if (str != null) {
-                Path filepath = Paths.get("src/main/data/CMS/" + previousID + "-" + previousTemplate_id + ".txt");
+                Path filepath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
 
                 File fileToDelete = new File(filepath.toString());
                 fileToDelete.delete();
 
-                File newFile = new File(Paths.get("src/main/data/CMS/" + str.substring(0, str.indexOf(";")) + ".txt").toString());
+                File newFile = new File(Paths.get("src/main/data/CMS/" + str.substring(0, str.indexOf(";"))
+                        + ".txt").toString());
 
                 if(newFile.createNewFile()) {
                     FileWriter myWriter = new FileWriter(String.valueOf(newFile));
@@ -203,24 +225,30 @@ public class CMSController implements Initializable{
     //Understand and comment this method. This method is necessary for the next method.
     public static ArrayList<String> productFilesInFolder(final File folder) throws IOException {
 
-        //This part makes an ArrayList of String and reads the first line of all the files in the given folder.
-        //The read information is stripped of all white space before and after the actual information
-        // ("  This  " --> "This")
-        //and put into the ArrayList. Then the ArrayList is returned.
+        //This part gets the file path, which should be checked for our product files.
+
         Path dataPath = Paths.get("src/main/data/CMS/");
+
+        //This part creats the file path if it doesn't exist. 
         if (!Files.exists(dataPath)) {
             Files.createDirectories(dataPath);
         }
 
+        //This part makes an ArrayList of String to put our products' info into.
         ArrayList<String> files_arrayList = new ArrayList<>();
+
+        //This part throws Exceptions if the folder/files cannot be read.
         if (!folder.isDirectory()) {
             throw new IOException("Path is not a directory: " + folder.getPath());
         }
+
         File[] files = folder.listFiles();
+
         if (files == null) {
             throw new IOException("Unable to list files in the directory: " + folder.getPath());
         }
 
+        //This part reads the lines of all the files in folder.
         for(int i = 0; i < files.length; i++){
             Path filePath = Paths.get(files[i].getPath());
             List<String> list = Files.readAllLines(filePath);
@@ -231,8 +259,11 @@ public class CMSController implements Initializable{
                 product_String += list.get(n);
             }
 
+            //This part removes the HTML parts of the read files and puts the info of each file into the ArrayList.
+
             files_arrayList.add(htmlToString(product_String));
         }
+
         return files_arrayList;
     }
 
@@ -254,12 +285,14 @@ public class CMSController implements Initializable{
         }
 
         //This part copies the information in the previously mentioned ArrayList
-        //into the previously mentioned ListView and refreshes/updates the ListView.
+        //into the previously mentioned ListView.
 
         for(String product: files_arrayList) {
             assert productList != null;
             productList.getItems().add(product);
         }
+
+        //This part refreshes/updates the ListView
 
         if(productList != null){
             productList.refresh();
@@ -279,6 +312,10 @@ public class CMSController implements Initializable{
         engine.loadContent(htmlContent);
     }
 
+    //This function gets the information from the HTML files, so the
+    //products in the ListView looks the same,
+    //no matter if they were just created or are from old files,
+    //before shutting down the application and starting it up again.
     public static String htmlToString(String html) {
         if(html==null){
             return html;
@@ -299,8 +336,11 @@ public class CMSController implements Initializable{
         document.select("br").append("\\n");
         document.select("p").prepend("\\n\\n");
 
+        //This part ensures that the ListView gets the right information by
+        //cleaning, removing and replacing a lot of information.
 
         String s = document.html().replaceAll("\\\\n", "\n");
+
 
         String id = s.substring(s.indexOf("-") - 1, s.indexOf(";")).replace(".txt", "");
 
@@ -319,6 +359,8 @@ public class CMSController implements Initializable{
 
         String cleanedHTML = id + ";" + name + ";";
 
+        //This part puts the cleaned up information from the HTML together in the right way.
+
         ArrayList<String> lines = new ArrayList<>();
 
         string.lines().forEach(lines::add);
@@ -329,6 +371,7 @@ public class CMSController implements Initializable{
 
         cleanedHTML += png_link;
 
+        //And this part removes the last bits of unnecessary information.
 
         cleanedHTML = cleanedHTML.replace("Description: ", "").replace("Producer: ", "")
                 .replace("Price: ", "").replace("$", "");
@@ -339,14 +382,24 @@ public class CMSController implements Initializable{
     @FXML
     protected void searchProducts() throws IOException {
 
+        //This part gets the text in the search bar in lowercase.
+
         String search_text = searchBar.getText().strip().toLowerCase();
+
+        //This part updates our ListView.
+
         loadProducts();
+
+        //This part makes an ArrayList of Strings to put any results,which contains the words
+        //the user is searching for. A minimum of 3 symbols must be written to see any results.
         if (search_text.length() >= 3) {
             ArrayList<String> results = new ArrayList<>();
 
             for(String product: productList.getItems()) {
                 if (product.toLowerCase().contains(search_text)) results.add(product);
             }
+
+            //This part clears the ListView and shows the resulting products instead.
 
             productList.getItems().clear();
             if (results.size() > 0) {

@@ -84,13 +84,13 @@ public class EditProduct extends CMSController {
 
             dialog.setResultConverter(dialogButton -> {
                 if (dialogButton == confirm) {
-                    Path htmlFilePath = Paths.get("src/main/data/CMS/" + id.getText() + ".txt");
+                    Path htmlFilePath = Paths.get("src/main/data/CMS/" + id.getText() + "-" + templateID.getText() + ".txt");
                     File fileToDelete = new File(String.valueOf(htmlFilePath));
                     fileToDelete.delete();
 
                     String htmlContent = null;
                     try {
-                        htmlContent = id.getText() + ";" + Create.create(name.getText(), description.getText(), producer.getText(),
+                        htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(name.getText(), description.getText(), producer.getText(),
                                 price.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
                     } catch (Exception e) {
                         throw new RuntimeException(e);

@@ -210,9 +210,8 @@ public class CMSController implements Initializable{
 
             String product = productList.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";")[0];
-            String previousTemplate_id = product.split(";")[6];
 
-            Path filePath = Paths.get("src/main/data/CMS/" + previousID + "-" + previousTemplate_id + ".txt");
+            Path filePath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
 
             //This part converts the Path into a File and deletes it.
 

@@ -137,7 +137,7 @@ public class CMSController implements Initializable{
 
         // This shows an error message and returns nothing if the input format is incorrect.
         if (inputFields.length != 7) {
-            System.out.println("The given input is not the correct lenght or format. Please try again.");
+            System.out.println("The given input is not the correct length or format. Please try again.");
             return;
         }
 
@@ -152,12 +152,12 @@ public class CMSController implements Initializable{
         String template_id = inputFields[6].trim();
 
         // This part generates new content in the productList.
-        String listRow = id + "-" + template_id + ";" + name + ";" + description + ";" + price + ";" + stock + ";" + picture + ";";
+        String listRow = id + "-" + template_id + ";" + name + ";" + description + ";" + price + ";" + stock + ";" + picture;
 
         // This part generates the HTML content.
         String htmlContent = null;
         try {
-            htmlContent = Create.create(name, description, price, stock, picture, Integer.parseInt(template_id));
+            htmlContent = Create.create(name, description, price, stock, picture, (int)Integer.parseInt(template_id));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

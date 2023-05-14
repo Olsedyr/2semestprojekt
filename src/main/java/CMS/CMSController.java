@@ -48,6 +48,11 @@ public class CMSController implements Initializable{
 
     @FXML
     private TextField price;
+
+    public ListView<String> getProductList() {
+        return productList;
+    }
+
     private final static CMSController instance = new CMSController();
     public static CMSController getCMSController() {
         return instance;
@@ -380,6 +385,8 @@ public class CMSController implements Initializable{
 
         String id = s.substring(s.indexOf("y") + 2, s.indexOf(";")).replace(".txt", "");
 
+        System.out.println(id);
+
 
         String string = Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
 
@@ -393,11 +400,15 @@ public class CMSController implements Initializable{
 
         name = name.substring(0, name.indexOf(";"));
 
+        System.out.println(name);
+
+        System.out.println(id + ";" + name + ";");
+
+
 
         String cleanedHTML = id + ";" + name + ";";
 
-
-
+        System.out.println(cleanedHTML);
 
 
         //And this part removes the last bits of unnecessary information.

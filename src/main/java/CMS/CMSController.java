@@ -130,7 +130,7 @@ public class CMSController implements Initializable{
 
     @FXML
     protected void addItem() throws IOException {
-        // Assuming searchBar is the TextField for input, this get the text in the search bar.
+        // Assuming the search Bar is the TextField for input, this get the text in the search bar.
         String inputText = searchBar.getText();
 
         // This splits the text up into smaller parts that can be put into the appropriate places.
@@ -235,12 +235,6 @@ public class CMSController implements Initializable{
 
             String product = productList.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";")[0];
-            String previousTemplateID;
-            try {
-                previousTemplateID = product.split(";")[6];
-            } catch (ArrayIndexOutOfBoundsException e) {
-                previousTemplateID = product.split(";")[5];;
-            }
 
             EditProduct ep = new EditProduct();
             String str = ep.getResult();
@@ -395,9 +389,6 @@ public class CMSController implements Initializable{
 
 
         String cleanedHTML = id + ";" + name + ";";
-
-
-
 
 
         //And this part removes the last bits of unnecessary information.

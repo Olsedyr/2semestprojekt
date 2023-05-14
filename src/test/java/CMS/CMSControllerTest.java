@@ -133,6 +133,8 @@ class CMSControllerTest {
 
     @Test
     void htmlToString() {
+        //Either Java or IntelliJ has a bug. We don't know which, and we do not care.
+        //If you want to know the details, dead our report or ask us at the exam.
     }
 
     @Test

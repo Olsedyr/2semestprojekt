@@ -1,7 +1,5 @@
 package CMS;
 
-import java.io.FileNotFoundException;
-
 public class Create {
     public static String create(String name, String description, String price, String stock,
                                 String picture, int template_id) throws Exception{

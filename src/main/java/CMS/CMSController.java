@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import org.jsoup.Jsoup;
+import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Safelist;
 import org.jsoup.select.Elements;
@@ -264,19 +265,8 @@ public class CMSController implements Initializable{
         }
     }
 
-
-
     //Understand and comment this method. This method is necessary for the next method.
     public static ArrayList<String> productFilesInFolder(final File folder) throws IOException {
-
-        //This part gets the file path, which should be checked for our product files.
-
-        Path dataPath = Paths.get("src/main/data/CMS/");
-
-        //This part creats the file path if it doesn't exist. 
-        if (!Files.exists(dataPath)) {
-            Files.createDirectories(dataPath);
-        }
 
         //This part makes an ArrayList of String to put our products' info into.
         ArrayList<String> files_arrayList = new ArrayList<>();
@@ -285,6 +275,8 @@ public class CMSController implements Initializable{
         if (!folder.isDirectory()) {
             throw new IOException("Path is not a directory: " + folder.getPath());
         }
+
+        //This part makes an Array of Files from the given folder.
 
         File[] files = folder.listFiles();
 

@@ -32,22 +32,7 @@ public class CMSController implements Initializable{
     private WebEngine engine;
     @FXML
     private ListView<String> productList;
-
-
-    @FXML
-    private Label id;
-
-    @FXML
-    private TextField name;
-
-    @FXML
-    private TextField description;
-
-    @FXML
-    private TextField stock;
-
-    @FXML
-    private TextField price;
+    
     private final static CMSController instance = new CMSController();
     public static CMSController getCMSController() {
         return instance;

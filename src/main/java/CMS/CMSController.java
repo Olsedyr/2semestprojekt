@@ -378,39 +378,40 @@ public class CMSController implements Initializable{
         String s = document.html().replaceAll("\\\\n", "\n");
 
 
-        String id = s.substring(s.indexOf("-") - 1, s.indexOf(";")).replace(".txt", "");
+        String id = s.substring(s.indexOf("y") + 2, s.indexOf(";")).replace(".txt", "");
 
 
         String string = Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
+
 
         string = string.replace("\n", ";").replace(";;", ";");
 
 
         String name = string.substring(string.indexOf(";") + 1);
 
-        name = name.substring(name.indexOf(":") + 1);
+        name = name.substring(name.indexOf(" ") + 2).replace("   ", ";");
 
-        name = name.substring(name.indexOf(":") + 2);
+        name = name.substring(0, name.indexOf(";"));
 
 
         String cleanedHTML = id + ";" + name + ";";
 
-        //This part puts the cleaned up information from the HTML together in the right way.
 
-        ArrayList<String> lines = new ArrayList<>();
 
-        string.lines().forEach(lines::add);
 
-        for(int i = 1; i < lines.size(); i++){
-            cleanedHTML += lines.get(i) + ";";
-        }
-
-        cleanedHTML += png_link;
 
         //And this part removes the last bits of unnecessary information.
 
-        cleanedHTML = cleanedHTML.replace("Description: ", "").replace("Price: ", "")
-                .replace("Stock: ", "").replace("$", "");
+        string = string.substring(string.indexOf(";") + 1);
+
+        string = string.substring(string.indexOf(";") + 1);
+
+
+        cleanedHTML += string.replace("Description: ", "").replace("Price: ", "")
+                .replace("Stock: ", "").replace("$", "")
+                .replace("  ","").replace(" ;", ";");
+
+        cleanedHTML += ";" + png_link;
 
         return cleanedHTML;
     }

@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -108,6 +110,21 @@ class CMSControllerTest {
 
     @Test
     void productFilesInFolder() {
+
+        Path filePath = Paths.get("src/test/java/CMS/Test Files");
+
+        final File folder = new File(String.valueOf(filePath));
+
+        String testString = "productFilesInFolderTest-1;Example Product;This is an example product;49.99;5;https://example.com/image.png";
+
+        try {
+            boolean htmlTest = CMSController.productFilesInFolder(folder).get(0).equals(testString.replace("\n", System.getProperty("line.separator")));
+
+            assertTrue(htmlTest);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test

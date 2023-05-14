@@ -32,7 +32,7 @@ public class CMSController implements Initializable{
     private WebEngine engine;
     @FXML
     private ListView<String> productList;
-    
+
     private final static CMSController instance = new CMSController();
     public static CMSController getCMSController() {
         return instance;
@@ -152,11 +152,12 @@ public class CMSController implements Initializable{
 
         Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "-" + template_id + ".txt");
         File htmlFile = new File(String.valueOf(htmlFilePath));
-        if (htmlFile.createNewFile()) {
-            FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
-            myWriter.write(htmlContent);
-            myWriter.close();
+        if (!htmlFile.createNewFile()) {
+            htmlFile.delete();
         }
+        FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
+        myWriter.write(htmlContent);
+        myWriter.close();
 
         //This part resets the search bar.
 
@@ -181,7 +182,7 @@ public class CMSController implements Initializable{
 
         //And this part refreshes the Listview.
 
-        productList.refresh(); // Refresh the ListView
+        productList.refresh();
     }
 
     @FXML
@@ -248,14 +249,17 @@ public class CMSController implements Initializable{
     public static ArrayList<String> productFilesInFolder(final File folder) throws IOException {
 
         //This part makes an ArrayList of String to put our products' info into.
+
         ArrayList<String> files_arrayList = new ArrayList<>();
 
         //This part throws Exceptions if the folder/files cannot be read.
+
         if (!folder.isDirectory()) {
             throw new IOException("Path is not a directory: " + folder.getPath());
         }
 
         //This part makes an Array of Files from the given folder.
+
 
         File[] files = folder.listFiles();
 
@@ -264,6 +268,7 @@ public class CMSController implements Initializable{
         }
 
         //This part reads the lines of all the files in folder.
+
         for(int i = 0; i < files.length; i++){
             Path filePath = Paths.get(files[i].getPath());
             List<String> list = Files.readAllLines(filePath);
@@ -287,6 +292,7 @@ public class CMSController implements Initializable{
 
         //This part gets the file path and makes an ArrayList of Strings
         //from the information in every file therein.
+
         Path filePath = Paths.get("src/main/data/CMS/");
 
         final File folder = new File(String.valueOf(filePath));
@@ -307,7 +313,7 @@ public class CMSController implements Initializable{
             productList.getItems().add(product);
         }
 
-        //This part refreshes/updates the ListView
+        //This part refreshes/updates the ListView.
 
         if(productList != null){
             productList.refresh();
@@ -346,8 +352,8 @@ public class CMSController implements Initializable{
 
         png_link = png_link.substring(0, png_link.indexOf(" ") - 1);
 
-
-        document.outputSettings(new Document.OutputSettings().prettyPrint(false));//makes html() preserve linebreaks and spacing
+        //This part makes the html() used later preserve linebreaks and spacing.
+        document.outputSettings(new Document.OutputSettings().prettyPrint(false));
         document.select("br").append("\\n");
         document.select("p").prepend("\\n\\n");
 

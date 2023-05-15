@@ -79,14 +79,9 @@ public class PopupWindow extends CMSController {
                 if (dialogButton == confirm) {
                     String htmlContent = null;
                     try {
+
                         htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(name.getText(), description.getText(),
                                 price.getText(), stock.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
-
-                        System.out.println(id.getText() + "-" + templateID.getText() + ";" + name.getText()
-                                        + ";" + description.getText() + ";" +
-                                price.getText() + ";" + stock.getText() + ";" + productImage.getText());
-
-                        System.out.println(htmlContent);
 
                     } catch (Exception e) {
                         throw new RuntimeException(e);

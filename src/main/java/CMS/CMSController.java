@@ -146,7 +146,6 @@ public class CMSController implements Initializable{
 
             //This part makes a new file with the contents of the pop-up window.
 
-            System.out.println(htmlFile);
 
             FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
             myWriter.write(str.substring(str.indexOf(";") + 1));

@@ -16,7 +16,6 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import org.jsoup.Jsoup;
-import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Safelist;
 import org.jsoup.select.Elements;
@@ -115,8 +114,11 @@ public class CMSController implements Initializable{
 
     @FXML
     protected void addItem() throws IOException {
-        CreateWindow createWindow = new CreateWindow();
-        String str = createWindow.getResult();
+
+        //This part gets
+
+        PopupWindow popupWindow = new PopupWindow();
+        String str = popupWindow.getResult();
 
         if (str != null) {
             File htmlFile = new File(Paths.get("src/main/data/CMS/" + str.substring(0, str.indexOf(";"))
@@ -171,8 +173,8 @@ public class CMSController implements Initializable{
             String product = productList.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";")[0];
 
-            EditProduct ep = new EditProduct();
-            String str = ep.getResult();
+            PopupWindow popupWindow = new PopupWindow();
+            String str = popupWindow.getResult();
 
             if (str != null) {
                 Path filepath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
@@ -183,11 +185,10 @@ public class CMSController implements Initializable{
                 File newFile = new File(Paths.get("src/main/data/CMS/" + str.substring(0, str.indexOf(";"))
                         + ".txt").toString());
 
-                if(newFile.createNewFile()) {
-                    FileWriter myWriter = new FileWriter(String.valueOf(newFile));
-                    myWriter.write(str.substring(str.indexOf(";")));
-                    myWriter.close();
-                }
+                FileWriter myWriter = new FileWriter(String.valueOf(newFile));
+                myWriter.write(str.substring(str.indexOf(";")));
+                myWriter.close();
+
 
                 loadProducts();
             }

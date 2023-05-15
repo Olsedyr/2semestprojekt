@@ -1,5 +1,4 @@
 package CMS;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -7,22 +6,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Optional;
 import java.util.Optional;
 
-public class EditProduct extends CMSController {
+public class PopupWindow extends CMSController {
 
         private String result;
 
         public String getResult() {
             return this.result;
         }
-        public EditProduct() {
+        public PopupWindow() {
             Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("Edit Product");
             dialog.setHeaderText("Edit Product");
@@ -85,10 +78,6 @@ public class EditProduct extends CMSController {
 
             dialog.setResultConverter(dialogButton -> {
                 if (dialogButton == confirm) {
-                    Path htmlFilePath = Paths.get("src/main/data/CMS/" + id.getText() + "-" + templateID.getText() + ".txt");
-                    File fileToDelete = new File(String.valueOf(htmlFilePath));
-                    fileToDelete.delete();
-
                     String htmlContent = null;
                     try {
                         htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(name.getText(), description.getText(),

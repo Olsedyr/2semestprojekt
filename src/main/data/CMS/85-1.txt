@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>dfg</title>
+  <title>he4sgd</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -32,20 +32,20 @@
 </head>
 
 <body>
-<img src="https://example.com/image.png" alt="dfg">
-  <h1>dfg</h1>
+<img src="https://example.com/image.png" alt="he4sgd">
+  <h1>he4sgd</h1>
 
   <h2>Product Description:</h2>
   <p>
-523  </p>
+hgdh  </p>
 
   <h2>Price:</h2>
   <p>
-$2345  </p>
+$436  </p>
 
   <h2>Stock:</h2>
   <p>
-34  </p>
+46474  </p>
 
 </body>
 

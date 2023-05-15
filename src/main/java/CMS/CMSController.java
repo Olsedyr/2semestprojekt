@@ -146,8 +146,10 @@ public class CMSController implements Initializable{
 
             //This part makes a new file with the contents of the pop-up window.
 
+            System.out.println(htmlFile);
+
             FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
-            myWriter.write(str.substring(str.indexOf(";")));
+            myWriter.write(str.substring(str.indexOf(";") + 1));
             myWriter.close();
 
             //This part reloads the ListView.
@@ -224,7 +226,7 @@ public class CMSController implements Initializable{
                         + ".txt").toString());
 
                 FileWriter myWriter = new FileWriter(String.valueOf(newFile));
-                myWriter.write(str.substring(str.indexOf(";")));
+                myWriter.write(str.substring(str.indexOf(";") + 1));
                 myWriter.close();
 
                 //This part reloads our ListView.

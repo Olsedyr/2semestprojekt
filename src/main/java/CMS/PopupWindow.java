@@ -17,8 +17,8 @@ public class PopupWindow extends CMSController {
         }
         public PopupWindow() {
             Dialog<String> dialog = new Dialog<>();
-            dialog.setTitle("Edit Product");
-            dialog.setHeaderText("Edit Product");
+            dialog.setTitle("Pop-up Window");
+            dialog.setHeaderText("Pop-up Window");
 
             ButtonType confirm = new ButtonType("Apply");
             dialog.getDialogPane().getButtonTypes().add(confirm);
@@ -60,12 +60,11 @@ public class PopupWindow extends CMSController {
             grid.add(new Label("Description:"), 0, 2);
             grid.add(description, 1, 2);
 
-            grid.add(new Label("Price:"), 0, 4);
-            grid.add(price, 1, 4);
+            grid.add(new Label("Price:"), 0, 3);
+            grid.add(price, 1, 3);
 
-            grid.add(new Label("Stock:"), 0, 3);
-            grid.add(stock, 1, 3);
-
+            grid.add(new Label("Stock:"), 0, 4);
+            grid.add(stock, 1, 4);
 
             grid.add(new Label("Image:"), 0, 5);
             grid.add(productImage, 1,5);
@@ -82,6 +81,13 @@ public class PopupWindow extends CMSController {
                     try {
                         htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(name.getText(), description.getText(),
                                 price.getText(), stock.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
+
+                        System.out.println(id.getText() + "-" + templateID.getText() + ";" + name.getText()
+                                        + ";" + description.getText() + ";" +
+                                price.getText() + ";" + stock.getText() + ";" + productImage.getText());
+
+                        System.out.println(htmlContent);
+
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

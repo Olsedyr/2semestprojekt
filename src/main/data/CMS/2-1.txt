@@ -1,8 +1,8 @@
-;<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
-  <title>he4sgd</title>
+  <title>3</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -32,20 +32,20 @@
 </head>
 
 <body>
-<img src="https://example.com/image.png" alt="he4sgd">
-  <h1>he4sgd</h1>
+<img src="7.png" alt="3">
+  <h1>3</h1>
 
   <h2>Product Description:</h2>
   <p>
-hgdh  </p>
+4  </p>
 
   <h2>Price:</h2>
   <p>
-$436  </p>
+$5  </p>
 
   <h2>Stock:</h2>
   <p>
-46474  </p>
+6  </p>
 
 </body>
 

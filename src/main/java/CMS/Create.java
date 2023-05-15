@@ -41,7 +41,7 @@ public class Create {
                         "</head>\n" +
                         "\n" +
                         "<body>\n" +
-                        "<img src=\"" + picture + "\" alt=\"" + name + "\">\n" +
+                        "<img src=\"" + picture.replace("\\", "/") + "\" alt=\"" + name + "\">\n" +
                         "  <h1>" + name + "</h1>\n" +
                         "\n" +
                         "  <h2>Product Description:</h2>\n" +

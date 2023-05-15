@@ -340,7 +340,7 @@ public class CMSController implements Initializable{
 
         png_link = png_link.substring(png_link.indexOf("=") + 2);
 
-        png_link = png_link.substring(0, png_link.indexOf(" ") - 1);
+        png_link = png_link.substring(0, png_link.indexOf("=") - 5);
 
 
         //This part makes the html() used later preserve linebreaks and spacing.

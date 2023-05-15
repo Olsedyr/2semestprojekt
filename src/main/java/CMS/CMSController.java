@@ -40,9 +40,13 @@ public class CMSController implements Initializable{
     String getProductPage(String id, String template_id){
         try {
 
+            //This part uses the given id and template id to find the right file, read it and return its information as a String.
+
             Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "-" + template_id + ".txt");
 
             return Files.readString(htmlFilePath);
+
+            //This part throws an Exception if the file doesn't actually exist.
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -52,17 +56,25 @@ public class CMSController implements Initializable{
     String getProductPage(String name, String description, double price, int stock, String id, File imageFile,
                           int template_id){
 
+        //This part makes the not-so-usable given information into usable Strings.
+
         String price_String = price + "";
 
         String stock_String = stock + "";
 
         String filepath = imageFile.getPath();
         try {
+            //This part makes the information into HTML through a specific template.
+
             String html = Create.create(name, description, price_String, stock_String, filepath, template_id);
+
+            //This part makes a new file using the id and template id.
 
             Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "-" + template_id + ".txt");
 
             File htmlFile = new File(String.valueOf(htmlFilePath));
+
+            //This part overwrites any old file with the same id and template id.
 
             if (!htmlFile.createNewFile()) {
                 htmlFile.delete();
@@ -74,6 +86,7 @@ public class CMSController implements Initializable{
 
             return html;
 
+            //This part throws an Exception if the file doesn't actually exist.
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -115,12 +128,15 @@ public class CMSController implements Initializable{
     @FXML
     protected void addItem() throws IOException {
 
-        //This part gets
+        //This part makes a new pop-up window to write the information.
 
         PopupWindow popupWindow = new PopupWindow();
         String str = popupWindow.getResult();
 
         if (str != null) {
+
+            //This part deletes any file with the same id and template.
+
             File htmlFile = new File(Paths.get("src/main/data/CMS/" + str.substring(0, str.indexOf(";"))
                     + ".txt").toString());
 
@@ -128,9 +144,13 @@ public class CMSController implements Initializable{
                 htmlFile.delete();
             }
 
+            //This part makes a new file with the contents of the pop-up window.
+
             FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
             myWriter.write(str.substring(str.indexOf(";")));
             myWriter.close();
+
+            //This part reloads the ListView.
 
             loadProducts();
         }
@@ -138,10 +158,13 @@ public class CMSController implements Initializable{
 
     @FXML
     protected void deleteItem() throws IOException {
-        //This gets what is selected in the UI's TreeTableView.
+
+        //This part gets the index/indexes selected in our UI's ListView.
+
         ObservableList<Integer> selectedIndices = productList.getSelectionModel().getSelectedIndices();
 
-        //This checks if what is selected is only one item.
+        //This part checks if there is only one index selected.
+
         if (selectedIndices.size() == 1) {
 
             //This part gets the information from the selected index and changes it to the correct Path.
@@ -166,21 +189,36 @@ public class CMSController implements Initializable{
 
     @FXML
     protected void editProduct() throws IOException {
+
+        //This part gets the index/indexes selected in our UI's ListView.
+
         ObservableList<Integer> selectedIndices = productList.getSelectionModel().getSelectedIndices();
+
+        //This part checks if there is only one index selected.
 
         if (selectedIndices.size() == 1) {
 
+            //This part gets the id and template id from the selected index.
+
             String product = productList.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";")[0];
+
+            //This part makes a new pop-up window to write the information.
 
             PopupWindow popupWindow = new PopupWindow();
             String str = popupWindow.getResult();
 
             if (str != null) {
+                //This part gets a filepath using the previous id and previous template id.
+
                 Path filepath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
+
+                //This part deletes the old file.
 
                 File fileToDelete = new File(filepath.toString());
                 fileToDelete.delete();
+
+                //This part makes a new file with the information from the pop-up window.
 
                 File newFile = new File(Paths.get("src/main/data/CMS/" + str.substring(0, str.indexOf(";"))
                         + ".txt").toString());
@@ -189,6 +227,7 @@ public class CMSController implements Initializable{
                 myWriter.write(str.substring(str.indexOf(";")));
                 myWriter.close();
 
+                //This part reloads our ListView.
 
                 loadProducts();
             }

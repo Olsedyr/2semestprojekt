@@ -71,7 +71,7 @@
          <content>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <HBox prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #6F5CC2;" />
+                  <HBox fx:id="articleList" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #6F5CC2;" />
                   <Text fill="WHITE" layoutX="90.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Content Management Info Pages" textAlignment="CENTER">
                      <font>
                         <Font name="Agency FB Bold" size="33.0" />
@@ -92,7 +92,7 @@
                         <Font size="20.0" />
                      </font>
                   </Button>
-                  <ListView layoutX="20.0" layoutY="153.0" prefHeight="605.0" prefWidth="399.0" />
+                  <ListView fx:id="product" layoutX="20.0" layoutY="153.0" prefHeight="605.0" prefWidth="399.0" />
                   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="35.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@uiLogo.png" />

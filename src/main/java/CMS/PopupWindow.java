@@ -1,5 +1,4 @@
 package CMS;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -7,25 +6,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Optional;
 import java.util.Optional;
 
-public class EditProduct extends CMSController {
+public class PopupWindow extends CMSController {
 
         private String result;
 
         public String getResult() {
             return this.result;
         }
-        public EditProduct() {
+        public PopupWindow() {
             Dialog<String> dialog = new Dialog<>();
-            dialog.setTitle("Edit Product");
-            dialog.setHeaderText("Edit Product");
+            dialog.setTitle("Pop-up Window");
+            dialog.setHeaderText("Pop-up Window");
 
             ButtonType confirm = new ButtonType("Apply");
             dialog.getDialogPane().getButtonTypes().add(confirm);
@@ -47,11 +40,11 @@ public class EditProduct extends CMSController {
             TextField description = new TextField();
             description.setPromptText("Description");
 
-            TextField producer = new TextField();
-            producer.setPromptText("Producer");
-
             TextField price = new TextField();
             price.setPromptText("Price");
+
+            TextField stock = new TextField();
+            stock.setPromptText("Stock");
 
             TextField templateID = new TextField();
             templateID.setPromptText("Template ID");
@@ -67,11 +60,11 @@ public class EditProduct extends CMSController {
             grid.add(new Label("Description:"), 0, 2);
             grid.add(description, 1, 2);
 
-            grid.add(new Label("Producer:"), 0, 3);
-            grid.add(producer, 1, 3);
+            grid.add(new Label("Price:"), 0, 3);
+            grid.add(price, 1, 3);
 
-            grid.add(new Label("Price:"), 0, 4);
-            grid.add(price, 1, 4);
+            grid.add(new Label("Stock:"), 0, 4);
+            grid.add(stock, 1, 4);
 
             grid.add(new Label("Image:"), 0, 5);
             grid.add(productImage, 1,5);
@@ -84,14 +77,12 @@ public class EditProduct extends CMSController {
 
             dialog.setResultConverter(dialogButton -> {
                 if (dialogButton == confirm) {
-                    Path htmlFilePath = Paths.get("src/main/data/CMS/" + id.getText() + ".txt");
-                    File fileToDelete = new File(String.valueOf(htmlFilePath));
-                    fileToDelete.delete();
-
                     String htmlContent = null;
                     try {
-                        htmlContent = id.getText() + ";" + Create.create(name.getText(), description.getText(), producer.getText(),
-                                price.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
+
+                        htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(name.getText(), description.getText(),
+                                price.getText(), stock.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
+
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

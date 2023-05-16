@@ -5,8 +5,6 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -106,12 +104,6 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <TreeTableView layoutX="81.0" layoutY="168.0" prefHeight="200.0" prefWidth="922.0">
-                    <columns>
-                      <TreeTableColumn prefWidth="75.0" text="Page_ID" />
-                      <TreeTableColumn prefWidth="185.60000610351562" text="NAME" />
-                    </columns>
-                  </TreeTableView>
                   <WebView fx:id="webView2" layoutX="81.0" layoutY="412.0" prefHeight="343.0" prefWidth="920.0" />
                   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="35.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                      <image>

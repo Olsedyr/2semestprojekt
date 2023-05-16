@@ -197,6 +197,8 @@ public class CMSInfoController implements Initializable {
     }
 
 
+
+    //This deletes all the info the user has written in the textfields.
     public void cancel(){
         page_id.setText("");
         subject_id.setText("");

@@ -335,13 +335,10 @@ public class CMSController implements Initializable{
         //This part gets the link of the png.
 
         Document document = Jsoup.parse(html);
-        Elements png = document.select("img[src$=.png]");
 
-        String png_link = png.toString();
-
-        png_link = png_link.substring(png_link.indexOf("=") + 2);
-
-        png_link = png_link.substring(0, png_link.indexOf("=") - 5);
+        String picture = html.substring(html.indexOf("src=") + 5);
+        
+        picture = picture.substring(0, picture.indexOf("=") - 5);
 
 
         //This part makes the html() used later preserve linebreaks and spacing.
@@ -392,7 +389,7 @@ public class CMSController implements Initializable{
                 .replace("  ","").replace(" ;", ";");
 
 
-        cleanedHTML += ";" + png_link;
+        cleanedHTML += ";" + picture;
 
         return cleanedHTML;
     }

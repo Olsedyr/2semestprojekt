@@ -17,8 +17,8 @@ public class PopupWindow extends CMSController {
         }
         public PopupWindow() {
             Dialog<String> dialog = new Dialog<>();
-            dialog.setTitle("Pop-up Window");
-            dialog.setHeaderText("Pop-up Window");
+            dialog.setTitle("Create Product");
+            dialog.setHeaderText("Create Product");
 
             ButtonType confirm = new ButtonType("Apply");
             dialog.getDialogPane().getButtonTypes().add(confirm);

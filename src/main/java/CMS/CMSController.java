@@ -2,8 +2,11 @@ package CMS;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import java.io.File;
@@ -15,6 +18,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Safelist;
@@ -31,6 +36,9 @@ public class CMSController implements Initializable{
     private WebEngine engine;
     @FXML
     private ListView<String> productList;
+
+    @FXML
+    private ListView<String> articleList;
 
     private final static CMSController instance = new CMSController();
     public static CMSController getCMSController() {
@@ -99,6 +107,7 @@ public class CMSController implements Initializable{
 
         try {
             loadProducts();
+            loadArticles();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,10 +128,7 @@ public class CMSController implements Initializable{
             }
         });
 
-
-
         engine = webView2.getEngine();
-        engine.load("https://www.instructables.com/How-To-Replace-the-Processor-in-a-Desktop-Computer/");
     }
 
     @FXML
@@ -154,6 +160,39 @@ public class CMSController implements Initializable{
             //This part reloads the ListView.
 
             loadProducts();
+        }
+    }
+
+    @FXML
+    protected void createArticle() throws IOException {
+
+        //This part makes a new pop-up window to write the information.
+
+        PopupWindowArticle popupWindow = new PopupWindowArticle();
+
+        String str = popupWindow.getResult();
+
+        if (str != null) {
+
+            //This part deletes any file with the same id and template.
+
+            File htmlFile = new File(Paths.get("src/main/data/ARTICLES/" + str.substring(0, str.indexOf(";"))
+                    + ".txt").toString());
+
+            if (!htmlFile.createNewFile()) {
+                htmlFile.delete();
+            }
+
+            //This part makes a new file with the contents of the pop-up window.
+
+
+            FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
+            myWriter.write(str.substring(str.indexOf(";") + 1));
+            myWriter.close();
+
+            //This part reloads the ListView.
+
+            loadArticles();
         }
     }
 
@@ -310,6 +349,41 @@ public class CMSController implements Initializable{
         }
     }
 
+    public void loadArticles() throws IOException {
+
+        //This part gets the file path and makes an ArrayList of Strings
+        //from the information in every file therein.
+
+        Path filePath = Paths.get("src/main/data/ARTICLES/");
+
+        final File folder = new File(String.valueOf(filePath));
+
+        ArrayList<String> files_arrayList = productFilesInFolder(folder);
+
+        //This part clears the information in ListView containing the product list.
+
+        if(productList != null){
+            productList.getItems().clear();
+        }
+
+        //This part copies the information in the previously mentioned ArrayList
+        //into the previously mentioned ListView.
+
+        for(String product: files_arrayList) {
+            assert productList != null;
+            productList.getItems().add(product);
+        }
+
+        //This part refreshes/updates the ListView.
+
+        if(productList != null){
+            productList.refresh();
+        }
+    }
+
+
+
+
 
 
     private void webViewShowHtml(String productInfo) throws IOException {
@@ -426,4 +500,5 @@ public class CMSController implements Initializable{
             }
         }
     }
+
 }

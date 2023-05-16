@@ -11,7 +11,7 @@ public class CMSApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CMSApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1280, 800);
+        Scene scene = new Scene(fxmlLoader.load(), 1350, 800);
         stage.setTitle("CMS UI");
         stage.setScene(scene);
         stage.show();

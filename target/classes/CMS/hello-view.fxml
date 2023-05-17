@@ -5,8 +5,6 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -16,22 +14,22 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CMS.CMSController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1350.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CMS.CMSController">
   <tabs>
     <Tab text="Product Page">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <HBox layoutY="-30.0" prefHeight="809.0" prefWidth="1283.0" style="-fx-background-color: #6F5CC2;" />
-                  <ListView fx:id="productList" layoutX="81.0" layoutY="168.0" prefHeight="200.0" prefWidth="922.0" />
-                  <WebView fx:id="webView" layoutX="82.0" layoutY="412.0" prefHeight="343.0" prefWidth="920.0" />
+                  <HBox layoutY="-30.0" prefHeight="809.0" prefWidth="1725.0" style="-fx-background-color: #6F5CC2;" />
+                  <ListView fx:id="productList" layoutX="81.0" layoutY="168.0" prefHeight="125.0" prefWidth="500.0" />
+                  <WebView fx:id="webView" layoutX="82.0" layoutY="412.0" prefHeight="343.0" prefWidth="500.0" />
                   <Text fill="WHITE" layoutX="90.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Content Management System UI" textAlignment="CENTER">
                      <font>
                         <Font name="Agency FB Bold" size="33.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="searchBar" layoutX="84.0" layoutY="86.0" prefHeight="38.0" prefWidth="921.0" promptText="Search..." />
-                  <Button layoutX="1042.0" layoutY="85.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="221.0" text="Search">
+                  <TextField fx:id="searchBar" layoutX="84.0" layoutY="86.0" prefHeight="38.0" prefWidth="500.0" promptText="Search..." />
+                  <Button layoutX="600.0" layoutY="85.0" mnemonicParsing="false" onAction="#searchProducts" prefHeight="25.0" prefWidth="100.0" text="Search">
                      <font>
                         <Font size="20.0" />
                      </font></Button>
@@ -40,18 +38,19 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <Button layoutX="1042.0" layoutY="170.0" mnemonicParsing="false" onAction="#addItem" prefHeight="39.0" prefWidth="221.0" text="Add">
+                  <Button layoutX="80.0" layoutY="300.0" mnemonicParsing="false" onAction="#addItem" prefHeight="25.0" prefWidth="100.0" text="Add">
                      <font>
                         <Font size="20.0" />
                      </font></Button>
-                  <Button fx:id="edit" layoutX="1042.0" layoutY="250.0" mnemonicParsing="false" onAction="#editProduct" prefHeight="39.0" prefWidth="221.0" text="Edit">
+                  <Button fx:id="edit" layoutX="200.0" layoutY="300.0" mnemonicParsing="false" onAction="#editProduct" prefHeight="25.0" prefWidth="100.0" text="Edit">
                      <font>
                         <Font size="20.0" />
                      </font></Button>
-                  <Button layoutX="1042.0" layoutY="330.0" mnemonicParsing="false" onAction="#deleteItem" prefHeight="39.0" prefWidth="221.0" text="Remove">
+                  <Button layoutX="325.0" layoutY="300.0" mnemonicParsing="false" onAction="#deleteItem" prefHeight="25.0" prefWidth="100.0" text="Remove">
                      <font>
                         <Font size="20.0" />
                      </font></Button>
+                  <HBox layoutX="725.0" prefHeight="775.0" prefWidth="15.0" style="-fx-background-color: #5a4b9c;" />
                   <Text fill="WHITE" layoutX="84.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Website Preview">
                      <font>
                         <Font name="System Bold" size="20.0" />
@@ -65,62 +64,46 @@
                         <ColorAdjust brightness="1.0" contrast="1.0" />
                      </effect>
                   </ImageView>
-               </children></AnchorPane>
-      </content>
-    </Tab>
-    <Tab text="Info Page">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <HBox layoutX="-3.0" layoutY="-2.0" prefHeight="779.0" prefWidth="1284.0" style="-fx-background-color: #6F5CC2;" />
-                  <Text layoutX="464.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                  <Text fill="WHITE" layoutX="90.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information Page">
+                  <ListView fx:id="articleList" layoutX="775.0" layoutY="110.0" prefHeight="185.0" prefWidth="550.0" />
+                  <Text fill="WHITE" layoutX="825.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Infopages" textAlignment="CENTER">
                      <font>
                         <Font name="Agency FB Bold" size="33.0" />
                      </font>
                   </Text>
-                  <TextField layoutX="86.0" layoutY="87.0" prefHeight="38.0" prefWidth="921.0" promptText="Search information..." />
-                  <Button layoutX="1042.0" layoutY="85.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="221.0" text="Search">
-                     <font>
-                        <Font size="20.0" />
-                     </font></Button>
-                  <Button layoutX="1042.0" layoutY="170.0" mnemonicParsing="false" onAction="#addItem" prefHeight="39.0" prefWidth="221.0" text="Add">
-                     <font>
-                        <Font size="20.0" />
-                     </font></Button>
-                  <Button layoutX="1042.0" layoutY="250.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="221.0" text="Edit">
-                     <font>
-                        <Font size="20.0" />
-                     </font></Button>
-                  <Button layoutX="1042.0" layoutY="330.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="221.0" text="Remove">
-                     <font>
-                        <Font size="20.0" />
-                     </font></Button>
-                  <Text fill="WHITE" layoutX="84.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information Page List:">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Text>
-                  <Text fill="WHITE" layoutX="84.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information Page preview:">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Text>
-                  <TreeTableView layoutX="81.0" layoutY="168.0" prefHeight="200.0" prefWidth="922.0">
-                    <columns>
-                      <TreeTableColumn prefWidth="75.0" text="Page_ID" />
-                      <TreeTableColumn prefWidth="185.60000610351562" text="NAME" />
-                    </columns>
-                  </TreeTableView>
-                  <WebView fx:id="webView2" layoutX="81.0" layoutY="412.0" prefHeight="343.0" prefWidth="920.0" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="35.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="775.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@uiLogo.png" />
                      </image>
                      <effect>
-                        <ColorAdjust brightness="1.0" />
+                        <ColorAdjust brightness="1.0" contrast="1.0" />
                      </effect>
                   </ImageView>
+                  <Text fill="WHITE" layoutX="775.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Infopage List:">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Text>
+                  <WebView fx:id="webView2" layoutX="775.0" layoutY="412.0" prefHeight="343.0" prefWidth="550.0" />
+                  <Text fill="WHITE" layoutX="775.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Article preview:">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="createArticle" layoutX="775.0" layoutY="300.0" mnemonicParsing="false" onAction="#createArticle" prefHeight="25.0" prefWidth="100.0" text="Create">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="editArticle" layoutX="900.0" layoutY="300.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="deleteArticle" layoutX="1025.0" layoutY="300.0" mnemonicParsing="false" onAction="#deleteArticle" prefHeight="25.0" prefWidth="100.0" text="Delete">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
                </children></AnchorPane>
       </content>
     </Tab>

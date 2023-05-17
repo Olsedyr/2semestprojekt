@@ -456,12 +456,7 @@ public class CMSController implements Initializable{
 
         String picture = html.substring(html.indexOf("src=") + 5);
 
-        System.out.println(picture);
-        
         picture = picture.substring(0, picture.indexOf(">") - 2);
-
-        System.out.println(picture);
-
 
 
         //This part makes the html() used later preserve linebreaks and spacing.

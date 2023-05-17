@@ -381,6 +381,20 @@ public class CMSController implements Initializable{
 
         string = string.substring(string.indexOf(";") + 1);
 
+        String description = string.substring(0, string.indexOf("    Price:"));
+
+        char[] descriptionArray = description.toCharArray();
+
+        if(descriptionArray.length > 20){
+            for(int i = 0; i < 20; i++){
+                cleanedHTML += descriptionArray[i];
+            }
+
+            cleanedHTML += "...;";
+
+            string = string.substring(string.indexOf(";") + 1);
+        }
+
 
         //This part removes the last bits of the less useful information.
 

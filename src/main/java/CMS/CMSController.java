@@ -493,6 +493,24 @@ public class CMSController implements Initializable{
         String cleanedHTML = id + ";" + name + ";";
 
 
+        //This part makes any description that is longer than 20 characters end at 20 characters
+        // in the productList, and adds "...;" to the end.
+
+        String description = string.substring(0, string.indexOf("    Price:"));
+
+        char[] descriptionArray = description.toCharArray();
+
+        if(descriptionArray.length > 20){
+            for(int i = 0; i < 20; i++){
+                cleanedHTML += descriptionArray[i];
+            }
+
+            cleanedHTML += "...;";
+
+            string = string.substring(string.indexOf(";") + 1);
+        }
+
+
         //And this part removes the last bits of unnecessary information.
 
         string = string.substring(string.indexOf(";") + 1);

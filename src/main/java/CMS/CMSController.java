@@ -32,6 +32,9 @@ public class CMSController implements Initializable{
     @FXML
     private ListView<String> productList;
 
+    @FXML
+    private ListView<String> articleList;
+
     private final static CMSController instance = new CMSController();
     public static CMSController getCMSController() {
         return instance;
@@ -156,6 +159,104 @@ public class CMSController implements Initializable{
             loadProducts();
         }
     }
+
+    @FXML
+    protected void createArticle() throws IOException {
+
+        //This part makes a new pop-up window to write the information.
+
+        PopupWindowArticle popupWindow = new PopupWindowArticle();
+
+        String str = popupWindow.getResult();
+
+        if (str != null) {
+
+            //This part deletes any file with the same id and template.
+
+            File htmlFile = new File(Paths.get("src/main/data/ARTICLES/" + str.substring(0, str.indexOf(";"))
+                    + ".txt").toString());
+
+            if (!htmlFile.createNewFile()) {
+                htmlFile.delete();
+            }
+
+            //This part makes a new file with the contents of the pop-up window.
+
+
+            FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
+            myWriter.write(str.substring(str.indexOf(";") + 1));
+            myWriter.close();
+
+            //This part reloads the ListView.
+
+            loadArticles();
+        }
+    }
+
+
+    @FXML
+    protected void deleteArticle() throws IOException {
+
+        //This part gets the index/indexes selected in our UI's ListView.
+
+        ObservableList<Integer> selectedIndices = articleList.getSelectionModel().getSelectedIndices();
+
+        //This part checks if there is only one index selected.
+
+        if (selectedIndices.size() == 1) {
+
+            //This part gets the information from the selected index and changes it to the correct Path.
+
+            String product = articleList.getItems().get(selectedIndices.get(0));
+            String previousID = product.split(";")[0];
+
+            Path filePath = Paths.get("src/main/data/ARTICLES/" + previousID + ".txt");
+
+            //This part converts the Path into a File and deletes it.
+
+            File fileToDelete = new File(filePath.toString());
+            fileToDelete.delete();
+
+            //This part loads the productList again and resets the search bar's text.
+
+            loadArticles();
+        }
+    }
+
+    public void loadArticles() throws IOException {
+
+        //This part gets the file path and makes an ArrayList of Strings
+        //from the information in every file therein.
+
+        Path filePath = Paths.get("src/main/data/ARTICLES/");
+
+        final File folder = new File(String.valueOf(filePath));
+
+        ArrayList<String> files_arrayList = productFilesInFolder(folder);
+
+        //This part clears the information in ListView containing the product list.
+
+        if(articleList != null){
+            articleList.getItems().clear();
+        }
+
+        //This part copies the information in the previously mentioned ArrayList
+        //into the previously mentioned ListView.
+
+        for(String product: files_arrayList) {
+            assert articleList != null;
+            articleList.getItems().add(product);
+        }
+
+        //This part refreshes/updates the ListView.
+
+        if(articleList != null){
+            articleList.refresh();
+        }
+    }
+
+
+
 
     @FXML
     protected void deleteItem() throws IOException {
@@ -322,6 +423,23 @@ public class CMSController implements Initializable{
         engine = webView.getEngine();
         engine.loadContent(htmlContent);
     }
+
+
+    private void webViewShowHtmlArticle(String articleInfo) throws IOException {
+        String[] articleFields = articleInfo.split(";");
+        String id = articleFields[0].trim();
+
+        Path htmlFilePath = Paths.get("src/main/data/ARTICLES/" + id + ".txt");
+        String htmlContent = Files.readString(htmlFilePath);
+
+        engine = webView2.getEngine();
+        engine.loadContent(htmlContent);
+    }
+
+
+
+
+
 
     //This function gets the information from the HTML files, so the
     //products in the ListView looks the same,

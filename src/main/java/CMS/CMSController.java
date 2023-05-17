@@ -2,32 +2,28 @@ package CMS;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Safelist;
+import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.safety.Safelist;
-import org.jsoup.select.Elements;
+
+import static CMS.Create.createThumbnail;
 
 public class CMSController implements Initializable{
 
@@ -41,22 +37,6 @@ public class CMSController implements Initializable{
     @FXML
     private ListView<String> productList;
 
-
-    @FXML
-    private Label id;
-
-    @FXML
-    private TextField name;
-
-    @FXML
-    private TextField description;
-
-    @FXML
-    private TextField producer;
-
-    @FXML
-    private TextField price;
-    
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -119,6 +99,9 @@ public class CMSController implements Initializable{
             myWriter.close();
         }
 
+        createThumbnail(id, name, price, picture);
+
+
         searchBar.setText(""); // Clear the input TextField
 
         boolean fileExists = false;
@@ -127,7 +110,6 @@ public class CMSController implements Initializable{
             if(listRow.substring(0, listRow.indexOf(";")).equals(file.substring(0, listRow.indexOf(";"))) ){
                 fileExists = true;
             }
-
         }
 
         if(!fileExists){
@@ -165,7 +147,6 @@ public class CMSController implements Initializable{
         }
     }
 
-
     @FXML
     protected void editProduct() throws IOException {
         ObservableList<Integer> selectedIndices = productList.getSelectionModel().getSelectedIndices();
@@ -197,8 +178,6 @@ public class CMSController implements Initializable{
             }
         }
     }
-
-
 
     //Understand and comment this method. This method is necessary for the next method.
     public static ArrayList<String> productFilesInFolder(final File folder) throws IOException {
@@ -236,7 +215,6 @@ public class CMSController implements Initializable{
         return files_arrayList;
     }
 
-
     public void loadProducts() throws IOException {
 
         //This part gets the file path and makes an ArrayList of Strings
@@ -265,8 +243,6 @@ public class CMSController implements Initializable{
             productList.refresh();
         }
     }
-
-
 
     private void webViewShowHtml(String productInfo) throws IOException {
         String[] productFields = productInfo.split(";");

@@ -1,4 +1,7 @@
 package CMS;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Create {
     public static String create(String name, String description, String producer, String price, String picture, int template_id) throws Exception{
@@ -101,6 +104,9 @@ public class Create {
                             "</div>\n" +
                         "</body>\n" +
                     "</html>";
+
+                // Create thumbnail
+                createThumbnail(String.valueOf(template_id), name, price, picture);
             break;
             case 2:
                 html =
@@ -196,11 +202,67 @@ public class Create {
                             "</div>\n" +
                         "</body>\n" +
                     "</html>";
+
+                // Create thumbnail
+                createThumbnail(String.valueOf(template_id), name, price, picture);
             break;
             default:
                 System.out.println("A template with this id doesn't exist.");
                 throw new Exception();
         }
         return html;
+    }
+
+    public static void createThumbnail(String id, String name, String price, String picture) {
+        String thumbnailHtml =
+            "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                    "<head>\n" +
+                    "<title>" + name + " - Product Thumbnail</title>\n" +
+                    "<meta charset=\"UTF-8\">\n" +
+                    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                    "<style>\n" +
+                    "body {\n" +
+                    "font-family: Arial, sans-serif;\n" +
+                        "margin: 0;\n" +
+                        "padding: 0;\n" +
+                    "}\n" +
+                    ".thumbnail {\n" +
+                        "width: 200px;\n" +
+                        "border: 1px solid #ccc;\n" +
+                        "padding: 10px;\n" +
+                        "margin: 10px;\n" +
+                    "}\n" +
+                    ".thumbnail img {\n" +
+                        "width: 100%;\n" +
+                    "}\n" +
+                    ".thumbnail h2 {\n" +
+                        "font-size: 18px;\n" +
+                        "margin: 10px 0;\n" +
+                    "}\n" +
+                    ".thumbnail p {\n" +
+                        "font-size: 16px;\n" +
+                        "margin: 10px 0;\n" +
+                    "}\n" +
+                    "</style>\n" +
+                    "</head>\n" +
+                    "<body>\n" +
+                        "<div class=\"thumbnail\">\n" +
+                            "<img src=\"" + picture + "\" alt=\"" + name + "\">\n" +
+                            "<h2>" + name + "</h2>\n" +
+                            "<p>Price: $" + price + "</p>\n" +
+                        "</div>\n" +
+                    "</body>\n" +
+                "</html>";
+        try {
+            // Specify the directory to save the file
+            String directory = "src/main/data/CMS/";
+            // Create a new file and write the thumbnailHtml to it
+            BufferedWriter writer = new BufferedWriter(new FileWriter(directory + id + "_thumbnail.txt"));
+            writer.write(thumbnailHtml);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

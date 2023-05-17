@@ -15,10 +15,10 @@
 <?import javafx.scene.web.WebView?>
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1350.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CMS.CMSController">
-   <tabs>
-      <Tab text="Product Page">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+  <tabs>
+    <Tab text="Product Page">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <HBox layoutY="-30.0" prefHeight="809.0" prefWidth="1725.0" style="-fx-background-color: #6F5CC2;" />
                   <ListView fx:id="productList" layoutX="81.0" layoutY="168.0" prefHeight="125.0" prefWidth="500.0" />
@@ -105,7 +105,7 @@
                      </font>
                   </Button>
                </children></AnchorPane>
-         </content>
-      </Tab>
-   </tabs>
+      </content>
+    </Tab>
+  </tabs>
 </TabPane>

@@ -64,7 +64,20 @@ public class Create {
                         "\n" +
                         "</html>";
             break;
-            case 2:
+
+            default:
+                System.out.println("A template with this id doesn't exist.");
+                
+                throw new Exception();
+        }
+
+        return html;
+    }
+
+    public static String create(String name, String subject, String text, String picture, int template_id) throws Exception{
+        String html;
+        switch (template_id){
+            case 1:
                 html = "<!DOCTYPE html>\n" +
                         "<html>\n" +
                         "\n" +
@@ -102,25 +115,17 @@ public class Create {
                         "<img src=\"" + picture.replace("\\", "/") + "\" alt=\"" + name + "\">\n" +
                         "  <h1>" + name + "</h1>\n" +
                         "\n" +
-                        "  <h2>"+description + "</h2>\n" +
-                        "  <h2>"+price+"</h2>\n" +
-                        "\n" +
-                        "  <h2>"+stock+"</h2>\n" +
-                        "\n" +
                         "</body>\n" +
                         "\n" +
                         "</html>";
                 break;
-
-
-
-
             default:
                 System.out.println("A template with this id doesn't exist.");
-                
+
                 throw new Exception();
         }
-
         return html;
     }
 }
+
+

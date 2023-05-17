@@ -41,7 +41,7 @@ public class Create {
                         "</head>\n" +
                         "\n" +
                         "<body>\n" +
-                        "<img class=\"productImage\" alt=\"Image of Product\" src=\"file:///C:/Users/patri/OneDrive/Dokumenter/GitHub/2semestprojekt/src/test/java/CMS/Test_Pictures/Example_picture.png\">\n" +
+                        "<img class=\"productImage\" alt=\"Image of Product\" src=\"file:///" + picture.replace("\\", "/") + "\">\n" +
                         "  <h1>" + name + "</h1>\n" +
                         "\n" +
                         "  <h2>Product Description:</h2>\n" +

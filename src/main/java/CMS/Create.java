@@ -120,7 +120,7 @@ public class Create {
                         "</html>";
                 break;
             default:
-                System.out.println("A template with this id doesn't exist.");
+                System.out.println("A template with this id doesn't exist...");
 
                 throw new Exception();
         }

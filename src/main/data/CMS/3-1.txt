@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    h2 {
+      color: #555;
+      margin-top: 30px;
+    }
+
+    p {
+      color: #444;
+      line-height: 1.6;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+<img src="https://example.com/image.png" alt="4">
+  <h1>4</h1>
+
+  <h2>Product Description:</h2>
+  <p>
+5  </p>
+
+  <h2>Price:</h2>
+  <p>
+$6  </p>
+
+  <h2>Stock:</h2>
+  <p>
+7  </p>
+
+</body>
+
+</html>

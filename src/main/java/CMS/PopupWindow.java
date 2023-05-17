@@ -76,8 +76,20 @@ public class PopupWindow extends CMSController {
             dialog.getDialogPane().setContent(grid);
 
             dialog.setResultConverter(dialogButton -> {
-                if (dialogButton == confirm) {
+                TextField[] textFields = {id, name, description, price, stock, productImage, templateID};
+
+                boolean emptyFields = false;
+
+                for(int i = 0; i < textFields.length; i++){
+                    if(textFields[i].getText().isEmpty()){
+                        emptyFields = true;
+                    }
+                }
+
+                if (dialogButton == confirm && emptyFields != true) {
+
                     String htmlContent = null;
+
                     try {
 
                         htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(name.getText(), description.getText(),

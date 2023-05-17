@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>asd</title>
+  <title>Skift CPU</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -32,20 +32,13 @@
 </head>
 
 <body>
-<img src="a" alt="asd">
-  <h1>asd</h1>
+<img src="cpuexmaple.png" alt="Skift CPU">
+  <h1>Skift CPU</h1>
 
-  <h2>Product Description:</h2>
-  <p>
-asd  </p>
+  <h2>Hardware</h2>
+  <h2>Sådan skifter du din cpu nemmest og hurtigst</h2>
 
-  <h2>Price:</h2>
-  <p>
-$asd  </p>
-
-  <h2>Stock:</h2>
-  <p>
-asd  </p>
+  <h2>1</h2>
 
 </body>
 

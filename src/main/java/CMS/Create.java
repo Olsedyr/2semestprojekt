@@ -64,6 +64,57 @@ public class Create {
                         "\n" +
                         "</html>";
             break;
+            case 2:
+                html = "<!DOCTYPE html>\n" +
+                        "<html>\n" +
+                        "\n" +
+                        "<head>\n" +
+                        "  <title>"+ name +"</title>\n" +
+                        "  <style>\n" +
+                        "    body {\n" +
+                        "      font-family: Arial, sans-serif;\n" +
+                        "      margin: 0;\n" +
+                        "      padding: 20px;\n" +
+                        "    }\n" +
+                        "\n" +
+                        "    h1 {\n" +
+                        "      color: #333;\n" +
+                        "    }\n" +
+                        "\n" +
+                        "    h2 {\n" +
+                        "      color: #555;\n" +
+                        "      margin-top: 30px;\n" +
+                        "    }\n" +
+                        "\n" +
+                        "    p {\n" +
+                        "      color: #444;\n" +
+                        "      line-height: 1.6;\n" +
+                        "    }\n" +
+                        "\n" +
+                        "    a {\n" +
+                        "      color: #007bff;\n" +
+                        "      text-decoration: none;\n" +
+                        "    }\n" +
+                        "  </style>\n" +
+                        "</head>\n" +
+                        "\n" +
+                        "<body>\n" +
+                        "<img src=\"" + picture.replace("\\", "/") + "\" alt=\"" + name + "\">\n" +
+                        "  <h1>" + name + "</h1>\n" +
+                        "\n" +
+                        "  <h2>"+description + "</h2>\n" +
+                        "  <h2>"+price+"</h2>\n" +
+                        "\n" +
+                        "  <h2>"+stock+"</h2>\n" +
+                        "\n" +
+                        "</body>\n" +
+                        "\n" +
+                        "</html>";
+                break;
+
+
+
+
             default:
                 System.out.println("A template with this id doesn't exist.");
                 

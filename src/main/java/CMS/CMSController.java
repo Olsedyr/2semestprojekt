@@ -116,8 +116,6 @@ public class CMSController implements Initializable{
 
         engine = webView.getEngine();
 
-
-
         productList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 try {
@@ -129,6 +127,18 @@ public class CMSController implements Initializable{
         });
 
         engine = webView2.getEngine();
+
+        articleList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                try {
+                    webViewShowHtmlArticle(newValue);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
     }
 
     @FXML
@@ -197,6 +207,36 @@ public class CMSController implements Initializable{
     }
 
     @FXML
+    protected void deleteArticle() throws IOException {
+
+        //This part gets the index/indexes selected in our UI's ListView.
+
+        ObservableList<Integer> selectedIndices = articleList.getSelectionModel().getSelectedIndices();
+
+        //This part checks if there is only one index selected.
+
+        if (selectedIndices.size() == 1) {
+
+            //This part gets the information from the selected index and changes it to the correct Path.
+
+            String product = articleList.getItems().get(selectedIndices.get(0));
+            String previousID = product.split(";")[0];
+
+            Path filePath = Paths.get("src/main/data/ARTICLES/" + previousID + ".txt");
+
+            //This part converts the Path into a File and deletes it.
+
+            File fileToDelete = new File(filePath.toString());
+            fileToDelete.delete();
+
+            //This part loads the productList again and resets the search bar's text.
+
+            loadArticles();
+        }
+    }
+
+
+    @FXML
     protected void deleteItem() throws IOException {
 
         //This part gets the index/indexes selected in our UI's ListView.
@@ -222,9 +262,13 @@ public class CMSController implements Initializable{
             //This part loads the productList again and resets the search bar's text.
 
             loadProducts();
-            searchBar.setText("");
         }
     }
+
+
+
+
+
 
 
     @FXML
@@ -362,22 +406,22 @@ public class CMSController implements Initializable{
 
         //This part clears the information in ListView containing the product list.
 
-        if(productList != null){
-            productList.getItems().clear();
+        if(articleList != null){
+            articleList.getItems().clear();
         }
 
         //This part copies the information in the previously mentioned ArrayList
         //into the previously mentioned ListView.
 
         for(String product: files_arrayList) {
-            assert productList != null;
-            productList.getItems().add(product);
+            assert articleList != null;
+            articleList.getItems().add(product);
         }
 
         //This part refreshes/updates the ListView.
 
-        if(productList != null){
-            productList.refresh();
+        if(articleList != null){
+            articleList.refresh();
         }
     }
 
@@ -397,6 +441,18 @@ public class CMSController implements Initializable{
         engine.loadContent(htmlContent);
     }
 
+
+    private void webViewShowHtmlArticle(String articleInfo) throws IOException {
+        String[] articleFields = articleInfo.split(";");
+        String id = articleFields[0].trim();
+
+        Path htmlFilePath = Paths.get("src/main/data/ARTICLES/" + id + ".txt");
+        String htmlContent = Files.readString(htmlFilePath);
+
+        engine = webView2.getEngine();
+        engine.loadContent(htmlContent);
+    }
+
     //This function gets the information from the HTML files, so the
     //products in the ListView looks the same,
     //no matter if they were just created or are from old files,
@@ -409,13 +465,11 @@ public class CMSController implements Initializable{
         //This part gets the link of the png.
 
         Document document = Jsoup.parse(html);
-        Elements png = document.select("img[src$=.png]");
 
-        String png_link = png.toString();
+        String picture = html.substring(html.indexOf("src=")+5);
+        picture = picture.substring(0,picture.indexOf("=")-5);
 
-        png_link = png_link.substring(png_link.indexOf("=") + 2);
 
-        png_link = png_link.substring(0, png_link.indexOf("=") - 5);
 
 
         //This part makes the html() used later preserve linebreaks and spacing.
@@ -466,7 +520,7 @@ public class CMSController implements Initializable{
                 .replace("  ","").replace(" ;", ";");
 
 
-        cleanedHTML += ";" + png_link;
+        cleanedHTML += ";" + picture;
 
         return cleanedHTML;
     }

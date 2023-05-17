@@ -2,30 +2,28 @@ package CMS;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Safelist;
+import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.safety.Safelist;
+
+import static CMS.Create.createThumbnail;
 
 public class CMSController implements Initializable{
 
@@ -39,35 +37,6 @@ public class CMSController implements Initializable{
     @FXML
     private ListView<String> productList;
 
-
-    @FXML
-    private Label id;
-
-    @FXML
-    private TextField name;
-
-    @FXML
-    private TextField description;
-
-    @FXML
-    private TextField producer;
-
-    @FXML
-    private TextField price;
-
-
-    private String result;
-
-    public ListView<String> getProductList(){
-        return productList;
-    }
-
-    public ObservableList<Integer> getSelectedIndices(){
-        return productList.getSelectionModel().getSelectedIndices();
-    }
-    public void setSearchBarText(String product){
-        searchBar.setText(product);
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -97,8 +66,9 @@ public class CMSController implements Initializable{
         String inputText = searchBar.getText(); // Assuming searchBar is the TextField for input
         String[] inputFields = inputText.split(",");
 
-        if (inputFields.length != 6) {
-            // Show an error message or do nothing if the input format is incorrect
+        if (inputFields.length != 7) {
+            // Show an error message and returns nothing if the input format is incorrect.
+            System.out.println("The given input is not the correct lenght or format. Please try again.");
             return;
         }
 
@@ -108,20 +78,29 @@ public class CMSController implements Initializable{
         String producer = inputFields[3].trim();
         String price = inputFields[4].trim();
         String picture = inputFields[5].trim();
+        String template_id = inputFields[6].trim();
 
         // Generate the List content
-        String listRow = id + ";" + name + ";" + description + ";" + producer + ";" + price + ";" + picture;
+        String listRow = id + "-" + template_id + ";" + name + ";" + description + ";" + producer + ";" + price + ";" + picture + ";";
 
         // Generate the HTML content
-        String htmlContent = Create.create(name, description, producer, price, picture, Integer.parseInt(id));
+        String htmlContent = null;
+        try {
+            htmlContent = Create.create(name, description, producer, price, picture, Integer.parseInt(template_id));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-        Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + ".txt");
+        Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "-" + template_id + ".txt");
         File htmlFile = new File(String.valueOf(htmlFilePath));
         if (htmlFile.createNewFile()) {
             FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
             myWriter.write(htmlContent);
             myWriter.close();
         }
+
+        createThumbnail(id, name, price, picture);
+
 
         searchBar.setText(""); // Clear the input TextField
 
@@ -131,7 +110,6 @@ public class CMSController implements Initializable{
             if(listRow.substring(0, listRow.indexOf(";")).equals(file.substring(0, listRow.indexOf(";"))) ){
                 fileExists = true;
             }
-
         }
 
         if(!fileExists){
@@ -153,7 +131,9 @@ public class CMSController implements Initializable{
 
             String product = productList.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";")[0];
-            Path filePath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
+            String previousTemplate_id = product.split(";")[6];
+
+            Path filePath = Paths.get("src/main/data/CMS/" + previousID + "-" + previousTemplate_id + ".txt");
 
             //This part converts the Path into a File and deletes it.
 
@@ -167,7 +147,6 @@ public class CMSController implements Initializable{
         }
     }
 
-
     @FXML
     protected void editProduct() throws IOException {
         ObservableList<Integer> selectedIndices = productList.getSelectionModel().getSelectedIndices();
@@ -176,13 +155,13 @@ public class CMSController implements Initializable{
 
             String product = productList.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";")[0];
-            Path filePath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
+            String previousTemplate_id = product.split(";")[6];
 
             EditProduct ep = new EditProduct();
             String str = ep.getResult();
 
             if (str != null) {
-                Path filepath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
+                Path filepath = Paths.get("src/main/data/CMS/" + previousID + "-" + previousTemplate_id + ".txt");
 
                 File fileToDelete = new File(filepath.toString());
                 fileToDelete.delete();
@@ -199,8 +178,6 @@ public class CMSController implements Initializable{
             }
         }
     }
-
-
 
     //Understand and comment this method. This method is necessary for the next method.
     public static ArrayList<String> productFilesInFolder(final File folder) throws IOException {
@@ -238,7 +215,6 @@ public class CMSController implements Initializable{
         return files_arrayList;
     }
 
-
     public void loadProducts() throws IOException {
 
         //This part gets the file path and makes an ArrayList of Strings
@@ -255,9 +231,6 @@ public class CMSController implements Initializable{
             productList.getItems().clear();
         }
 
-        //Make a part that gets the information out of the HTML.txt-files.
-
-
         //This part copies the information in the previously mentioned ArrayList
         //into the previously mentioned ListView and refreshes/updates the ListView.
 
@@ -271,8 +244,6 @@ public class CMSController implements Initializable{
         }
     }
 
-
-
     private void webViewShowHtml(String productInfo) throws IOException {
         String[] productFields = productInfo.split(";");
         String id = productFields[0].trim();
@@ -285,27 +256,79 @@ public class CMSController implements Initializable{
     }
 
     public static String htmlToString(String html) {
-        if(html==null)
+        if(html==null){
             return html;
+        }
+
+
         Document document = Jsoup.parse(html);
+        Elements png = document.select("img[src$=.png]");
+
+        String png_link = png.toString();
+
+        png_link = png_link.substring(png_link.indexOf("=") + 2);
+
+        png_link = png_link.substring(0, png_link.indexOf(" ") - 1);
+
+
         document.outputSettings(new Document.OutputSettings().prettyPrint(false));//makes html() preserve linebreaks and spacing
         document.select("br").append("\\n");
         document.select("p").prepend("\\n\\n");
+
+
         String s = document.html().replaceAll("\\\\n", "\n");
 
-        String id = s.substring(0, s.indexOf(";")).replace(".txt", "");
+        String id = s.substring(s.indexOf("-") - 1, s.indexOf(";")).replace(".txt", "");
 
-        s = s.replace("\n",";").replace("Name:", ";;").replace(";;",";").substring(s.indexOf(";") + 1);
 
-        String name = s.substring(0, s.indexOf(";"));
+        String string = Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
 
-        name = name.substring(0, (name.length()/2) + 1);
+        string = string.replace("\n", ";").replace(";;", ";");
 
-        s = id.replace(".txt", "") + name + s.substring(s.indexOf(";") + 1).replace("Description: ","")
-                .replace("Producer: ", "").replace("Price: $", "").replace("; ", ";");
 
-        return Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
+        String name = string.substring(string.indexOf(";") + 1);
+
+        name = name.substring(name.indexOf(":") + 1);
+
+        name = name.substring(name.indexOf(":") + 2);
+
+
+        String cleanedHTML = id + ";" + name + ";";
+
+        ArrayList<String> lines = new ArrayList<>();
+
+        string.lines().forEach(lines::add);
+
+        for(int i = 1; i < lines.size(); i++){
+            cleanedHTML += lines.get(i) + ";";
+        }
+
+        cleanedHTML += png_link;
+
+
+        cleanedHTML = cleanedHTML.replace("Description: ", "").replace("Producer: ", "")
+                .replace("Price: ", "").replace("$", "");
+
+        return cleanedHTML;
     }
 
+    @FXML
+    protected void searchProducts() throws IOException {
 
+        String search_text = searchBar.getText().strip().toLowerCase();
+        loadProducts();
+        if (search_text.length() >= 3) {
+            ArrayList<String> results = new ArrayList<>();
+
+            for(String product: productList.getItems()) {
+                if (product.toLowerCase().contains(search_text)) results.add(product);
+            }
+
+            productList.getItems().clear();
+            if (results.size() > 0) {
+                for(String found_product: results) productList.getItems().add(found_product);
+                productList.refresh();
+            }
+        }
+    }
 }

@@ -3,9 +3,14 @@ package CMS;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Safelist;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,12 +18,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.safety.Safelist;
-import org.jsoup.select.Elements;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class CMSController implements Initializable{
 
@@ -496,7 +498,9 @@ public class CMSController implements Initializable{
         //This part makes any description that is longer than 20 characters end at 20 characters
         // in the productList, and adds "...;" to the end.
 
-        String description = string.substring(0, string.indexOf("    Price:"));
+        int priceIndex = string.indexOf("    Price:");
+        String description = (priceIndex != -1) ? string.substring(0, priceIndex) : string;
+
 
         char[] descriptionArray = description.toCharArray();
 

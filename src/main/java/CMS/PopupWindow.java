@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 import java.util.Optional;
+import static CMS.Create.createThumbnail;
 
 public class PopupWindow extends CMSController {
 
@@ -92,6 +93,8 @@ public class PopupWindow extends CMSController {
 
                         htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(name.getText(), description.getText(),
                                 price.getText(), stock.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
+
+                        createThumbnail(id.getText(), name.getText(), price.getText(), productImage.getText());
 
                     } catch (Exception e) {
                         throw new RuntimeException(e);

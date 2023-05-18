@@ -1,7 +1,10 @@
 package CMS;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Create {
     public static String create(String name, String description, String producer, String price, String picture, int template_id) throws Exception{
@@ -90,7 +93,8 @@ public class Create {
                         "</header>\n" +
                         "<div class=\"container\">\n" +
                         "<div class=\"product-info\">\n" +
-                        "<img src=\"" + picture + "\" alt=\"" + name + "\">\n" +
+                        "<img class=\"productImage\" alt=\"Image of Product\" src=\"file:///"
+                        + picture.replace("\\", "/") + "\">\n" +
                         "<div class=\"details\">\n" +
                         "<h2>" + name + "</h2>\n" +
                         "<p>Price: $" + price + "</p>\n" +
@@ -188,7 +192,8 @@ public class Create {
                         "</header>\n" +
                         "<div class=\"container\">\n" +
                         "<div class=\"product-info\">\n" +
-                        "<img src=\"" + picture + "\" alt=\"" + name + "\">\n" +
+                        "<img class=\"productImage\" alt=\"Image of Product\" src=\"file:///"
+                        + picture.replace("\\", "/") + "\">\n" +
                         "<div class=\"details\">\n" +
                         "<h2>" + name + "</h2>\n" +
                         "<p>Price: $" + price + "</p>\n" +
@@ -248,7 +253,8 @@ public class Create {
                     "</head>\n" +
                     "<body>\n" +
                     "<div class=\"thumbnail\">\n" +
-                    "<img src=\"" + picture + "\" alt=\"" + name + "\">\n" +
+                    "<img class=\"productImage\" alt=\"Image of Product\" src=\"file:///"
+                    + picture.replace("\\", "/") + "\">\n" +
                     "<h2>" + name + "</h2>\n" +
                     "<p>Price: $" + price + "</p>\n" +
                     "</div>\n" +
@@ -256,9 +262,11 @@ public class Create {
                     "</html>";
         try {
             // Specify the directory to save the file
-            String directory = "src/main/data/CMS/Template";
+            Path htmlFilePath = Paths.get("src/main/data/Thumbnails" + id + "_thumbnail.txt");
+
+            File file = new File(htmlFilePath.toString());
             // Create a new file and write the thumbnailHtml to it
-            BufferedWriter writer = new BufferedWriter(new FileWriter(directory + id + "_thumbnail.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(String.valueOf(file)));
             writer.write(thumbnailHtml);
             writer.close();
         } catch (IOException e) {

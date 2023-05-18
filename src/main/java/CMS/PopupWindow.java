@@ -11,13 +11,13 @@ import static CMS.Create.createThumbnail;
 
 public class PopupWindow extends CMSController {
 
-        private String result;
+        private String[] result;
 
-        public String getResult() {
+        public String[] getResult() {
             return this.result;
         }
         public PopupWindow() {
-            Dialog<String> dialog = new Dialog<>();
+            Dialog<String[]> dialog = new Dialog<>();
             dialog.setTitle("Pop-up Window");
             dialog.setHeaderText("Pop-up Window");
 
@@ -88,25 +88,31 @@ public class PopupWindow extends CMSController {
                 }
 
                 if (dialogButton == confirm && emptyFields != true) {
-                    String htmlContent = null;
+                    String[] array = new String[3];
                     try {
 
-                        htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(name.getText(), description.getText(),
+                        array[0] = id.getText() + "-" + templateID.getText();
+
+                        array[1] = id.getText() + "-" + templateID.getText() + ";" + name.getText() + ";" + description.getText()
+                                        + ";" + price.getText() + ";" + stock.getText() + ";" + productImage.getText();
+
+                        array[2] = Create.create(name.getText(), description.getText(),
                                 price.getText(), stock.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
 
-                        createThumbnail(id.getText(), name.getText(), price.getText(), productImage.getText());
+
+                                createThumbnail(id.getText(), name.getText(), price.getText(), productImage.getText());
 
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
 
-                    return htmlContent;
+                    return array;
                 }
 
                 return null;
             });
 
-            Optional<String> rslt = dialog.showAndWait();
+            Optional<String[]> rslt = dialog.showAndWait();
             if (rslt.isPresent() ) {
                 this.result = rslt.get();
             }

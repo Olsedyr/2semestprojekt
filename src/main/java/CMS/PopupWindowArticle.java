@@ -71,6 +71,10 @@ public class PopupWindowArticle extends CMSController {
                 String htmlContent = null;
                 try {
 
+                    CMSController.getCMSController().getArticles().put(id.getText() + "-" + templateID.getText(),
+                            id.getText() + "-" + templateID.getText() + ";" + subject.getText() + ";" + articleText.getText()
+                                    + ";" + image.getText());
+
                     htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(id.getText(), subject.getText(),
                             articleText.getText(), image.getText(), Integer.parseInt(templateID.getText()));
 

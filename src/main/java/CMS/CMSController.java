@@ -18,9 +18,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class CMSController implements Initializable{
 
@@ -36,6 +34,18 @@ public class CMSController implements Initializable{
 
     @FXML
     private ListView<String> articleList;
+
+    HashMap<String, String> products = new HashMap<>();
+
+    private HashMap<String, String> articles = new HashMap<>();
+
+    protected HashMap<String, String> getProducts(){
+        return products;
+    }
+
+    protected HashMap<String, String> getArticles() {
+        return articles;
+    }
 
     private final static CMSController instance = new CMSController();
     public static CMSController getCMSController() {
@@ -68,6 +78,13 @@ public class CMSController implements Initializable{
         String stock_String = stock + "";
 
         String filepath = imageFile.getPath();
+
+        if (products.containsKey(id + "-" + template_id)){
+            products.replace(id + "-" + template_id, id + "-" + template_id + ";" + price_String + ";" + stock_String + ";" + filepath);
+        } else {
+            products.put(id + "-" + template_id, id + "-" + template_id + ";" + price_String + ";" + stock_String + ";" + filepath);
+        }
+
         try {
             //This part makes the information into HTML through a specific template.
 
@@ -149,24 +166,26 @@ public class CMSController implements Initializable{
         //This part makes a new pop-up window to write the information.
 
         PopupWindow popupWindow = new PopupWindow();
-        String str = popupWindow.getResult();
+        String[] str = popupWindow.getResult();
 
         if (str != null) {
 
             //This part deletes any file with the same id and template.
 
-            File htmlFile = new File(Paths.get("src/main/data/CMS/" + str.substring(0, str.indexOf(";"))
+            File htmlFile = new File(Paths.get("src/main/data/CMS/" + str[0]
                     + ".txt").toString());
 
             if (!htmlFile.createNewFile()) {
                 htmlFile.delete();
             }
 
+            products.put(str[0], str[1]);
+
             //This part makes a new file with the contents of the pop-up window.
 
 
             FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
-            myWriter.write(str.substring(str.indexOf(";") + 1));
+            myWriter.write(str[2]);
             myWriter.close();
 
             //This part reloads the ListView.
@@ -232,6 +251,10 @@ public class CMSController implements Initializable{
             File fileToDelete = new File(filePath.toString());
             fileToDelete.delete();
 
+            //This part deletes the entry in the corresponding HashMap.
+
+            articles.remove(previousID);
+
             //This part loads the productList again and resets the search bar's text.
 
             loadArticles();
@@ -255,7 +278,7 @@ public class CMSController implements Initializable{
             articleList.getItems().clear();
         }
 
-        //This part copies the information in the previously mentioned ArrayList
+        //This part copies the information in the ArrayList containing the information of the different articles
         //into the previously mentioned ListView.
 
         for(String product: files_arrayList) {
@@ -296,6 +319,10 @@ public class CMSController implements Initializable{
             File fileToDelete = new File(filePath.toString());
             fileToDelete.delete();
 
+            //This part deletes the entry in the corresponding HashMap.
+
+            products.remove(previousID);
+
             //This part loads the productList again and resets the search bar's text.
 
             loadProducts();
@@ -323,7 +350,7 @@ public class CMSController implements Initializable{
             //This part makes a new pop-up window to write the information.
 
             PopupWindow popupWindow = new PopupWindow();
-            String str = popupWindow.getResult();
+            String[] str = popupWindow.getResult();
 
             if (str != null) {
                 //This part gets a filepath using the previous id and previous template id.
@@ -337,11 +364,11 @@ public class CMSController implements Initializable{
 
                 //This part makes a new file with the information from the pop-up window.
 
-                File newFile = new File(Paths.get("src/main/data/CMS/" + str.substring(0, str.indexOf(";"))
+                File newFile = new File(Paths.get("src/main/data/CMS/" + str[0]
                         + ".txt").toString());
 
                 FileWriter myWriter = new FileWriter(String.valueOf(newFile));
-                myWriter.write(str.substring(str.indexOf(";") + 1));
+                myWriter.write(str[2]);
                 myWriter.close();
 
                 //This part reloads our ListView.
@@ -460,7 +487,7 @@ public class CMSController implements Initializable{
             productList.getItems().clear();
         }
 
-        //This part copies the information in the previously mentioned ArrayList
+        //This part copies the information in the ArrayList containing the information of the different products
         //into the previously mentioned ListView.
 
         for(String product: files_arrayList) {
@@ -516,8 +543,10 @@ public class CMSController implements Initializable{
 
         //This part gets the link of the png.
 
-        Document document = Jsoup.parse(html);
+        return html.substring(0, html.indexOf(";") - 4) + ";";
 
+        //return document.toString();
+/*
         String picture = html.substring(html.indexOf("src=") + 5);
         
         picture = picture.substring(0, picture.indexOf("=") - 5);
@@ -594,6 +623,7 @@ public class CMSController implements Initializable{
         cleanedHTML += ";" + picture;
 
         return cleanedHTML;
+ */
     }
 
     @FXML

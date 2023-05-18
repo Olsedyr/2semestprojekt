@@ -71,21 +71,18 @@ public class CMSController implements Initializable{
 
             String html = Create.create(name, description, price_String, stock_String, filepath, template_id);
 
-            //This part makes a new file using the id and template id.
+            //This part makes a new file with the contents of the pop-up window,
+            // so long as a file with the same id and template doesn't exist.
 
             Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "-" + template_id + ".txt");
 
             File htmlFile = new File(String.valueOf(htmlFilePath));
 
-            //This part overwrites any old file with the same id and template id.
-
-            if (!htmlFile.createNewFile()) {
-                htmlFile.delete();
+            if (htmlFile.createNewFile()) {
+                FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
+                myWriter.write(html);
+                myWriter.close();
             }
-
-            FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
-            myWriter.write(html);
-            myWriter.close();
 
             return html;
 
@@ -138,21 +135,20 @@ public class CMSController implements Initializable{
 
         if (str != null) {
 
-            //This part deletes any file with the same id and template.
-
             File htmlFile = new File(Paths.get("src/main/data/CMS/" + str.substring(0, str.indexOf(";"))
                     + ".txt").toString());
 
-            if (!htmlFile.createNewFile()) {
-                htmlFile.delete();
+            //This part makes a new file with the contents of the pop-up window,
+            // so long as a file with the same id and template doesn't exist.
+
+            if (htmlFile.createNewFile()) {
+                FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
+                myWriter.write(str.substring(str.indexOf(";") + 1));
+                myWriter.close();
             }
 
-            //This part makes a new file with the contents of the pop-up window.
 
 
-            FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
-            myWriter.write(str.substring(str.indexOf(";") + 1));
-            myWriter.close();
 
             //This part reloads the ListView.
 
@@ -171,21 +167,20 @@ public class CMSController implements Initializable{
 
         if (str != null) {
 
-            //This part deletes any file with the same id and template.
-
             File htmlFile = new File(Paths.get("src/main/data/ARTICLES/" + str.substring(0, str.indexOf(";"))
                     + ".txt").toString());
 
-            if (!htmlFile.createNewFile()) {
-                htmlFile.delete();
+            //This part makes a new file with the contents of the pop-up window,
+            // so long as a file with the same id and template doesn't exist.
+
+            if (htmlFile.createNewFile()) {
+                FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
+                myWriter.write(str.substring(str.indexOf(";") + 1));
+                myWriter.close();
             }
 
-            //This part makes a new file with the contents of the pop-up window.
 
 
-            FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
-            myWriter.write(str.substring(str.indexOf(";") + 1));
-            myWriter.close();
 
             //This part reloads the ListView.
 

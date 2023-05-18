@@ -104,6 +104,7 @@ public class CMSController implements Initializable{
 
         try {
             loadProducts();
+            loadArticles();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -127,7 +128,6 @@ public class CMSController implements Initializable{
 
 
         engine = webView2.getEngine();
-        engine.load("https://www.instructables.com/How-To-Replace-the-Processor-in-a-Desktop-Computer/");
     }
 
     @FXML

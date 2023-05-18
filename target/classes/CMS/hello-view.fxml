@@ -94,7 +94,7 @@
                         <Font size="20.0" />
                      </font>
                   </Button>
-                  <Button fx:id="editArticle" layoutX="900.0" layoutY="300.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit">
+                  <Button fx:id="editArticle" layoutX="900.0" layoutY="300.0" mnemonicParsing="false" onAction="#editArticle" prefHeight="25.0" prefWidth="100.0" text="Edit">
                      <font>
                         <Font size="20.0" />
                      </font>

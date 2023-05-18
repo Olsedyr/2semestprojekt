@@ -338,6 +338,55 @@ public class CMSController implements Initializable{
         }
     }
 
+
+    @FXML
+    protected void editArticle() throws IOException {
+
+        //This part gets the index/indexes selected in our UI's ListView.
+
+        ObservableList<Integer> selectedIndices = articleList.getSelectionModel().getSelectedIndices();
+
+        //This part checks if there is only one index selected.
+
+        if (selectedIndices.size() == 1) {
+
+            //This part gets the id and template id from the selected index.
+
+            String product = articleList.getItems().get(selectedIndices.get(0));
+            String previousID = product.split(";")[0];
+
+            //This part makes a new pop-up window to write the information.
+
+            PopupWindowArticle popupWindowArticle = new PopupWindowArticle();
+            String str = popupWindowArticle.getResult();
+
+            if (str != null) {
+                //This part gets a filepath using the previous id and previous template id.
+
+                Path filepath = Paths.get("src/main/data/ARTICLES/" + previousID + ".txt");
+
+                //This part deletes the old file.
+
+                File fileToDelete = new File(filepath.toString());
+                fileToDelete.delete();
+
+                //This part makes a new file with the information from the pop-up window.
+
+                File newFile = new File(Paths.get("src/main/data/ARTICLES/" + str.substring(0, str.indexOf(";"))
+                        + ".txt").toString());
+
+                FileWriter myWriter = new FileWriter(String.valueOf(newFile));
+                myWriter.write(str.substring(str.indexOf(";") + 1));
+                myWriter.close();
+
+                //This part reloads our ListView.
+
+                loadArticles();
+            }
+        }
+    }
+
+
     //Understand and comment this method. This method is necessary for the next method.
     public static ArrayList<String> productFilesInFolder(final File folder) throws IOException {
 

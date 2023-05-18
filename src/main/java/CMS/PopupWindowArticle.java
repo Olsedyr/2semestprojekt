@@ -32,22 +32,15 @@ public class PopupWindowArticle extends CMSController {
         TextField id = new TextField();
         id.setPromptText("ID");
 
-        TextField name = new TextField();
-        name.setPromptText(" Article Name");
-
-        TextField productImage = new TextField();
-        productImage.setPromptText("Article Subject");
+        TextField subject = new TextField();
+        subject.setPromptText("Article Subject");
 
         TextField articleText = new TextField();
         articleText.setPromptText("Article Text");
 
 
-
-        TextField articleNumber = new TextField();
-        articleNumber.setPromptText("Article Number");
-
-        TextField price = new TextField();
-        price.setPromptText("Image");
+        TextField image = new TextField();
+        image.setPromptText("Image");
 
         TextField templateID = new TextField();
         templateID.setPromptText("Template ID");
@@ -57,20 +50,15 @@ public class PopupWindowArticle extends CMSController {
         grid.add(new Label("Id:"), 0, 0);
         grid.add(id, 1, 0);
 
-        grid.add(new Label("Article Name:"), 0, 1);
-        grid.add(name, 1, 1);
-
         grid.add(new Label("Article Subject:"), 0, 2);
-        grid.add(articleText, 1, 2);
+        grid.add(subject, 1, 2);
 
         grid.add(new Label("Article Text:"), 0, 3);
-        grid.add(price, 1, 3);
+        grid.add(articleText, 1, 3);
 
-        grid.add(new Label("Article Number:"), 0, 4);
-        grid.add(articleNumber, 1, 4);
 
         grid.add(new Label("Image:"), 0, 5);
-        grid.add(productImage, 1,5);
+        grid.add(image, 1,5);
 
         grid.add(new Label("Template ID:"), 0, 6);
         grid.add(templateID, 1,6);
@@ -83,8 +71,8 @@ public class PopupWindowArticle extends CMSController {
                 String htmlContent = null;
                 try {
 
-                    htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(name.getText(), articleText.getText(),
-                            price.getText(), articleNumber.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
+                    htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(id.getText(), subject.getText(),
+                            articleText.getText(), image.getText(), Integer.parseInt(templateID.getText()));
 
                 } catch (Exception e) {
                     throw new RuntimeException(e);

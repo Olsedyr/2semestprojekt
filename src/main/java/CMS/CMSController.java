@@ -125,9 +125,22 @@ public class CMSController implements Initializable{
             }
         });
 
-
+        //This part ensures that we can view our HTML-articles.
 
         engine = webView2.getEngine();
+
+
+
+        articleList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                try {
+                    webViewShowHtmlArticle(newValue);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     @FXML

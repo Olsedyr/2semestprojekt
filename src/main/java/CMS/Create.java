@@ -221,45 +221,47 @@ public class Create {
     public static void createThumbnail(String id, String name, String price, String picture) {
         String thumbnailHtml =
                 "<!DOCTYPE html>\n" +
-                    "<html>\n" +
-                    "<head>\n" +
-                    "<title>" + name + " - Product Thumbnail</title>\n" +
-                    "<meta charset=\"UTF-8\">\n" +
-                    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-                    "<style>\n" +
-                    "body {\n" +
-                    "font-family: Arial, sans-serif;\n" +
-                    "margin: 0;\n" +
-                    "padding: 0;\n" +
-                    "}\n" +
-                    ".thumbnail {\n" +
-                    "width: 200px;\n" +
-                    "border: 1px solid #ccc;\n" +
-                    "padding: 10px;\n" +
-                    "margin: 10px;\n" +
-                    "}\n" +
-                    ".thumbnail img {\n" +
-                    "width: 100%;\n" +
-                    "}\n" +
-                    ".thumbnail h2 {\n" +
-                    "font-size: 18px;\n" +
-                    "margin: 10px 0;\n" +
-                    "}\n" +
-                    ".thumbnail p {\n" +
-                    "font-size: 16px;\n" +
-                    "margin: 10px 0;\n" +
-                    "}\n" +
-                    "</style>\n" +
-                    "</head>\n" +
-                    "<body>\n" +
-                    "<div class=\"thumbnail\">\n" +
-                    "<img class=\"productImage\" alt=\"Image of Product\" src=\"file:///"
-                    + picture.replace("\\", "/") + "\">\n" +
-                    "<h2>" + name + "</h2>\n" +
-                    "<p>Price: $" + price + "</p>\n" +
-                    "</div>\n" +
-                    "</body>\n" +
-                    "</html>";
+                        "<html>\n" +
+                        "<head>\n" +
+                        "<title>" + name + " - Product Thumbnail</title>\n" +
+                        "<meta charset=\"UTF-8\">\n" +
+                        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                        "<style>\n" +
+                        "body {\n" +
+                        "font-family: Arial, sans-serif;\n" +
+                        "margin: 0;\n" +
+                        "padding: 0;\n" +
+                        "}\n" +
+                        ".thumbnail {\n" +
+                        "width: 200px;\n" +
+                        "border: 1px solid #ccc;\n" +
+                        "padding: 10px;\n" +
+                        "margin: 10px;\n" +
+                        "}\n" +
+                        ".thumbnail img {\n" +
+                        "width: 100%;\n" +
+                        "}\n" +
+                        ".thumbnail h2 {\n" +
+                        "font-size: 18px;\n" +
+                        "margin: 10px 0;\n" +
+                        "}\n" +
+                        ".thumbnail p {\n" +
+                        "font-size: 16px;\n" +
+                        "margin: 10px 0;\n" +
+                        "}\n" +
+                        "</style>\n" +
+                        "</head>\n" +
+                        "<body>\n" +
+                        "<a href=\"../../data/CMS/" + id + ".html\">\n" +
+                        "<div class=\"thumbnail\">\n" +
+                        "<img class=\"productImage\" alt=\"Image of Product\" src=\"file:///"
+                        + picture.replace("\\", "/") + "\">\n" +
+                        "<h2>" + name + "</h2>\n" +
+                        "<p>Price: $" + price + "</p>\n" +
+                        "</div>\n" +
+                        "</a>\n" +
+                        "</body>\n" +
+                        "</html>";
         try {
             // Specify the directory to save the file
             Path htmlFilePath = Paths.get("src/main/data/Thumbnails/" + id + "_thumbnail.txt");

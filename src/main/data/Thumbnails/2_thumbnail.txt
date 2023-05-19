@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>2 - Product Thumbnail</title>
+<title>1 - Product Thumbnail</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
@@ -31,9 +31,9 @@ margin: 10px 0;
 </head>
 <body>
 <div class="thumbnail">
-<img class="productImage" alt="Image of Product" src="file:///2">
-<h2>2</h2>
-<p>Price: $2</p>
+<img class="productImage" alt="Image of Product" src="file:///1">
+<h2>1</h2>
+<p>Price: $1</p>
 </div>
 </body>
 </html>

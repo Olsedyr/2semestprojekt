@@ -100,7 +100,7 @@ public class PopupWindow extends CMSController {
                                 price.getText(), stock.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
 
 
-                                createThumbnail(id.getText(), name.getText(), price.getText(), productImage.getText());
+                        createThumbnail(id.getText(), name.getText(), price.getText(), productImage.getText());
 
                     } catch (Exception e) {
                         throw new RuntimeException(e);

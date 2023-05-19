@@ -262,7 +262,7 @@ public class Create {
                     "</html>";
         try {
             // Specify the directory to save the file
-            Path htmlFilePath = Paths.get("src/main/data/Thumbnails" + id + "_thumbnail.txt");
+            Path htmlFilePath = Paths.get("src/main/data/Thumbnails/" + id + "_thumbnail.txt");
 
             File file = new File(htmlFilePath.toString());
             // Create a new file and write the thumbnailHtml to it

@@ -120,6 +120,7 @@ public class CMSController implements Initializable{
         //This part loads our products when the application is started up.
 
         try {
+            textFilesIntoHashMaps();
             loadProducts();
             loadArticles();
         } catch (IOException e) {
@@ -472,32 +473,26 @@ public class CMSController implements Initializable{
 
     public void loadProducts() throws IOException {
 
+        hashMapsIntoTextFiles();
+
         //This part gets the file path and makes an ArrayList of Strings
         //from the information in every file therein.
 
-        Path filePath = Paths.get("src/main/data/CMS/");
 
-        final File folder = new File(String.valueOf(filePath));
 
-        ArrayList<String> files_arrayList = productFilesInFolder(folder);
 
         //This part clears the information in ListView containing the product list.
 
         if(productList != null){
             productList.getItems().clear();
-        }
 
-        //This part copies the information in the ArrayList containing the information of the different products
-        //into the previously mentioned ListView.
+            //This part copies the information in the text file containing the information of the different products
+            //into the previously mentioned ListView.
 
-        for(String product: files_arrayList) {
-            assert productList != null;
-            productList.getItems().add(product);
-        }
+            textFilesIntoHashMaps();
 
-        //This part refreshes/updates the ListView.
+            //This part refreshes/updates the ListView.
 
-        if(productList != null){
             productList.refresh();
         }
     }
@@ -528,8 +523,64 @@ public class CMSController implements Initializable{
     }
 
 
+    public void hashMapsIntoTextFiles() {
+        Path productsfilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
 
 
+        try {
+            FileWriter myWriter = new FileWriter(productsfilePath.toString());
+
+            for(Map.Entry<String, String> entry : products.entrySet()) {
+                myWriter.write(entry.getValue() + ";;");
+            }
+
+            myWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void textFilesIntoHashMaps() {
+        Path productsfilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
+
+        File productsFile = new File(String.valueOf(productsfilePath));
+        try {
+            if (!productsFile.createNewFile()) {
+                String productsFileContent = Files.readString(productsfilePath);
+
+                String[] lines = productsFileContent.split(";;");
+
+                Path filePath;
+
+                Path filePathThumbnail; 
+
+                HashMap<String, String> newProducts = new HashMap<>();
+
+                for(int i = 0; i < lines.length; i++){
+                    filePath = Paths.get("src/main/data/CMS/" + lines[i].substring(0, lines[i].indexOf(";")) + ".txt");
+                    File product = new File(String.valueOf(filePath));
+                    if(!product.createNewFile()){
+                        newProducts.put(lines[i].substring(0, lines[i].indexOf(";")), lines[i]);
+                    } else {
+                        product.delete();
+
+                        filePathThumbnail = Paths.get("src/main/data/Thumbnails/" + lines[i].substring(0, lines[i].indexOf("-")) + ".txt");
+                        File thumbnail = new File(String.valueOf(filePathThumbnail));
+                        thumbnail.delete();
+                    }
+
+                }
+                products = newProducts;
+
+                productsFile.delete();
+
+                hashMapsIntoTextFiles();
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     //This function gets the information from the HTML files, so the
@@ -541,89 +592,7 @@ public class CMSController implements Initializable{
             return html;
         }
 
-        //This part gets the link of the png.
-
         return html.substring(0, html.indexOf(";") - 4) + ";";
-
-        //return document.toString();
-/*
-        String picture = html.substring(html.indexOf("src=") + 5);
-        
-        picture = picture.substring(0, picture.indexOf("=") - 5);
-
-
-        //This part makes the html() used later preserve linebreaks and spacing.
-        document.outputSettings(new Document.OutputSettings().prettyPrint(false));
-        document.select("br").append("\\n");
-        document.select("p").prepend("\\n\\n");
-
-
-        //This part ensures that the ListView gets the right information by
-        //cleaning, removing and replacing a lot of information.
-
-        String s = document.html().replaceAll("\\\\n", "\n");
-
-
-        String id = s.substring(s.indexOf("y") + 2, s.indexOf(";")).replace(".txt", "");
-
-
-        String string = Jsoup.clean(s, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
-
-
-        string = string.replace("\n", ";").replace(";;", ";");
-
-
-        String name = string.substring(string.indexOf(";") + 1);
-
-        name = name.substring(name.indexOf(" ") + 2).replace("   ", ";");
-
-        name = name.substring(0, name.indexOf(";"));
-
-
-        //This string is used to combine all of the useful information from
-        // the String fed to the function and combining it in the right way.
-
-        String cleanedHTML = id + ";" + name + ";";
-
-
-        //This part makes any description that is longer than 20 characters end at 20 characters
-        // in the productList, and adds "...;" to the end.
-
-        int priceIndex = string.indexOf("    Price:");
-        String description = (priceIndex != -1) ? string.substring(0, priceIndex) : string;
-
-
-        char[] descriptionArray = description.toCharArray();
-
-        if(descriptionArray.length > 20){
-            for(int i = 0; i < 20; i++){
-                cleanedHTML += descriptionArray[i];
-            }
-
-            cleanedHTML += "...;";
-
-            string = string.substring(string.indexOf(";") + 1);
-        }
-
-
-        //And this part removes the last bits of unnecessary information.
-
-        string = string.substring(string.indexOf(";") + 1);
-
-        string = string.substring(string.indexOf(";") + 1);
-
-
-        //This part removes the last bits of the less useful information.
-
-        cleanedHTML += string.replace("Description: ", "").replace("Price: ", "")
-                .replace("Stock: ", "").replace("$", "")
-                .replace("  ","").replace(" ;", ";");
-
-
-        cleanedHTML += ";" + picture;
-
-        return cleanedHTML;
- */
     }
 
     @FXML

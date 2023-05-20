@@ -247,6 +247,12 @@ class ShopAccessTest {
                 "</div>\n" +
                 "</body>\n" +
                 "</html>";
+        
+
+        Path filePath = Paths.get("src/test/java/CMS/Test Pictures/Example_picture.png");
+
+        File file = new File(String.valueOf(filePath));
+
 
         boolean htmlTest = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest1", "ProductPageTest1 description", 49.99, 5,"ProductPageTest1", file, 1).equals(html.replace(System.getProperty("line.separator"), "\n"));
 

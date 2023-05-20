@@ -12,9 +12,16 @@ public class PopupWindowArticle extends CMSController {
 
     private String result;
 
+
+    /*This is the method for returning the string containing the result of the text
+      the user has put in the textfields.*/
     public String getResult() {
+
         return this.result;
     }
+
+    /*This method is what is used to create the popupwindow when creating an article
+      This is where all the textfields and text is placed inside the window */
     public PopupWindowArticle() {
         Dialog<String> dialog = new Dialog<>();
 
@@ -65,6 +72,7 @@ public class PopupWindowArticle extends CMSController {
 
 
         dialog.getDialogPane().setContent(grid);
+
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == confirm) {

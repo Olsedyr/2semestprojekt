@@ -276,6 +276,9 @@ public class Create {
         }
     }
 
+
+    //This is the create overload method that is used when creating articles.
+    //This has different parameters than the original create method used when creating products.
     public static String create(String name, String subject, String text, String picture, int template_id) throws Exception{
         String html;
         switch (template_id){

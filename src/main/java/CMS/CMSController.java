@@ -28,6 +28,9 @@ public class CMSController implements Initializable{
     private WebView webView2;
     @FXML
     private TextField searchBar;
+    @FXML
+    private TextField searchBar2;
+
     private WebEngine engine;
     @FXML
     private ListView<String> productList;
@@ -195,6 +198,7 @@ public class CMSController implements Initializable{
         }
     }
 
+
     @FXML
     protected void createArticle() throws IOException {
 
@@ -202,12 +206,13 @@ public class CMSController implements Initializable{
 
         PopupWindowArticle popupWindow = new PopupWindowArticle();
 
+        //This uses the "getResult" method from the PopupWindowArticle class, which returns the values of the textfields
         String str = popupWindow.getResult();
 
         if (str != null) {
 
-            //This part deletes any file with the same id and template.
 
+            //This part deletes any file with the same id and template.
             File htmlFile = new File(Paths.get("src/main/data/ARTICLES/" + str.substring(0, str.indexOf(";"))
                     + ".txt").toString());
 
@@ -217,13 +222,11 @@ public class CMSController implements Initializable{
 
             //This part makes a new file with the contents of the pop-up window.
 
-
             FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
             myWriter.write(str.substring(str.indexOf(";") + 1));
             myWriter.close();
 
             //This part reloads the ListView.
-
             loadArticles();
         }
     }
@@ -512,12 +515,19 @@ public class CMSController implements Initializable{
 
 
     private void webViewShowHtmlArticle(String articleInfo) throws IOException {
+        //This parts gets the information from the listview and splits the string with a regex.
         String[] articleFields = articleInfo.split(";");
+
+        //This part gets the ID of the selected item in the listview by checking index 0
         String id = articleFields[0].trim();
 
+        //This part gets the correct file by using the previously obtained id
         Path htmlFilePath = Paths.get("src/main/data/ARTICLES/" + id + ".txt");
+
+        //This part then reads the file as a string
         String htmlContent = Files.readString(htmlFilePath);
 
+        //This part loads the htmlContent into the webview, showing the article in the User Interface.
         engine = webView2.getEngine();
         engine.loadContent(htmlContent);
     }
@@ -624,4 +634,38 @@ public class CMSController implements Initializable{
             }
         }
     }
+
+
+    @FXML
+    protected void searchArticles() throws IOException {
+
+        //This part gets the text in the search bar in lowercase.
+
+        String search_text = searchBar2.getText().strip().toLowerCase();
+
+        //This part updates our ListView.
+
+        loadArticles();
+
+        //This part makes an ArrayList of Strings to put any results,which contains the words
+        //the user is searching for. A minimum of 3 symbols must be written to see any results.
+        if (search_text.length() >= 3) {
+            ArrayList<String> results = new ArrayList<>();
+
+            for(String product: articleList.getItems()) {
+                if (product.toLowerCase().contains(search_text)) results.add(product);
+            }
+
+            //This part clears the ListView and shows the resulting products instead.
+
+            articleList.getItems().clear();
+            if (results.size() > 0) {
+                for(String found_product: results) articleList.getItems().add(found_product);
+                articleList.refresh();
+            }
+        }
+    }
+
+
+
 }

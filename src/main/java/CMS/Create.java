@@ -7,7 +7,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Create {
-    public static String create(String name, String description, String producer, String price, String picture, int template_id) throws Exception{
+
+
+    // create method (product): Takes product details as input and generates an HTML webpage based on a chosen template.
+    // Calls createThumbnail to create a thumbnail for each product.
+    public static String create(String name, String description, String stock, String price, String picture, int template_id) throws Exception{
         //I tried to make the template into txt files and read it here,
         //but there are a lot of conflicts in webview and load method.
         //So we are stuck with the massive string here for now
@@ -98,7 +102,7 @@ public class Create {
                         "<div class=\"details\">\n" +
                         "<h2>" + name + "</h2>\n" +
                         "<p>Price: $" + price + "</p>\n" +
-                        "<p>Producer: " + producer + "</p>\n" +
+                        "<p>Stock: " + stock + "</p>\n" +
                         "</div>\n" +
                         "</div>\n" +
                         "<div class=\"product-description\">\n" +
@@ -113,6 +117,7 @@ public class Create {
                 createThumbnail(String.valueOf(template_id), name, price, picture);
                 break;
             case 2:
+                //A variant template, it changes the colors to blue style
                 html =
                     "<!DOCTYPE html>\n" +
                         "<html>\n" +
@@ -197,7 +202,7 @@ public class Create {
                         "<div class=\"details\">\n" +
                         "<h2>" + name + "</h2>\n" +
                         "<p>Price: $" + price + "</p>\n" +
-                        "<p>Producer: " + producer + "</p>\n" +
+                        "<p>Stock: " + stock + "</p>\n" +
                         "</div>\n" +
                         "</div>\n" +
                         "<div class=\"product-description\">\n" +
@@ -218,6 +223,7 @@ public class Create {
         return html;
     }
 
+    //createThumbnail method: Generates a HTML string for a product thumbnail, including image, name, and price, which is saved into a file.
     public static void createThumbnail(String id, String name, String price, String picture) {
         String thumbnailHtml =
                 "<!DOCTYPE html>\n" +

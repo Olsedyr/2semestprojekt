@@ -10,18 +10,26 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class ShopAccessTest {
+
+    private ShopAccess shopAccess;
 
     @BeforeEach
     void setUp() {
+        shopAccess = ShopAccess.getInstance();
     }
 
     @AfterEach
     void tearDown() {
+        shopAccess = null;
     }
 
     @Test
     void getInstance() {
+        ShopAccess instance = ShopAccess.getInstance();
+        assertNotNull(instance, "Instance should not be null");
+        assertSame(instance, ShopAccess.getInstance(), "Instances should be the same");
     }
 
     @Test
@@ -147,9 +155,9 @@ class ShopAccessTest {
             }
         }
 
-        boolean htmlTest = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest1", "1").equals(html.replace(System.getProperty("line.separator"), "\n"));
-
-        assertTrue(htmlTest);
+        String expectedHtml = html.replace(System.getProperty("line.separator"), "\n");
+        String actualHtml = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest1", "1");
+        assertEquals(expectedHtml, actualHtml);
     }
 
     @Test
@@ -254,9 +262,9 @@ class ShopAccessTest {
         File file = new File(String.valueOf(filePath));
 
 
-        boolean htmlTest = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest1", "ProductPageTest1 description", 49.99, 5,"ProductPageTest1", file, 1).equals(html.replace(System.getProperty("line.separator"), "\n"));
-
-        assertTrue(htmlTest);
+        String expectedHtml = html.replace(System.getProperty("line.separator"), "\n");
+        String actualHtml = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest1", "ProductPageTest1 description", 49.99, 5,"ProductPageTest1", file, 1);
+        assertEquals(expectedHtml, actualHtml);
     }
 
     @Test

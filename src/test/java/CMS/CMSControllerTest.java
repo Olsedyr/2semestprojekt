@@ -13,11 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class CMSControllerTest {
 
     @Test
-    void getCMSController() {
-        assertTrue(CMSController.getCMSController() instanceof CMSController);
-    }
-
-    @Test
     void getProductPageTest1() {
         String html = "<!DOCTYPE html>\n" +
                 "<html>\n" +

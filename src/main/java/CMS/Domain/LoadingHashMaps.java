@@ -14,7 +14,10 @@ public class LoadingHashMaps {
 
     private HashMap<String, String> articles = new HashMap<>();
 
-
+    private final static LoadingHashMaps instance = new LoadingHashMaps();
+    public static LoadingHashMaps getInstance() {
+        return instance;
+    }
 
     public HashMap<String, String> getProducts(){
         return products;

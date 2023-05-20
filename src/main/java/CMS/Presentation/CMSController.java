@@ -39,19 +39,12 @@ public class CMSController implements Initializable{
     @FXML
     private ListView<String> articleList;
 
-
-
-    private final static CMSController instance = new CMSController();
-    public static CMSController getInstance() {
-        return instance;
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //This part loads our products when the application is started up.
 
         try {
-            CMS.Domain.ShopAccess.getInstance().textFilesIntoHashMaps();
+            CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
             loadProducts();
             loadArticles();
         } catch (IOException e) {
@@ -92,7 +85,7 @@ public class CMSController implements Initializable{
 
     }
     @FXML
-    protected void addItem() throws IOException {
+    protected void addProduct() throws IOException {
 
         //This part makes a new pop-up window to write the information.
 
@@ -101,33 +94,32 @@ public class CMSController implements Initializable{
 
         if (str != null) {
 
-            //This part deletes any file with the same id and template.
+            //This part makes the information for the file path with the contents of the pop-up window.
 
             File htmlFile = new File(Paths.get("src/main/data/CMS/" + str[0]
                     + ".txt").toString());
 
-            if (!htmlFile.createNewFile()) {
-                htmlFile.delete();
-            }
-
-            CMS.Domain.ShopAccess.getInstance().getProducts().put(str[0], str[1]);
-
             //This part makes a new file with the contents of the pop-up window.
 
+            if (htmlFile.createNewFile()) {
+                FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
+                myWriter.write(str[2]);
+                myWriter.close();
+            }
 
-            FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
-            myWriter.write(str[2]);
-            myWriter.close();
+            //This part puts the information about the new file into the HashMap containing this information.
+
+            CMS.Domain.LoadingHashMaps.getInstance().getProducts().put(str[0], str[1]);
 
             //This part reloads the ListView.
 
-            CMS.Presentation.CMSController.getInstance().loadProducts();
+            loadProducts();
         }
     }
 
 
     @FXML
-    protected void createArticle() throws IOException {
+    protected void addArticle() throws IOException {
 
         //This part makes a new pop-up window to write the information.
 
@@ -137,29 +129,26 @@ public class CMSController implements Initializable{
 
         if (str != null) {
 
-            //This part deletes any file with the same id and template.
+            //This part makes the information for the file path with the contents of the pop-up window.
 
             File htmlFile = new File(Paths.get("src/main/data/ARTICLES/" + str[0]
                     + ".txt").toString());
 
-            if (!htmlFile.createNewFile()) {
-                htmlFile.delete();
-            }
-
-            CMS.Domain.ShopAccess.getInstance().getArticles().put(str[0], str[1]);
-
-
-
             //This part makes a new file with the contents of the pop-up window.
 
+            if (htmlFile.createNewFile()) {
+                FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
+                myWriter.write(str[2]);
+                myWriter.close();
+            }
 
-            FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
-            myWriter.write(str[2]);
-            myWriter.close();
+            //This part puts the information about the new file into the HashMap containing this information.
+
+            CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(str[0], str[1]);
 
             //This part reloads the ListView.
 
-            CMS.Presentation.CMSController.getInstance().loadProducts();
+            loadArticles();
         }
     }
 
@@ -188,7 +177,7 @@ public class CMSController implements Initializable{
 
             //This part deletes the entry in the corresponding HashMap.
 
-            CMS.Domain.ShopAccess.getInstance().getArticles().remove(previousID);
+            CMS.Domain.LoadingHashMaps.getInstance().getArticles().remove(previousID);
 
             //This part loads the productList again and resets the search bar's text.
 
@@ -196,36 +185,11 @@ public class CMSController implements Initializable{
         }
     }
 
-    public void loadArticles() throws IOException {
-
-        CMS.Domain.ShopAccess.getInstance().hashMapArticlesIntoTextFiles();
-
-
-        //This part clears the information in ListView containing the product list.
-
-        if(articleList != null){
-            articleList.getItems().clear();
-
-            //This part copies the information in the text file containing the information of the different products
-            //into the previously mentioned ListView.
-
-            CMS.Domain.ShopAccess.getInstance().textFilesIntoHashMaps();
-
-            for(Map.Entry<String, String> entry : CMS.Domain.ShopAccess.getInstance().getArticles().entrySet()) {
-                articleList.getItems().add(entry.getValue());
-            }
-
-            //This part refreshes/updates the ListView.
-
-            articleList.refresh();
-        }
-    }
-
 
 
 
     @FXML
-    protected void deleteItem() throws IOException {
+    protected void deleteProduct() throws IOException {
 
         //This part gets the index/indexes selected in our UI's ListView.
 
@@ -249,12 +213,11 @@ public class CMSController implements Initializable{
 
             //This part deletes the entry in the corresponding HashMap.
 
-            CMS.Domain.ShopAccess.getInstance().getProducts().remove(previousID);
+            CMS.Domain.LoadingHashMaps.getInstance().getProducts().remove(previousID);
 
             //This part loads the productList again and resets the search bar's text.
 
             loadProducts();
-            searchBar.setText("");
         }
     }
 
@@ -299,9 +262,10 @@ public class CMSController implements Initializable{
                 myWriter.write(str[2]);
                 myWriter.close();
 
+                //This part replaces the original information in the corresponding HashMap with
+                //the new information from the pop-up window.
 
-
-                CMS.Domain.ShopAccess.getInstance().getProducts().replace(str[0], str[1]);
+                CMS.Domain.LoadingHashMaps.getInstance().getProducts().replace(str[0], str[1]);
 
                 //This part reloads our ListView.
 
@@ -351,9 +315,10 @@ public class CMSController implements Initializable{
                 myWriter.write(str[2]);
                 myWriter.close();
 
+                //This part replaces the original information in the corresponding HashMap with
+                //the new information from the pop-up window.
 
-
-                CMS.Domain.ShopAccess.getInstance().getArticles().replace(str[0], str[1]);
+                CMS.Domain.LoadingHashMaps.getInstance().getArticles().replace(str[0], str[1]);
 
                 //This part reloads our ListView.
 
@@ -366,7 +331,7 @@ public class CMSController implements Initializable{
 
     public void loadProducts() throws IOException {
 
-        CMS.Domain.ShopAccess.getInstance().hashMapsIntoTextFiles();
+        CMS.Domain.LoadingHashMaps.getInstance().hashMapsIntoTextFiles();
 
         //This part gets the file path and makes an ArrayList of Strings
         //from the information in every file therein.
@@ -382,9 +347,7 @@ public class CMSController implements Initializable{
             //This part copies the information in the text file containing the information of the different products
             //into the previously mentioned ListView.
 
-            CMS.Domain.ShopAccess.getInstance().textFilesIntoHashMaps();
-
-            for(Map.Entry<String, String> entry : CMS.Domain.ShopAccess.getInstance().getProducts().entrySet()) {
+            for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getProducts().entrySet()) {
                 productList.getItems().add(entry.getValue());
             }
 
@@ -395,6 +358,29 @@ public class CMSController implements Initializable{
     }
 
 
+
+    public void loadArticles() throws IOException {
+
+        CMS.Domain.LoadingHashMaps.getInstance().hashMapArticlesIntoTextFiles();
+
+
+        //This part clears the information in ListView containing the product list.
+
+        if(articleList != null){
+            articleList.getItems().clear();
+
+            //This part copies the information in the text file containing the information of the different products
+            //into the previously mentioned ListView.
+
+            for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getArticles().entrySet()) {
+                articleList.getItems().add(entry.getValue());
+            }
+
+            //This part refreshes/updates the ListView.
+
+            articleList.refresh();
+        }
+    }
 
     private void webViewShowHtml(String productInfo) throws IOException {
         String[] productFields = productInfo.split(";");

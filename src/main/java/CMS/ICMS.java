@@ -14,9 +14,8 @@ public interface ICMS {
 
     HashMap<String, String> getArticlePages(); //Read all article files into this HashMap and get them all.
 
-    Map.Entry<String, String> getThumbnail(String title); //Read all article files into this HashMap and get one based on its id.
-    HashMap<String, String> getThumbnails(); //
+    Map.Entry<String, String> getThumbnail(String title); //Read all thumbnail files into this HashMap and get one based on its id.
 
-
+    HashMap<String, String> getThumbnails(); //Read all thumbnail files into this HashMap and get them all.
 
 }

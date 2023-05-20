@@ -1,4 +1,5 @@
-package CMS;
+package CMS.Presentation;
+import CMS.Domain.Create;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;

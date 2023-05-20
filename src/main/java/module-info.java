@@ -10,5 +10,9 @@ module CMS {
 
     opens CMS to javafx.fxml;
     exports CMS;
+    exports CMS.Domain;
+    opens CMS.Domain to javafx.fxml;
+    exports CMS.Presentation;
+    opens CMS.Presentation to javafx.fxml;
 
 }

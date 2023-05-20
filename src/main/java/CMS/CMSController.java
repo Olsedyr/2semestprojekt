@@ -272,32 +272,25 @@ public class CMSController implements Initializable{
 
     public void loadArticles() throws IOException {
 
-        //This part gets the file path and makes an ArrayList of Strings
-        //from the information in every file therein.
+        hashMapsIntoTextFiles();
 
-        Path filePath = Paths.get("src/main/data/ARTICLES/");
-
-        final File folder = new File(String.valueOf(filePath));
-
-        ArrayList<String> files_arrayList = productFilesInFolder(folder);
 
         //This part clears the information in ListView containing the product list.
 
         if(articleList != null){
             articleList.getItems().clear();
-        }
 
-        //This part copies the information in the ArrayList containing the information of the different articles
-        //into the previously mentioned ListView.
+            //This part copies the information in the text file containing the information of the different products
+            //into the previously mentioned ListView.
 
-        for(String product: files_arrayList) {
-            assert articleList != null;
-            articleList.getItems().add(product);
-        }
+            textFilesIntoHashMaps();
 
-        //This part refreshes/updates the ListView.
+            for(Map.Entry<String, String> entry : articles.entrySet()) {
+                articleList.getItems().add(entry.getValue());
+            }
 
-        if(articleList != null){
+            //This part refreshes/updates the ListView.
+
             articleList.refresh();
         }
     }
@@ -506,6 +499,10 @@ public class CMSController implements Initializable{
             //into the previously mentioned ListView.
 
             textFilesIntoHashMaps();
+
+            for(Map.Entry<String, String> entry : products.entrySet()) {
+                productList.getItems().add(entry.getValue());
+            }
 
             //This part refreshes/updates the ListView.
 

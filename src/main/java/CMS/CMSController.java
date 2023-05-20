@@ -206,27 +206,32 @@ public class CMSController implements Initializable{
 
         PopupWindowArticle popupWindow = new PopupWindowArticle();
 
-        //This uses the "getResult" method from the PopupWindowArticle class, which returns the values of the textfields
-        String str = popupWindow.getResult();
+        String[] str = popupWindow.getResult();
 
         if (str != null) {
 
-
             //This part deletes any file with the same id and template.
-            File htmlFile = new File(Paths.get("src/main/data/ARTICLES/" + str.substring(0, str.indexOf(";"))
+
+            File htmlFile = new File(Paths.get("src/main/data/ARTICLES/" + str[0]
                     + ".txt").toString());
 
             if (!htmlFile.createNewFile()) {
                 htmlFile.delete();
             }
 
+            articles.put(str[0], str[1]);
+
+
+
             //This part makes a new file with the contents of the pop-up window.
 
+
             FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
-            myWriter.write(str.substring(str.indexOf(";") + 1));
+            myWriter.write(str[2]);
             myWriter.close();
 
             //This part reloads the ListView.
+
             loadArticles();
         }
     }
@@ -375,6 +380,10 @@ public class CMSController implements Initializable{
                 myWriter.write(str[2]);
                 myWriter.close();
 
+
+
+                products.replace(str[0], str[1]);
+
                 //This part reloads our ListView.
 
                 loadProducts();
@@ -402,7 +411,7 @@ public class CMSController implements Initializable{
             //This part makes a new pop-up window to write the information.
 
             PopupWindowArticle popupWindowArticle = new PopupWindowArticle();
-            String str = popupWindowArticle.getResult();
+            String[] str = popupWindowArticle.getResult();
 
             if (str != null) {
                 //This part gets a filepath using the previous id and previous template id.
@@ -416,12 +425,16 @@ public class CMSController implements Initializable{
 
                 //This part makes a new file with the information from the pop-up window.
 
-                File newFile = new File(Paths.get("src/main/data/ARTICLES/" + str.substring(0, str.indexOf(";"))
+                File newFile = new File(Paths.get("src/main/data/ARTICLES/" + str[0]
                         + ".txt").toString());
 
                 FileWriter myWriter = new FileWriter(String.valueOf(newFile));
-                myWriter.write(str.substring(str.indexOf(";") + 1));
+                myWriter.write(str[2]);
                 myWriter.close();
+
+
+
+                articles.replace(str[0], str[1]);
 
                 //This part reloads our ListView.
 

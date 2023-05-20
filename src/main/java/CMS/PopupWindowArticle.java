@@ -10,20 +10,13 @@ import java.util.Optional;
 
 public class PopupWindowArticle extends CMSController {
 
-    private String result;
+    private String[] result;
 
-
-    /*This is the method for returning the string containing the result of the text
-      the user has put in the textfields.*/
-    public String getResult() {
-
+    public String[] getResult() {
         return this.result;
     }
-
-    /*This method is what is used to create the popupwindow when creating an article
-      This is where all the textfields and text is placed inside the window */
     public PopupWindowArticle() {
-        Dialog<String> dialog = new Dialog<>();
+        Dialog<String[]> dialog = new Dialog<>();
 
         dialog.setTitle("Create Article");
         dialog.setHeaderText("Create Article");
@@ -73,30 +66,39 @@ public class PopupWindowArticle extends CMSController {
 
         dialog.getDialogPane().setContent(grid);
 
-
         dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == confirm) {
-                String htmlContent = null;
+            TextField[] textFields = {id, subject, articleText, image, templateID};
+            boolean emptyFields = false;
+
+            for(int i = 0; i < textFields.length; i++){
+                if(textFields[i].getText().isEmpty()){
+                    emptyFields = true;
+                }
+            }
+
+            if (dialogButton == confirm && emptyFields != true) {
+                String[] array = new String[3];
                 try {
 
-                    CMSController.getCMSController().getArticles().put(id.getText() + "-" + templateID.getText(),
-                            id.getText() + "-" + templateID.getText() + ";" + subject.getText() + ";" + articleText.getText()
-                                    + ";" + image.getText());
+                    array[0] = id.getText() + "-" + templateID.getText();
 
-                    htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(id.getText(), subject.getText(),
+                    array[1] = id.getText() + "-" + templateID.getText() + ";" + subject.getText() + ";" + articleText.getText()
+                            + ";" + image.getText();
+
+                    array[2] = Create.create(id.getText(), subject.getText(),
                             articleText.getText(), image.getText(), Integer.parseInt(templateID.getText()));
 
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
 
-                return htmlContent;
+                return array;
             }
 
             return null;
         });
 
-        Optional<String> rslt = dialog.showAndWait();
+        Optional<String[]> rslt = dialog.showAndWait();
         if (rslt.isPresent() ) {
             this.result = rslt.get();
         }

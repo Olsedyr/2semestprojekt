@@ -1,4 +1,4 @@
-package CMS;
+package CMS.Domain;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -11,7 +11,7 @@ public class Create {
 
     // create method (product): Takes product details as input and generates an HTML webpage based on a chosen template.
     // Calls createThumbnail to create a thumbnail for each product.
-    public static String create(String name, String description, String stock, String price, String picture, int template_id) throws Exception{
+    public static String create(String name, String description, String price, String stock, String picture, int template_id) throws Exception{
         //I tried to make the template into txt files and read it here,
         //but there are a lot of conflicts in webview and load method.
         //So we are stuck with the massive string here for now

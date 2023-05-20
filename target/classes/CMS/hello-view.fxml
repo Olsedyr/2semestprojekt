@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1350.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CMS.CMSController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1350.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CMS.Presentation.CMSController">
    <tabs>
       <Tab text="Product Page">
          <content>
@@ -38,7 +38,7 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <Button layoutX="80.0" layoutY="300.0" mnemonicParsing="false" onAction="#addItem" prefHeight="25.0" prefWidth="100.0" text="Add">
+                  <Button layoutX="80.0" layoutY="300.0" mnemonicParsing="false" onAction="#addProduct" prefHeight="25.0" prefWidth="100.0" text="Add">
                      <font>
                         <Font size="20.0" />
                      </font></Button>
@@ -46,7 +46,7 @@
                      <font>
                         <Font size="20.0" />
                      </font></Button>
-                  <Button layoutX="325.0" layoutY="300.0" mnemonicParsing="false" onAction="#deleteItem" prefHeight="25.0" prefWidth="100.0" text="Remove">
+                  <Button layoutX="325.0" layoutY="300.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="25.0" prefWidth="100.0" text="Remove">
                      <font>
                         <Font size="20.0" />
                      </font></Button>
@@ -89,7 +89,7 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <Button fx:id="createArticle" layoutX="775.0" layoutY="300.0" mnemonicParsing="false" onAction="#createArticle" prefHeight="25.0" prefWidth="100.0" text="Create">
+                  <Button fx:id="createArticle" layoutX="775.0" layoutY="300.0" mnemonicParsing="false" onAction="#addArticle" prefHeight="25.0" prefWidth="100.0" text="Create">
                      <font>
                         <Font size="20.0" />
                      </font>

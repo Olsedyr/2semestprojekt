@@ -272,7 +272,7 @@ public class CMSController implements Initializable{
 
     public void loadArticles() throws IOException {
 
-        hashMapsIntoTextFiles();
+        hashMapArticlesIntoTextFiles();
 
 
         //This part clears the information in ListView containing the product list.

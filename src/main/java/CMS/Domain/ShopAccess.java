@@ -44,7 +44,9 @@ public class ShopAccess implements ICMS {
 
         String stock_String = stock + "";
 
-        String filepath = imageFile.getPath();
+        String filepath = imageFile.getAbsolutePath();
+
+        System.out.println(filepath);
 
         if (CMS.Domain.LoadingHashMaps.getInstance().getProducts().containsKey(id + "-" + template_id)){
             CMS.Domain.LoadingHashMaps.getInstance().getProducts().replace(id + "-" + template_id, id + "-" + template_id + ";" + price_String + ";" + stock_String + ";" + filepath);

@@ -30,7 +30,7 @@ margin: 10px 0;
 </style>
 </head>
 <body>
-<a href="../../data/CMS/1.html">
+<a href="../../data/CMS/ProductPageTest1.html">
 <div class="thumbnail">
 <img class="productImage" alt="Image of Product" src="file:///C:/Users/patri/OneDrive/Dokumenter/GitHub/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png">
 <h2>ProductPageTest1</h2>

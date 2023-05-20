@@ -1,1 +1,1 @@
-1-1;1;1;1;1;1;;2-1;2;2;2;2;2;;3-1;3;3;3;3;C:\Users\patri\OneDrive\Dokumenter\GitHub\2semestprojekt\src\test\java\CMS\Test Pictures\Example_picture.png;;
+ProductPageTest1-1;ProductPageTest1;ProductPageTest1 description;49.99;5;C:\Users\patri\OneDrive\Dokumenter\GitHub\2semestprojekt\src\test\java\CMS\Test Pictures\Example_picture.png;;1-1;1;1;1;1;1;;2-1;2;2;2;2;2;;3-1;3;3;3;3;C:\Users\patri\OneDrive\Dokumenter\GitHub\2semestprojekt\src\test\java\CMS\Test Pictures\Example_picture.png;;

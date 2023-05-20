@@ -91,7 +91,77 @@ public class CMSController implements Initializable{
         });
 
     }
+    @FXML
+    protected void addItem() throws IOException {
 
+        //This part makes a new pop-up window to write the information.
+
+        PopupWindow popupWindow = new PopupWindow();
+        String[] str = popupWindow.getResult();
+
+        if (str != null) {
+
+            //This part deletes any file with the same id and template.
+
+            File htmlFile = new File(Paths.get("src/main/data/CMS/" + str[0]
+                    + ".txt").toString());
+
+            if (!htmlFile.createNewFile()) {
+                htmlFile.delete();
+            }
+
+            CMS.Domain.ShopAccess.getInstance().getProducts().put(str[0], str[1]);
+
+            //This part makes a new file with the contents of the pop-up window.
+
+
+            FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
+            myWriter.write(str[2]);
+            myWriter.close();
+
+            //This part reloads the ListView.
+
+            CMS.Presentation.CMSController.getInstance().loadProducts();
+        }
+    }
+
+
+    @FXML
+    protected void createArticle() throws IOException {
+
+        //This part makes a new pop-up window to write the information.
+
+        PopupWindowArticle popupWindow = new PopupWindowArticle();
+
+        String[] str = popupWindow.getResult();
+
+        if (str != null) {
+
+            //This part deletes any file with the same id and template.
+
+            File htmlFile = new File(Paths.get("src/main/data/ARTICLES/" + str[0]
+                    + ".txt").toString());
+
+            if (!htmlFile.createNewFile()) {
+                htmlFile.delete();
+            }
+
+            CMS.Domain.ShopAccess.getInstance().getArticles().put(str[0], str[1]);
+
+
+
+            //This part makes a new file with the contents of the pop-up window.
+
+
+            FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
+            myWriter.write(str[2]);
+            myWriter.close();
+
+            //This part reloads the ListView.
+
+            CMS.Presentation.CMSController.getInstance().loadProducts();
+        }
+    }
 
     @FXML
     protected void deleteArticle() throws IOException {

@@ -536,39 +536,59 @@ public class CMSController implements Initializable{
     public void hashMapsIntoTextFiles() {
         Path productsfilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
 
-
         try {
             FileWriter myWriter = new FileWriter(productsfilePath.toString());
 
-            for(Map.Entry<String, String> entry : products.entrySet()) {
-                myWriter.write(entry.getValue() + ";;");
+            for(Map.Entry<String, String> product : products.entrySet()) {
+                myWriter.write(product.getValue() + ";;");
             }
 
             myWriter.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void textFilesIntoHashMaps() {
-        Path productsfilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
+    public void hashMapArticlesIntoTextFiles() {
 
-        File productsFile = new File(String.valueOf(productsfilePath));
+        Path articlesfilePath = Paths.get("src/main/data/Files for ListViews/articlesFile.txt");
+
         try {
-            if (!productsFile.createNewFile()) {
-                String productsFileContent = Files.readString(productsfilePath);
+
+            FileWriter myWriter = new FileWriter(articlesfilePath.toString());
+
+            for(Map.Entry<String, String> article : articles.entrySet()) {
+                myWriter.write(article.getValue() + ";;");
+            }
+
+            myWriter.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void textProductsIntoHashMaps() {
+        Path filePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
+
+        File productFile = new File(String.valueOf(filePath));
+
+        try {
+            if(productFile.length() != 0){
+                String productsFileContent = Files.readString(filePath);
 
                 String[] lines = productsFileContent.split(";;");
 
-                Path filePath;
+                Path productFilePath;
 
-                Path filePathThumbnail; 
+                Path filePathThumbnail;
 
                 HashMap<String, String> newProducts = new HashMap<>();
 
                 for(int i = 0; i < lines.length; i++){
-                    filePath = Paths.get("src/main/data/CMS/" + lines[i].substring(0, lines[i].indexOf(";")) + ".txt");
-                    File product = new File(String.valueOf(filePath));
+                    productFilePath = Paths.get("src/main/data/CMS/" + lines[i].substring(0, lines[i].indexOf(";")) + ".txt");
+                    File product = new File(String.valueOf(productFilePath));
                     if(!product.createNewFile()){
                         newProducts.put(lines[i].substring(0, lines[i].indexOf(";")), lines[i]);
                     } else {
@@ -582,7 +602,7 @@ public class CMSController implements Initializable{
                 }
                 products = newProducts;
 
-                productsFile.delete();
+                productFile.delete();
 
                 hashMapsIntoTextFiles();
             }
@@ -590,6 +610,51 @@ public class CMSController implements Initializable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void textArticlesIntoHashMaps() {
+        Path filePath = Paths.get("src/main/data/Files for ListViews/articlesFile.txt");
+
+        File articleFile = new File(String.valueOf(filePath));
+
+        try {
+
+            if(articleFile.length() != 0){
+                String articlesFileContent = Files.readString(filePath);
+
+                String[] lines = articlesFileContent.split(";;");
+
+                Path articleFilePath;
+
+                HashMap<String, String> newArticles = new HashMap<>();
+
+                for(int i = 0; i < lines.length; i++){
+
+                    articleFilePath = Paths.get("src/main/data/ARTICLES/" + lines[i].substring(0, lines[i].indexOf(";")) + ".txt");
+                    File article = new File(String.valueOf(articleFilePath));
+                    if(!article.createNewFile()){
+                        newArticles.put(lines[i].substring(0, lines[i].indexOf(";")), lines[i]);
+                    } else {
+                        article.delete();
+                    }
+
+                }
+                articles = newArticles;
+
+                articleFile.delete();
+
+                hashMapArticlesIntoTextFiles();
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void textFilesIntoHashMaps() {
+        textProductsIntoHashMaps();
+
+        textArticlesIntoHashMaps();
     }
 
 

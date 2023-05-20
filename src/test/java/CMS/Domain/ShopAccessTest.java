@@ -119,33 +119,6 @@ class ShopAccessTest {
                 "</body>\n" +
                 "</html>";
 
-        char[] fileArray = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest1", "1").toCharArray();
-
-        char[] testArray = html.replace(System.getProperty("line.separator"), "\n").toCharArray();
-
-        int count = 999999;
-
-        for(int i = 0; i < fileArray.length; i++){
-            if(fileArray[i] != testArray[i] && count == 999999){
-                System.out.println(i);
-
-                System.out.println("Function");
-
-                for(int n = 0; n < 20; n++){
-                    System.out.println(fileArray[i - 5 + n]);
-                }
-
-                System.out.println("xxxxxxxx");
-
-                System.out.println("Test");
-
-                for(int n = 0; n < 20; n++){
-                    System.out.println(testArray[i - 5 + n]);
-                }
-
-                count = i;
-            }
-        }
 
         boolean htmlTest = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest1", "1").equals(html.replace(System.getProperty("line.separator"), "\n"));
 
@@ -154,7 +127,6 @@ class ShopAccessTest {
 
     @Test
     void getProductPageTest2() {
-
         String html = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
@@ -247,7 +219,7 @@ class ShopAccessTest {
                 "</div>\n" +
                 "</body>\n" +
                 "</html>";
-        
+
 
         Path filePath = Paths.get("src/test/java/CMS/Test Pictures/Example_picture.png");
 

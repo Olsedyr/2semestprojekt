@@ -39,14 +39,6 @@ public class CMSController implements Initializable{
 
     private HashMap<String, String> articles = new HashMap<>();
 
-    protected HashMap<String, String> getProducts(){
-        return products;
-    }
-
-    protected HashMap<String, String> getArticles() {
-        return articles;
-    }
-
     private final static CMSController instance = new CMSController();
     public static CMSController getCMSController() {
         return instance;
@@ -118,7 +110,6 @@ public class CMSController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //This part loads our products when the application is started up.
-
         try {
             textFilesIntoHashMaps();
             loadProducts();
@@ -268,7 +259,7 @@ public class CMSController implements Initializable{
 
     public void loadArticles() throws IOException {
 
-        hashMapsIntoTextFiles();
+        hashMapArticlesIntoTextFiles();
 
         //This part gets the file path and makes an ArrayList of Strings
         //from the information in every file therein.
@@ -542,21 +533,30 @@ public class CMSController implements Initializable{
     public void hashMapsIntoTextFiles() {
         Path productsfilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
 
-        Path articlesfilePath = Paths.get("src/main/data/Files for ListViews/articlesFile.txt");
-
         try {
             FileWriter myWriter = new FileWriter(productsfilePath.toString());
 
-            for(Map.Entry<String, String> entry : products.entrySet()) {
-                myWriter.write(entry.getValue() + ";;");
+            for(Map.Entry<String, String> product : products.entrySet()) {
+                myWriter.write(product.getValue() + ";;");
             }
 
             myWriter.close();
 
-            myWriter = new FileWriter(articlesfilePath.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-            for(Map.Entry<String, String> entry : articles.entrySet()) {
-                myWriter.write(entry.getValue() + ";;");
+    public void hashMapArticlesIntoTextFiles() {
+
+        Path articlesfilePath = Paths.get("src/main/data/Files for ListViews/articlesFile.txt");
+
+        try {
+
+            FileWriter myWriter = new FileWriter(articlesfilePath.toString());
+
+            for(Map.Entry<String, String> article : articles.entrySet()) {
+                myWriter.write(article.getValue() + ";;");
             }
 
             myWriter.close();
@@ -615,26 +615,17 @@ public class CMSController implements Initializable{
         File articleFile = new File(String.valueOf(filePath));
 
         try {
-            System.out.println("Article length: " + articleFile.length());
 
             if(articleFile.length() != 0){
                 String articlesFileContent = Files.readString(filePath);
 
                 String[] lines = articlesFileContent.split(";;");
 
-                System.out.println("Lines length: " + lines[0]);
-
-                System.out.println(articles);
-
                 Path articleFilePath;
 
                 HashMap<String, String> newArticles = new HashMap<>();
 
                 for(int i = 0; i < lines.length; i++){
-
-                    System.out.println("Line: " + lines[i]);
-
-                    System.out.println("Line substring: " + lines[i].substring(0, lines[i].indexOf(";")));
 
                     articleFilePath = Paths.get("src/main/data/ARTICLES/" + lines[i].substring(0, lines[i].indexOf(";")) + ".txt");
                     File article = new File(String.valueOf(articleFilePath));
@@ -647,11 +638,9 @@ public class CMSController implements Initializable{
                 }
                 articles = newArticles;
 
-                System.out.println(articles);
-
                 articleFile.delete();
 
-                hashMapsIntoTextFiles();
+                hashMapArticlesIntoTextFiles();
             }
 
         } catch (IOException e) {

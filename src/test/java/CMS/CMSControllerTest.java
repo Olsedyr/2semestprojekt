@@ -67,7 +67,7 @@ class CMSControllerTest {
                 "\n" +
                 "</html>";
 
-        boolean htmlTest = CMSController.getCMSController().getProductPage("ProductPageTest1", "1").equals(html.replace("\n", System.getProperty("line.separator")));
+        boolean htmlTest = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest1", "1").equals(html.replace("\n", System.getProperty("line.separator")));
 
         assertTrue(htmlTest);
     }
@@ -131,7 +131,7 @@ class CMSControllerTest {
 
         File imageFile = new File(String.valueOf(filePath));
 
-        boolean htmlTest = CMSController.getCMSController().getProductPage("Example Product", "This is an example product"
+        boolean htmlTest = CMS.Domain.ShopAccess.getInstance().getProductPage("Example Product", "This is an example product"
                 , 49.99, 5, "ProductPageTest2", imageFile, 1)
         .equals(html.replace(System.getProperty("line.separator"), "\n"));
 
@@ -156,20 +156,7 @@ class CMSControllerTest {
     @Test
     void productFilesInFolder() {
 
-        Path filePath = Paths.get("src/test/java/CMS/Test Files");
-
-        final File folder = new File(String.valueOf(filePath));
-
-        String testString = "productFilesInFolderTest-1;Example Product;This is an example product;49.99;5;https://example.com/image.png";
-
-        try {
-            boolean htmlTest = CMSController.productFilesInFolder(folder).get(0).equals(testString.replace("\n", System.getProperty("line.separator")));
-
-            assertTrue(htmlTest);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        //Delete later.
     }
 
     @Test

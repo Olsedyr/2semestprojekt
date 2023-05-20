@@ -10,9 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoadingHashMaps {
-    HashMap<String, String> products = new HashMap<>();
+    private HashMap<String, String> products = new HashMap<>();
 
     private HashMap<String, String> articles = new HashMap<>();
+
+    private HashMap<String, String> thumbnails = new HashMap<>();
 
     private final static LoadingHashMaps instance = new LoadingHashMaps();
     public static LoadingHashMaps getInstance() {
@@ -27,8 +29,12 @@ public class LoadingHashMaps {
         return articles;
     }
 
+    public HashMap<String, String> getThumbnails() {
+        return thumbnails;
+    }
 
-    public void hashMapsIntoTextFiles() {
+
+    public void hashMapProductsIntoTextFiles() {
         Path productsfilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
 
         try {
@@ -63,33 +69,59 @@ public class LoadingHashMaps {
             throw new RuntimeException(e);
         }
     }
-    public void textProductsIntoHashMaps() {
-        Path filePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
 
-        File productFile = new File(String.valueOf(filePath));
+    public void hashMapThumbnailsIntoTextFiles() {
+        Path thumbnailsfilePath = Paths.get("src/main/data/Files for ListViews/thumbnailsFile.txt");
+
+        try {
+            FileWriter myWriter = new FileWriter(thumbnailsfilePath.toString());
+
+            for(Map.Entry<String, String> thumbnail : thumbnails.entrySet()) {
+                myWriter.write(thumbnail.getValue() + ";;");
+            }
+
+            myWriter.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void textProductsIntoHashMaps() {
+        Path productsFilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
+
+        File productFile = new File(String.valueOf(productsFilePath));
+
+        Path thumbnailsFilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
+
+        File thumbnailFile = new File(String.valueOf(thumbnailsFilePath));
 
         try {
             if(productFile.length() != 0){
-                String productsFileContent = Files.readString(filePath);
+                String productsFileContent = Files.readString(productsFilePath);
 
                 String[] lines = productsFileContent.split(";;");
 
                 Path productFilePath;
 
-                Path filePathThumbnail;
+                Path thumbnailFilePath;
 
                 HashMap<String, String> newProducts = new HashMap<>();
+
+                HashMap<String, String> newThumbnails = new HashMap<>();
 
                 for(int i = 0; i < lines.length; i++){
                     productFilePath = Paths.get("src/main/data/CMS/" + lines[i].substring(0, lines[i].indexOf(";")) + ".txt");
                     File product = new File(String.valueOf(productFilePath));
                     if(!product.createNewFile()){
-                        newProducts.put(lines[i].substring(0, lines[i].indexOf(";")), lines[i]);
+                        String[] array = lines[i].split(";");
+                        newProducts.put(array[0], lines[i]);
+                        newThumbnails.put(lines[i].substring(0, lines[i].indexOf(";")) + "_thumbnail", array[0] + ";" + array[1] + ";" + array[2] + ";" + array[3] + ";" + array[5]);
                     } else {
                         product.delete();
 
-                        filePathThumbnail = Paths.get("src/main/data/Thumbnails/" + lines[i].substring(0, lines[i].indexOf("-")) + ".txt");
-                        File thumbnail = new File(String.valueOf(filePathThumbnail));
+                        thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + lines[i].substring(0, lines[i].indexOf("-")) + ".txt");
+                        File thumbnail = new File(String.valueOf(thumbnailFilePath));
                         thumbnail.delete();
                     }
 
@@ -98,7 +130,13 @@ public class LoadingHashMaps {
 
                 productFile.delete();
 
-                hashMapsIntoTextFiles();
+                thumbnails = newThumbnails;
+
+                thumbnailFile.delete();
+
+                hashMapProductsIntoTextFiles();
+
+                hashMapThumbnailsIntoTextFiles();
             }
 
         } catch (IOException e) {

@@ -3,58 +3,61 @@ package CMS;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CreateTest {
-    private String name;
-    private String description;
-    private String producer;
-    private String price;
-    private String picture;
-    private int template_id;
+    private static final String THUMBNAIL_PATH = "src/main/data/Thumbnails/";
 
     @BeforeEach
-    public void setUp() {
-        name = "Test Product";
-        description = "This is a test product";
-        producer = "Test Producer";
-        price = "100";
-        picture = "test.jpg";
-        template_id = 1;
+    public void setup() {
+        // Remove thumbnails generated from previous tests
+        File thumbnailDirectory = new File(THUMBNAIL_PATH);
+        File[] files = thumbnailDirectory.listFiles();
+        if (files != null) { // Ensure the list of files is not null before attempting to delete
+            for (File file : files) {
+                file.delete();
+            }
+        }
     }
 
     @Test
-    public void createTest() throws Exception {
-        String html = Create.create(name, description, producer, price, picture, template_id);
+    public void testCreateProduct() throws Exception {
+        String name = "Test Product";
+        String description = "This is a test product.";
+        String stock = "100";
+        String price = "99.99";
+        String picture = "src/main/resources/images/test.jpg";
+        int templateId = 1;
+
+        String html = Create.create(name, description, stock, price, picture, templateId);
+
         assertTrue(html.contains(name));
         assertTrue(html.contains(description));
-        assertTrue(html.contains(producer));
+        assertTrue(html.contains(stock));
         assertTrue(html.contains(price));
-        assertTrue(html.contains(picture));
+        assertTrue(html.contains(picture.replace("\\", "/")));
+
+        // Check if thumbnail file is created
+        Path thumbnailPath = Paths.get(THUMBNAIL_PATH + templateId + "_thumbnail.txt");
+        assertTrue(Files.exists(thumbnailPath));
     }
 
     @Test
-    public void createThumbnailTest() {
-        Create.createThumbnail(String.valueOf(template_id), name, price, picture);
+    public void testCreateArticle() throws Exception {
+        String name = "Test Article";
+        String subject = "Test Subject";
+        String text = "This is a test article.";
+        String picture = "src/main/resources/images/test.jpg";
+        int templateId = 1;
 
-        // Now we need to check if the file was created and if it contains the right data
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("src/main/data/CMS/" + template_id + "_thumbnail.txt"));
-            String line;
-            StringBuilder sb = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-            String fileContent = sb.toString();
-            assertTrue(fileContent.contains(name));
-            assertTrue(fileContent.contains(price));
-            assertTrue(fileContent.contains(picture));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String html = Create.create(name, subject, text, picture, templateId);
+
+        assertTrue(html.contains(name));
+        assertTrue(html.contains(picture.replace("\\", "/")));
     }
 }

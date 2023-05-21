@@ -142,11 +142,13 @@ class ShopAccessTest {
             throw new RuntimeException(e);
         }
 
-
+        //Debugging code.
 
         System.out.println(CMS.Domain.ShopAccess.getInstance().getThumbnails().containsKey("getThumbnailTest"));
 
         System.out.println(CMS.Domain.ShopAccess.getInstance().getThumbnails().containsKey("getThumbnailTest_thumbnail"));
+
+        //More debugging code.
 
         char[] fileArray = CMS.Domain.ShopAccess.getInstance().getThumbnails().get("getThumbnailTest_thumbnail").toCharArray();
 

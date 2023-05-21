@@ -90,6 +90,8 @@ public class ShopAccess implements ICMS {
             Create.createThumbnail(id, name, price_String,
                     filepath);
 
+
+
             return html;
 
             //This part throws an Exception if the file doesn't actually exist.
@@ -105,7 +107,23 @@ public class ShopAccess implements ICMS {
 
         CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
 
-        for (Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getArticles().entrySet()) {
+        for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getArticles().entrySet()) {
+
+            String[] array = entry.getValue().split(";;");
+
+            String articleInHTML;
+
+            try {
+                articleInHTML = Create.create(array[0].substring(0, array[0].indexOf("---")), array[1], array[2], array[3], Integer.parseInt(array[0].substring(array[0].indexOf("---") + 3)));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            articles.put(entry.getKey(), articleInHTML);
+
+        }
+
+        for (Map.Entry<String, String> entry : articles.entrySet()) {
             if (entry.getKey().equals(title)) {
                 return entry;
             }
@@ -116,19 +134,24 @@ public class ShopAccess implements ICMS {
     //Read all article files into this HashMap and get them all.
     @Override
     public HashMap<String, String> getArticlePages(){
-
-
         CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
 
         for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getArticles().entrySet()) {
 
             String[] array = entry.getValue().split(";;");
+
+            String articleInHTML;
+
             try {
-                articles.put(entry.getKey(), Create.create(array[0].substring(0, array[0].indexOf("---")), array[1], array[2], array[3], Integer.parseInt(array[0].substring(array[0].indexOf("-") + 1))));
+                articleInHTML = Create.create(array[0].substring(0, array[0].indexOf("---")), array[1], array[2], array[3], Integer.parseInt(array[0].substring(array[0].indexOf("---") + 3)));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
+            articles.put(entry.getKey(), articleInHTML);
+
         }
+
         return articles;
     }
 

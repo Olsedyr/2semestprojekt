@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,6 +24,7 @@ class ShopAccessTest {
 
     @Test
     void getInstance() {
+        assertTrue(CMS.Domain.ShopAccess.getInstance() instanceof ShopAccess);
     }
 
     @Test
@@ -35,6 +36,8 @@ class ShopAccessTest {
 
             CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest1", "ProductPageTest1 description", 49.99, 5,"ProductPageTest1",
                     file, 1);
+
+            //This creates the "1_thumbnail.txt"-file.
             html = Create.create("ProductPageTest1", "ProductPageTest1 description", "49.99", "5",
                     "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"), 1);
         } catch (Exception e) {
@@ -72,21 +75,133 @@ class ShopAccessTest {
     void getArticlePage() {
         String html;
         try {
-            html = Create.create("getArticlePageTest", "getArticlePageTest Subject", "getArticlePageTest description",
-                    "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"), 1);
-            CMS.Domain.LoadingHashMaps.getInstance().getArticles().put("getArticlePageTest", html);
+            html = "<!DOCTYPE html>\n" +
+                    "<html>\n" +
+                    "\n" +
+                    "<head>\n" +
+                    "  <title>"+ "getArticlePageTest" +"</title>\n" +
+                    "  <style>\n" +
+                    "    body {\n" +
+                    "      font-family: Arial, sans-serif;\n" +
+                    "      margin: 0;\n" +
+                    "      padding: 20px;\n" +
+                    "    }\n" +
+                    "\n" +
+                    "    h1 {\n" +
+                    "      color: #333;\n" +
+                    "    }\n" +
+                    "\n" +
+                    "    h2 {\n" +
+                    "      color: #555;\n" +
+                    "      margin-top: 30px;\n" +
+                    "    }\n" +
+                    "\n" +
+                    "    p {\n" +
+                    "      color: #444;\n" +
+                    "      line-height: 1.6;\n" +
+                    "    }\n" +
+                    "\n" +
+                    "    a {\n" +
+                    "      color: #007bff;\n" +
+                    "      text-decoration: none;\n" +
+                    "    }\n" +
+                    "  </style>\n" +
+                    "</head>\n" +
+                    "\n" +
+                    "<body>\n" +
+                    "<img src=\"" + "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/") + "\" alt=\"" + "getArticlePageTest" + "\">\n" +
+                    "  <h1>" + "getArticlePageTest" + "</h1>\n" +
+                    "\n" +
+                    "</body>\n" +
+                    "\n" +
+                    "</html>";
+
+            File newFile = new File(Paths.get("src/main/data/ARTICLES/" + "getArticlePageTest---1"
+                    + ".txt").toString());
+
+            FileWriter myWriter = new FileWriter(String.valueOf(newFile));
+            myWriter.write(html);
+            myWriter.close();
+
+            CMS.Domain.LoadingHashMaps.getInstance().getArticles().put("getArticlePageTest---1", "getArticlePageTest---1"
+                    + ";;" + "getArticlePageTest Subject" + ";;" + "getArticlePageTest description" + ";;"
+                    + "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
+
+
+            CMS.Domain.LoadingHashMaps.getInstance().hashMapArticlesIntoTextFiles();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        boolean htmlTest = CMS.Domain.LoadingHashMaps.getInstance().getArticles().get("getArticlePageTest")
-                .equals(CMS.Domain.ShopAccess.getInstance().getArticlePage("getArticlePageTest").getValue());
+        boolean htmlTest = html.equals(CMS.Domain.ShopAccess.getInstance().getArticlePage("getArticlePageTest---1").getValue());
 
         assertTrue(htmlTest);
     }
 
     @Test
     void getArticlePages() {
+        String html;
+        try {
+            html = html = "<!DOCTYPE html>\n" +
+                    "<html>\n" +
+                    "\n" +
+                    "<head>\n" +
+                    "  <title>"+ "getArticlePagesTest" +"</title>\n" +
+                    "  <style>\n" +
+                    "    body {\n" +
+                    "      font-family: Arial, sans-serif;\n" +
+                    "      margin: 0;\n" +
+                    "      padding: 20px;\n" +
+                    "    }\n" +
+                    "\n" +
+                    "    h1 {\n" +
+                    "      color: #333;\n" +
+                    "    }\n" +
+                    "\n" +
+                    "    h2 {\n" +
+                    "      color: #555;\n" +
+                    "      margin-top: 30px;\n" +
+                    "    }\n" +
+                    "\n" +
+                    "    p {\n" +
+                    "      color: #444;\n" +
+                    "      line-height: 1.6;\n" +
+                    "    }\n" +
+                    "\n" +
+                    "    a {\n" +
+                    "      color: #007bff;\n" +
+                    "      text-decoration: none;\n" +
+                    "    }\n" +
+                    "  </style>\n" +
+                    "</head>\n" +
+                    "\n" +
+                    "<body>\n" +
+                    "<img src=\"" + "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/") + "\" alt=\"" + "getArticlePagesTest" + "\">\n" +
+                    "  <h1>" + "getArticlePagesTest" + "</h1>\n" +
+                    "\n" +
+                    "</body>\n" +
+                    "\n" +
+                    "</html>";
+
+            File newFile = new File(Paths.get("src/main/data/ARTICLES/" + "getArticlePagesTest---1"
+                    + ".txt").toString());
+
+            FileWriter myWriter = new FileWriter(String.valueOf(newFile));
+            myWriter.write(html);
+            myWriter.close();
+
+            CMS.Domain.LoadingHashMaps.getInstance().getArticles().put("getArticlePagesTest---1", "getArticlePagesTest---1"
+                    + ";;" + "getArticlePagesTest Subject" + ";;" + "getArticlePagesTest description" + ";;"
+                    + "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
+
+            CMS.Domain.LoadingHashMaps.getInstance().hashMapArticlesIntoTextFiles();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        boolean keyTest = html.equals(CMS.Domain.ShopAccess.getInstance().getArticlePages().get("getArticlePagesTest---1"));
+
+        assertTrue(keyTest);
     }
 
     @Test

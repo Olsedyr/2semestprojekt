@@ -41,7 +41,7 @@ public class LoadingHashMaps {
             FileWriter myWriter = new FileWriter(productsfilePath.toString());
 
             for(Map.Entry<String, String> product : products.entrySet()) {
-                myWriter.write(product.getValue() + ";;");
+                myWriter.write(product.getValue() + ";;;");
             }
 
             myWriter.close();
@@ -60,7 +60,7 @@ public class LoadingHashMaps {
             FileWriter myWriter = new FileWriter(articlesfilePath.toString());
 
             for(Map.Entry<String, String> article : articles.entrySet()) {
-                myWriter.write(article.getValue() + ";;");
+                myWriter.write(article.getValue() + ";;;");
             }
 
             myWriter.close();
@@ -77,7 +77,7 @@ public class LoadingHashMaps {
             FileWriter myWriter = new FileWriter(thumbnailsfilePath.toString());
 
             for(Map.Entry<String, String> thumbnail : thumbnails.entrySet()) {
-                myWriter.write(thumbnail.getValue() + ";;");
+                myWriter.write(thumbnail.getValue() + ";;;");
             }
 
             myWriter.close();
@@ -92,7 +92,7 @@ public class LoadingHashMaps {
 
         File productFile = new File(String.valueOf(productsFilePath));
 
-        Path thumbnailsFilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
+        Path thumbnailsFilePath = Paths.get("src/main/data/Files for ListViews/thumbnailsFile.txt");
 
         File thumbnailFile = new File(String.valueOf(thumbnailsFilePath));
 
@@ -100,7 +100,7 @@ public class LoadingHashMaps {
             if(productFile.length() != 0){
                 String productsFileContent = Files.readString(productsFilePath);
 
-                String[] lines = productsFileContent.split(";;");
+                String[] lines = productsFileContent.split(";;;");
 
                 Path productFilePath;
 
@@ -111,16 +111,21 @@ public class LoadingHashMaps {
                 HashMap<String, String> newThumbnails = new HashMap<>();
 
                 for(int i = 0; i < lines.length; i++){
-                    productFilePath = Paths.get("src/main/data/CMS/" + lines[i].substring(0, lines[i].indexOf(";")) + ".txt");
+
+                    productFilePath = Paths.get("src/main/data/CMS/" + lines[i].substring(0, lines[i].indexOf(";;")) + ".txt");
                     File product = new File(String.valueOf(productFilePath));
                     if(!product.createNewFile()){
-                        String[] array = lines[i].split(";");
+                        String[] array = lines[i].split(";;");
+
                         newProducts.put(array[0], lines[i]);
-                        newThumbnails.put(lines[i].substring(0, lines[i].indexOf(";")) + "_thumbnail", array[0] + ";" + array[1] + ";" + array[2] + ";" + array[3] + ";" + array[5]);
+
+                        newThumbnails.put(array[0].substring(0, array[0].indexOf("---")) + "_thumbnail",
+                                array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
+                                        + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
                     } else {
                         product.delete();
 
-                        thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + lines[i].substring(0, lines[i].indexOf("-")) + ".txt");
+                        thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + lines[i].substring(0, lines[i].indexOf("---")) + "_thumbnail.txt");
                         File thumbnail = new File(String.valueOf(thumbnailFilePath));
                         thumbnail.delete();
                     }
@@ -154,7 +159,7 @@ public class LoadingHashMaps {
             if(articleFile.length() != 0){
                 String articlesFileContent = Files.readString(filePath);
 
-                String[] lines = articlesFileContent.split(";;");
+                String[] lines = articlesFileContent.split(";;;");
 
                 Path articleFilePath;
 
@@ -162,10 +167,10 @@ public class LoadingHashMaps {
 
                 for(int i = 0; i < lines.length; i++){
 
-                    articleFilePath = Paths.get("src/main/data/ARTICLES/" + lines[i].substring(0, lines[i].indexOf(";")) + ".txt");
+                    articleFilePath = Paths.get("src/main/data/ARTICLES/" + lines[i].substring(0, lines[i].indexOf(";;")) + ".txt");
                     File article = new File(String.valueOf(articleFilePath));
                     if(!article.createNewFile()){
-                        newArticles.put(lines[i].substring(0, lines[i].indexOf(";")), lines[i]);
+                        newArticles.put(lines[i].substring(0, lines[i].indexOf(";;")), lines[i]);
                     } else {
                         article.delete();
                     }

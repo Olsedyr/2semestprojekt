@@ -1,1 +1,1 @@
-1-1;1;1;1;;4-1;4;4;4;;
+getArticlePagesTest---1;;getArticlePagesTest Subject;;getArticlePagesTest description;;C:/Users/patri/OneDrive/Dokumenter/GitHub/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png;;;1---1;;1;;1;;1;;;getArticlePageTest---1;;getArticlePageTest Subject;;getArticlePageTest description;;C:/Users/patri/OneDrive/Dokumenter/GitHub/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png;;;

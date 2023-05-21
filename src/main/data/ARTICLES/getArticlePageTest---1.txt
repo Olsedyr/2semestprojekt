@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>4</title>
+  <title>getArticlePageTest</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -32,8 +32,8 @@
 </head>
 
 <body>
-<img src="4" alt="4">
-  <h1>4</h1>
+<img src="C:/Users/patri/OneDrive/Dokumenter/GitHub/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png" alt="getArticlePageTest">
+  <h1>getArticlePageTest</h1>
 
 </body>
 

@@ -92,10 +92,10 @@ public class PopupWindow extends CMSController {
                     String[] array = new String[3];
                     try {
 
-                        array[0] = id.getText() + "-" + templateID.getText();
+                        array[0] = id.getText() + "---" + templateID.getText();
 
-                        array[1] = id.getText() + "-" + templateID.getText() + ";" + name.getText() + ";" + description.getText()
-                                        + ";" + price.getText() + ";" + stock.getText() + ";" + productImage.getText();
+                        array[1] = id.getText() + "---" + templateID.getText() + ";;" + name.getText() + ";;" + description.getText()
+                                        + ";;" + price.getText() + ";;" + stock.getText() + ";;" + productImage.getText();
 
                         array[2] = Create.create(name.getText(), description.getText(),
                                 price.getText(), stock.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));

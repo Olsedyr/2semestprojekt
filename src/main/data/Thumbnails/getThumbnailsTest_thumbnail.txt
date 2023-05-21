@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>getThumbnailTest - Product Thumbnail</title>
+<title>getThumbnailsTest - Product Thumbnail</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
@@ -30,10 +30,10 @@ margin: 10px 0;
 </style>
 </head>
 <body>
-<a href="../../data/CMS/1.html">
+<a href="../../data/CMS/getThumbnailsTest.html">
 <div class="thumbnail">
 <img class="productImage" alt="Image of Product" src="file:///C:/Users/patri/OneDrive/Dokumenter/GitHub/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png">
-<h2>getThumbnailTest</h2>
+<h2>getThumbnailsTest</h2>
 <p>Price: $9.99</p>
 </div>
 </a>

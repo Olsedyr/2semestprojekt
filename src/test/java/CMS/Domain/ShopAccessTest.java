@@ -31,7 +31,7 @@ class ShopAccessTest {
     void getProductPageTest1() {
         String html;
 
-        File file = new File("C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
+        File file = new File("src/test/java/CMS/Test Pictures/Example_picture.png");
         try {
 
             CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest1", "ProductPageTest1 description", 49.99, 5,"ProductPageTest1",
@@ -39,7 +39,7 @@ class ShopAccessTest {
 
             //This creates the "1_thumbnail.txt"-file.
             html = Create.create("ProductPageTest1", "ProductPageTest1 description", "49.99", "5",
-                    "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"), 1);
+                    file.getAbsolutePath(), 1);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -53,18 +53,14 @@ class ShopAccessTest {
     @Test
     void getProductPageTest2() {
         String html;
+
+        File file = new File("src/test/java/CMS/Test Pictures/Example_picture.png");
         try {
             html = Create.create("ProductPageTest2", "ProductPageTest2 description", "49.99", "5",
-                    "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"), 1);
+                    file.getAbsolutePath(), 1);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-        Path filePath = Paths.get("src/test/java/CMS/Test Pictures/Example_picture.png");
-
-        File file = new File(String.valueOf(filePath));
-
 
         boolean htmlTest = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest2", "ProductPageTest2 description", 49.99, 5,"ProductPageTest2", file, 1).equals(html.replace(System.getProperty("line.separator"), "\n"));
 
@@ -74,6 +70,8 @@ class ShopAccessTest {
     @Test
     void getArticlePage() {
         String html;
+
+        File file = new File("src/test/java/CMS/Test Pictures/Example_picture.png");
         try {
             html = "<!DOCTYPE html>\n" +
                     "<html>\n" +
@@ -109,7 +107,7 @@ class ShopAccessTest {
                     "</head>\n" +
                     "\n" +
                     "<body>\n" +
-                    "<img src=\"" + "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/") + "\" alt=\"" + "getArticlePageTest" + "\">\n" +
+                    "<img src=\"" + (file.getAbsolutePath()).replace("\\", "/") + "\" alt=\"" + "getArticlePageTest" + "\">\n" +
                     "  <h1>" + "getArticlePageTest" + "</h1>\n" +
                     "\n" +
                     "</body>\n" +
@@ -125,7 +123,7 @@ class ShopAccessTest {
 
             CMS.Domain.LoadingHashMaps.getInstance().getArticles().put("getArticlePageTest---1", "getArticlePageTest---1"
                     + ";;" + "getArticlePageTest Subject" + ";;" + "getArticlePageTest description" + ";;"
-                    + "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
+                    + (file.getAbsolutePath()).replace("\\", "/"));
 
 
             CMS.Domain.LoadingHashMaps.getInstance().hashMapArticlesIntoTextFiles();
@@ -141,8 +139,10 @@ class ShopAccessTest {
     @Test
     void getArticlePages() {
         String html;
+
+        File file = new File("src/test/java/CMS/Test Pictures/Example_picture.png");
         try {
-            html = html = "<!DOCTYPE html>\n" +
+            html = "<!DOCTYPE html>\n" +
                     "<html>\n" +
                     "\n" +
                     "<head>\n" +
@@ -176,7 +176,7 @@ class ShopAccessTest {
                     "</head>\n" +
                     "\n" +
                     "<body>\n" +
-                    "<img src=\"" + "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/") + "\" alt=\"" + "getArticlePagesTest" + "\">\n" +
+                    "<img src=\"" + (file.getAbsolutePath()).replace("\\", "/") + "\" alt=\"" + "getArticlePagesTest" + "\">\n" +
                     "  <h1>" + "getArticlePagesTest" + "</h1>\n" +
                     "\n" +
                     "</body>\n" +
@@ -192,7 +192,7 @@ class ShopAccessTest {
 
             CMS.Domain.LoadingHashMaps.getInstance().getArticles().put("getArticlePagesTest---1", "getArticlePagesTest---1"
                     + ";;" + "getArticlePagesTest Subject" + ";;" + "getArticlePagesTest description" + ";;"
-                    + "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
+                    + (file.getAbsolutePath()).replace("\\", "/"));
 
             CMS.Domain.LoadingHashMaps.getInstance().hashMapArticlesIntoTextFiles();
         } catch (Exception e) {
@@ -206,7 +206,7 @@ class ShopAccessTest {
 
     @Test
     void getThumbnail() {
-        Path htmlFilePath = Paths.get("C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
+        Path htmlFilePath = Paths.get("src/test/java/CMS/Test Pictures/Example_picture.png");
         try {
             File file = new File(String.valueOf(htmlFilePath));
             CMS.Domain.ShopAccess.getInstance().getProductPage("getThumbnailTest", "getThumbnailTest description", 9.99,5, "getThumbnailTest",
@@ -225,7 +225,7 @@ class ShopAccessTest {
 
     @Test
     void getThumbnails() {
-        Path htmlFilePath = Paths.get("C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
+        Path htmlFilePath = Paths.get("src/test/java/CMS/Test Pictures/Example_picture.png");
 
         Path FilePath = Paths.get("src/main/data/Thumbnails/" + "getThumbnailsTest_thumbnail" + ".txt");
         String htmlContent;

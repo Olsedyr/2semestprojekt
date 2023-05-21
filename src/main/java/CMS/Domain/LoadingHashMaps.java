@@ -117,7 +117,7 @@ public class LoadingHashMaps {
                         String[] array = lines[i].split(";");
 
                         newProducts.put(array[0], lines[i]);
-                        newThumbnails.put(lines[i].substring(0, lines[i].indexOf("-")), array[0] + ";" + array[1] + ";" + array[2] + ";" + array[3] + ";" + array[5]);
+                        newThumbnails.put(array[0].substring(0, array[0].indexOf("-")) + "_thumbnail", array[0].substring(0, array[0].indexOf("-")) + "_thumbnail" + ";" + array[1] + ";" + array[2] + ";" + array[3] + ";" + array[5]);
                     } else {
                         product.delete();
 

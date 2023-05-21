@@ -130,6 +130,8 @@ class ShopAccessTest {
         Create.createThumbnail("getThumbnailTest", "getThumbnailTest Name", "9.99",
                 "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
 
+        CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
+
         Path htmlFilePath = Paths.get("src/main/data/Thumbnails/" + "getThumbnailTest_thumbnail" + ".txt");
 
         String htmlContent;

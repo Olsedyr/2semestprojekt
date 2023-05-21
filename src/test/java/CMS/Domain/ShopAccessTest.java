@@ -16,16 +16,21 @@ class ShopAccessTest {
 
     @BeforeEach
     void setUp() {
+        ShopAccess shopAccess = ShopAccess.getInstance();
     }
 
     @AfterEach
     void tearDown() {
+        ShopAccess shopAccess = null;
     }
 
     @Test
     void getInstance() {
-        assertTrue(CMS.Domain.ShopAccess.getInstance() instanceof ShopAccess);
+        ShopAccess instance = ShopAccess.getInstance();
+        assertNotNull(instance, "Instance should not be null");
+        assertSame(instance, ShopAccess.getInstance(), "Instances should be the same");
     }
+
 
     @Test
     void getProductPageTest1() {
@@ -55,7 +60,8 @@ class ShopAccessTest {
         String html;
         try {
             html = Create.create("ProductPageTest2", "ProductPageTest2 description", "49.99", "5",
-                    "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"), 1);
+                    "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png"
+                            .replace("\\", "/"), 1);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -66,7 +72,9 @@ class ShopAccessTest {
         File file = new File(String.valueOf(filePath));
 
 
-        boolean htmlTest = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest2", "ProductPageTest2 description", 49.99, 5,"ProductPageTest2", file, 1).equals(html.replace(System.getProperty("line.separator"), "\n"));
+        boolean htmlTest = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest2",
+                "ProductPageTest2 description", 49.99, 5,"ProductPageTest2", file, 1)
+                .equals(html.replace(System.getProperty("line.separator"), "\n"));
 
         assertTrue(htmlTest);
     }
@@ -109,14 +117,16 @@ class ShopAccessTest {
                     "</head>\n" +
                     "\n" +
                     "<body>\n" +
-                    "<img src=\"" + "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/") + "\" alt=\"" + "getArticlePageTest" + "\">\n" +
+                    "<img src=\""
+                    + "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png"
+                    .replace("\\", "/") + "\" alt=\"" + "getArticlePageTest" + "\">\n" +
                     "  <h1>" + "getArticlePageTest" + "</h1>\n" +
                     "\n" +
                     "</body>\n" +
                     "\n" +
                     "</html>";
 
-            File newFile = new File(Paths.get("src/main/data/ARTICLES/" + "getArticlePageTest---1"
+            File newFile = new File(Paths.get("src/main/data/CMS/Articles/" + "getArticlePageTest---1"
                     + ".txt").toString());
 
             FileWriter myWriter = new FileWriter(String.valueOf(newFile));
@@ -183,7 +193,7 @@ class ShopAccessTest {
                     "\n" +
                     "</html>";
 
-            File newFile = new File(Paths.get("src/main/data/ARTICLES/" + "getArticlePagesTest---1"
+            File newFile = new File(Paths.get("src/main/data/CMS/Articles/" + "getArticlePagesTest---1"
                     + ".txt").toString());
 
             FileWriter myWriter = new FileWriter(String.valueOf(newFile));
@@ -227,7 +237,7 @@ class ShopAccessTest {
     void getThumbnails() {
         Path htmlFilePath = Paths.get("C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
 
-        Path FilePath = Paths.get("src/main/data/Thumbnails/" + "getThumbnailsTest_thumbnail" + ".txt");
+        Path FilePath = Paths.get("src/main/data/CMS/Thumbnails/" + "getThumbnailsTest_thumbnail" + ".txt");
         String htmlContent;
         try {
             File file = new File(String.valueOf(htmlFilePath));

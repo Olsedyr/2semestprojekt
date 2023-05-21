@@ -28,7 +28,7 @@ public class ShopAccess implements ICMS {
 
             //This part uses the given id and template id to find the right file, read it and return its information as a String.
 
-            Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "---" + template_id + ".txt");
+            Path htmlFilePath = Paths.get("src/main/data/CMS/Products" + id + "---" + template_id + ".txt");
 
             return Files.readString(htmlFilePath);
 
@@ -73,7 +73,7 @@ public class ShopAccess implements ICMS {
 
             //This part makes a new file using the id and template id.
 
-            Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "---" + template_id + ".txt");
+            Path htmlFilePath = Paths.get("src/main/data/CMS/Products/" + id + "---" + template_id + ".txt");
 
             File htmlFile = new File(String.valueOf(htmlFilePath));
 
@@ -181,7 +181,7 @@ public class ShopAccess implements ICMS {
 
             try {
 
-                Path htmlFilePath = Paths.get("src/main/data/Thumbnails/" + entry.getKey() + ".txt");
+                Path htmlFilePath = Paths.get("src/main/data/CMS/Thumbnails/" + entry.getKey() + ".txt");
 
                 String htmlContent = Files.readString(htmlFilePath);
 

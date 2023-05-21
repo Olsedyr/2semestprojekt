@@ -37,10 +37,6 @@ class ShopAccessTest {
                     file, 1);
             html = Create.create("ProductPageTest1", "ProductPageTest1 description", "49.99", "5",
                     "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"), 1);
-
-
-            Create.createThumbnail("ProductPageTest1", "ProductPageTest1 Name", "49.99",
-                    "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -57,10 +53,6 @@ class ShopAccessTest {
         try {
             html = Create.create("ProductPageTest2", "ProductPageTest2 description", "49.99", "5",
                     "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"), 1);
-
-
-            Create.createThumbnail("ProductPageTest2", "ProductPageTest2 Name", "49.99",
-                    "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -99,17 +91,16 @@ class ShopAccessTest {
 
     @Test
     void getThumbnail() {
+        Path htmlFilePath = Paths.get("C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
         try {
-            Create.createThumbnail("getThumbnailTest", "getThumbnailTest Name", "9.99",
-                    "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
-
-            Path htmlFilePath = Paths.get("src/main/data/Thumbnails/" + "getThumbnailTest_thumbnail" + ".txt");
-            String htmlContent = Files.readString(htmlFilePath);
-
-            CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().put("getThumbnailTest", htmlContent);
+            File file = new File(String.valueOf(htmlFilePath));
+            CMS.Domain.ShopAccess.getInstance().getProductPage("getThumbnailTest", "getThumbnailTest description", 9.99,5, "getThumbnailTest",
+                    file, 1);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
 
         boolean htmlTest = CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().get("getThumbnailTest_thumbnail")
                 .equals(CMS.Domain.ShopAccess.getInstance().getThumbnail("getThumbnailTest_thumbnail").getValue());
@@ -119,66 +110,21 @@ class ShopAccessTest {
 
     @Test
     void getThumbnails() {
+        Path htmlFilePath = Paths.get("C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
 
+        Path FilePath = Paths.get("src/main/data/Thumbnails/" + "getThumbnailsTest_thumbnail" + ".txt");
+        String htmlContent;
         try {
-            Create.create("getThumbnailTest", "getThumbnailTest Name", "9.99","5",
-                    "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"), 1);
+            File file = new File(String.valueOf(htmlFilePath));
+            CMS.Domain.ShopAccess.getInstance().getProductPage("getThumbnailsTest", "getThumbnailsTest description", 9.99,5, "getThumbnailsTest",
+                    file, 1);
+
+            htmlContent = Files.readString(FilePath);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        Create.createThumbnail("getThumbnailTest", "getThumbnailTest Name", "9.99",
-                "C:\\Users\\patri\\OneDrive\\Dokumenter\\GitHub\\2semestprojekt\\src\\test\\java\\CMS\\Test Pictures\\Example_picture.png".replace("\\", "/"));
-
-        CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
-
-        Path htmlFilePath = Paths.get("src/main/data/Thumbnails/" + "getThumbnailTest_thumbnail" + ".txt");
-
-        String htmlContent;
-
-        try {
-            htmlContent = Files.readString(htmlFilePath);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        //Debugging code.
-
-        System.out.println(CMS.Domain.ShopAccess.getInstance().getThumbnails().containsKey("getThumbnailTest"));
-
-        System.out.println(CMS.Domain.ShopAccess.getInstance().getThumbnails().containsKey("getThumbnailTest_thumbnail"));
-
-        //More debugging code.
-
-        char[] fileArray = CMS.Domain.ShopAccess.getInstance().getThumbnails().get("getThumbnailTest_thumbnail").toCharArray();
-
-        char[] testArray = htmlContent.replace(System.getProperty("line.separator"), "\n").toCharArray();
-
-        int count = 999999;
-
-        for(int i = 0; i < fileArray.length; i++){
-            if(fileArray[i] != testArray[i] && count == 999999){
-                System.out.println(i);
-
-                System.out.println("Function");
-
-                for(int n = 0; n < 20; n++){
-                    System.out.println(fileArray[i - 5 + n]);
-                }
-
-                System.out.println("xxxxxxxx");
-
-                System.out.println("Test");
-
-                for(int n = 0; n < 20; n++){
-                    System.out.println(testArray[i - 5 + n]);
-                }
-
-                count = i;
-            }
-        }
-
-        boolean htmlTest = htmlContent.equals(CMS.Domain.ShopAccess.getInstance().getThumbnails().get("getThumbnailTest"));
+        boolean htmlTest = htmlContent.equals(CMS.Domain.ShopAccess.getInstance().getThumbnails().get("getThumbnailsTest_thumbnail"));
 
         assertTrue(htmlTest);
     }

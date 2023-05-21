@@ -15,7 +15,7 @@ public class ShopAccess implements ICMS {
 
     private HashMap<String, String> thumbnails = new HashMap<>();
 
-    private final static ShopAccess instance = new ShopAccess();
+    private static ShopAccess instance = new ShopAccess();
     public static ShopAccess getInstance() {
         return instance;
     }
@@ -28,7 +28,7 @@ public class ShopAccess implements ICMS {
 
             //This part uses the given id and template id to find the right file, read it and return its information as a String.
 
-            Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "-" + template_id + ".txt");
+            Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "---" + template_id + ".txt");
 
             return Files.readString(htmlFilePath);
 
@@ -53,14 +53,14 @@ public class ShopAccess implements ICMS {
 
         String filepath = imageFile.getAbsolutePath();
 
-        if (CMS.Domain.LoadingHashMaps.getInstance().getProducts().containsKey(id + "-" + template_id)){
-            CMS.Domain.LoadingHashMaps.getInstance().getProducts().replace(id + "-" + template_id, id + "-" + template_id + ";" + name + ";" + description + ";" + price_String + ";" + stock_String + ";" + filepath);
+        if (CMS.Domain.LoadingHashMaps.getInstance().getProducts().containsKey(id + "---" + template_id)){
+            CMS.Domain.LoadingHashMaps.getInstance().getProducts().replace(id + "---" + template_id, id + "---" + template_id + ";;" + name + ";;" + description + ";;" + price_String + ";;" + stock_String + ";;" + filepath);
 
-            CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().replace(id + "_thumbnail", id + "_thumbnail" + ";" + name + ";" + price_String + ";" + filepath);
+            CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().replace(id + "_thumbnail", id + "_thumbnail" + ";;" + name + ";;" + price_String + ";;" + filepath);
         } else {
-            CMS.Domain.LoadingHashMaps.getInstance().getProducts().put(id + "-" + template_id, id + "-" + template_id + ";" + name + ";" + description + ";" + price_String + ";" + stock_String + ";" + filepath);
+            CMS.Domain.LoadingHashMaps.getInstance().getProducts().put(id + "---" + template_id, id + "---" + template_id + ";;" + name + ";;" + description + ";;" + price_String + ";;" + stock_String + ";;" + filepath);
 
-            CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().put(id + "_thumbnail", id + "_thumbnail" + ";" + name + ";" + price_String + ";" + filepath);
+            CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().put(id + "_thumbnail", id + "_thumbnail" + ";;" + name + ";;" + price_String + ";;" + filepath);
         }
         CMS.Domain.LoadingHashMaps.getInstance().hashMapProductsIntoTextFiles();
         CMS.Domain.LoadingHashMaps.getInstance().hashMapThumbnailsIntoTextFiles();
@@ -73,7 +73,7 @@ public class ShopAccess implements ICMS {
 
             //This part makes a new file using the id and template id.
 
-            Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "-" + template_id + ".txt");
+            Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "---" + template_id + ".txt");
 
             File htmlFile = new File(String.valueOf(htmlFilePath));
 
@@ -86,6 +86,9 @@ public class ShopAccess implements ICMS {
             FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
             myWriter.write(html);
             myWriter.close();
+
+            Create.createThumbnail(id, name, price_String,
+                    filepath);
 
             return html;
 
@@ -119,9 +122,9 @@ public class ShopAccess implements ICMS {
 
         for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getArticles().entrySet()) {
 
-            String[] array = entry.getValue().split(";");
+            String[] array = entry.getValue().split(";;");
             try {
-                articles.put(entry.getKey(), Create.create(array[0].substring(0, array[0].indexOf("-")), array[1], array[2], array[3], Integer.parseInt(array[0].substring(array[0].indexOf("-") + 1))));
+                articles.put(entry.getKey(), Create.create(array[0].substring(0, array[0].indexOf("---")), array[1], array[2], array[3], Integer.parseInt(array[0].substring(array[0].indexOf("-") + 1))));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -148,6 +151,8 @@ public class ShopAccess implements ICMS {
     public HashMap<String, String> getThumbnails(){
 
         CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
+
+
 
         for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().entrySet()) {
 

@@ -112,6 +112,12 @@ public class CMSController implements Initializable{
 
             CMS.Domain.LoadingHashMaps.getInstance().getProducts().put(str[0], str[1]);
 
+            String[] array = str[1].split(";;");
+
+            CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().put(str[0].substring(0, array[0].indexOf("---"))
+                    + "_thumbnail", array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
+                    + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
+
             //This part reloads the ListView.
 
             loadProducts();
@@ -167,7 +173,7 @@ public class CMSController implements Initializable{
             //This part gets the information from the selected index and changes it to the correct Path.
 
             String product = articleList.getItems().get(selectedIndices.get(0));
-            String previousID = product.split(";")[0];
+            String previousID = product.split(";;")[0];
 
             Path filePath = Paths.get("src/main/data/ARTICLES/" + previousID + ".txt");
 
@@ -179,6 +185,10 @@ public class CMSController implements Initializable{
             //This part deletes the entry in the corresponding HashMap.
 
             CMS.Domain.LoadingHashMaps.getInstance().getArticles().remove(previousID);
+
+            CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().remove(previousID.substring(0, previousID.indexOf("---"))
+                    + "_thumbnail");
+
 
             //This part loads the productList again and resets the search bar's text.
 
@@ -203,7 +213,7 @@ public class CMSController implements Initializable{
             //This part gets the information from the selected index and changes it to the correct Path.
 
             String product = productList.getItems().get(selectedIndices.get(0));
-            String previousID = product.split(";")[0];
+            String previousID = product.split(";;")[0];
 
             Path filePath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
 
@@ -237,7 +247,7 @@ public class CMSController implements Initializable{
             //This part gets the id and template id from the selected index.
 
             String product = productList.getItems().get(selectedIndices.get(0));
-            String previousID = product.split(";")[0];
+            String previousID = product.split(";;")[0];
 
             //This part makes a new pop-up window to write the information.
 
@@ -268,6 +278,12 @@ public class CMSController implements Initializable{
 
                 CMS.Domain.LoadingHashMaps.getInstance().getProducts().replace(str[0], str[1]);
 
+                String[] array = str[1].split(";;");
+
+                CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().replace(str[0].substring(0, array[0].indexOf("---"))
+                        + "_thumbnail", array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
+                        + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
+
                 //This part reloads our ListView.
 
                 loadProducts();
@@ -290,7 +306,7 @@ public class CMSController implements Initializable{
             //This part gets the id and template id from the selected index.
 
             String product = articleList.getItems().get(selectedIndices.get(0));
-            String previousID = product.split(";")[0];
+            String previousID = product.split(";;")[0];
 
             //This part makes a new pop-up window to write the information.
 
@@ -386,7 +402,7 @@ public class CMSController implements Initializable{
     }
 
     private void webViewShowHtml(String productInfo) throws IOException {
-        String[] productFields = productInfo.split(";");
+        String[] productFields = productInfo.split(";;");
         String id = productFields[0].trim();
 
         Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + ".txt");
@@ -399,7 +415,7 @@ public class CMSController implements Initializable{
 
     private void webViewShowHtmlArticle(String articleInfo) throws IOException {
         //This parts gets the information from the listview and splits the string with a regex.
-        String[] articleFields = articleInfo.split(";");
+        String[] articleFields = articleInfo.split(";;");
 
         //This part gets the ID of the selected item in the listview by checking index 0
         String id = articleFields[0].trim();

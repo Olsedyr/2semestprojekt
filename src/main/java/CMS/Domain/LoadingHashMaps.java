@@ -92,7 +92,7 @@ public class LoadingHashMaps {
 
         File productFile = new File(String.valueOf(productsFilePath));
 
-        Path thumbnailsFilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
+        Path thumbnailsFilePath = Paths.get("src/main/data/Files for ListViews/thumbnailsFile.txt");
 
         File thumbnailFile = new File(String.valueOf(thumbnailsFilePath));
 
@@ -115,12 +115,13 @@ public class LoadingHashMaps {
                     File product = new File(String.valueOf(productFilePath));
                     if(!product.createNewFile()){
                         String[] array = lines[i].split(";");
+
                         newProducts.put(array[0], lines[i]);
-                        newThumbnails.put(lines[i].substring(0, lines[i].indexOf(";")) + "_thumbnail", array[0] + ";" + array[1] + ";" + array[2] + ";" + array[3] + ";" + array[5]);
+                        newThumbnails.put(lines[i].substring(0, lines[i].indexOf("-")), array[0] + ";" + array[1] + ";" + array[2] + ";" + array[3] + ";" + array[5]);
                     } else {
                         product.delete();
 
-                        thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + lines[i].substring(0, lines[i].indexOf("-")) + ".txt");
+                        thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + lines[i].substring(0, lines[i].indexOf("-")) + "_thumbnail.txt");
                         File thumbnail = new File(String.valueOf(thumbnailFilePath));
                         thumbnail.delete();
                     }

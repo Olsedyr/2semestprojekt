@@ -45,6 +45,7 @@ public class CMSController implements Initializable{
 
         try {
             CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
+
             loadProducts();
             loadArticles();
         } catch (IOException e) {
@@ -332,6 +333,8 @@ public class CMSController implements Initializable{
     public void loadProducts() throws IOException {
 
         CMS.Domain.LoadingHashMaps.getInstance().hashMapProductsIntoTextFiles();
+
+        CMS.Domain.LoadingHashMaps.getInstance().hashMapThumbnailsIntoTextFiles();
 
         //This part gets the file path and makes an ArrayList of Strings
         //from the information in every file therein.

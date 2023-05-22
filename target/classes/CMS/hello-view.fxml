@@ -42,11 +42,11 @@
                      <font>
                         <Font size="20.0" />
                      </font></Button>
-                  <Button fx:id="edit" layoutX="200.0" layoutY="300.0" mnemonicParsing="false" onAction="#editProduct" prefHeight="25.0" prefWidth="100.0" text="Edit">
+                  <Button fx:id="editProduct_button" layoutX="200.0" layoutY="300.0" mnemonicParsing="false" onAction="#buttonEventHandler" prefHeight="25.0" prefWidth="100.0" text="Edit">
                      <font>
                         <Font size="20.0" />
                      </font></Button>
-                  <Button layoutX="325.0" layoutY="300.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="25.0" prefWidth="100.0" text="Remove">
+                  <Button fx:id="deleteProduct_button" layoutX="325.0" layoutY="300.0" mnemonicParsing="false" onAction="#buttonEventHandler" prefHeight="25.0" prefWidth="100.0" text="Remove">
                      <font>
                         <Font size="20.0" />
                      </font></Button>

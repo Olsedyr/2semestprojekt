@@ -5,8 +5,11 @@ import CMS.Domain.ShopAccess;
 import CMS.Presentation.PopupWindow;
 import CMS.Presentation.PopupWindowArticle;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
@@ -38,6 +41,13 @@ public class CMSController implements Initializable{
 
     @FXML
     private ListView<String> articleList;
+
+    @FXML
+    private Button editProduct_button;
+
+    @FXML
+    private Button deleteProduct_button;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -85,6 +95,126 @@ public class CMSController implements Initializable{
         });
 
     }
+
+    @FXML
+    protected void buttonEventHandler(){
+        EventHandler<ActionEvent> buttonHandler = (ActionEvent event) -> {
+            if (event.getSource() == editProduct_button) {
+
+                //This part gets the index/indexes selected in our UI's ListView.
+
+                ObservableList<Integer> selectedIndices = productList.getSelectionModel().getSelectedIndices();
+
+                //This part checks if there is only one index selected.
+
+                if (selectedIndices.size() == 1) {
+
+                    //This part gets the id and template id from the selected index.
+
+                    String product = productList.getItems().get(selectedIndices.get(0));
+                    String previousID = product.split(";;")[0];
+
+                    //This part makes a new pop-up window to write the information.
+
+                    PopupWindow popupWindow = new PopupWindow();
+                    String[] str = popupWindow.getResult();
+
+                    if (str != null) {
+                        //This part gets a filepath using the previous id and previous template id.
+
+                        Path filepath = Paths.get("src/main/data/CMS/Products" + previousID + ".txt");
+
+                        //This part deletes the old file.
+
+                        File fileToDelete = new File(filepath.toString());
+                        fileToDelete.delete();
+
+                        //This part makes a new file with the information from the pop-up window.
+
+                        File newFile = new File(Paths.get("src/main/data/CMS/Products" + str[0]
+                                + ".txt").toString());
+
+                        FileWriter myWriter = null;
+                        try {
+                            myWriter = new FileWriter(String.valueOf(newFile));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            myWriter.write(str[2]);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            myWriter.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        //This part replaces the original information in the corresponding HashMap with
+                        //the new information from the pop-up window.
+
+                        CMS.Domain.LoadingHashMaps.getInstance().getProducts().replace(str[0], str[1]);
+
+                        String[] array = str[1].split(";;");
+
+                        CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().replace(str[0].substring(0, array[0].indexOf("---"))
+                                + "_thumbnail", array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
+                                + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
+
+                        //This part reloads our ListView.
+
+                        try {
+                            loadProducts();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+
+
+            } else if (event.getSource() == deleteProduct_button) {
+                //This part gets the index/indexes selected in our UI's ListView.
+
+                ObservableList<Integer> selectedIndices = productList.getSelectionModel().getSelectedIndices();
+
+                //This part checks if there is only one index selected.
+
+                if (selectedIndices.size() == 1) {
+
+                    //This part gets the information from the selected index and changes it to the correct Path.
+
+                    String product = productList.getItems().get(selectedIndices.get(0));
+                    String previousID = product.split(";;")[0];
+
+                    Path filePath = Paths.get("src/main/data/CMS/Products" + previousID + ".txt");
+
+                    //This part converts the Path into a File and deletes it.
+
+                    File fileToDelete = new File(filePath.toString());
+                    fileToDelete.delete();
+
+                    //This part deletes the entry in the corresponding HashMap.
+
+                    CMS.Domain.LoadingHashMaps.getInstance().getProducts().remove(previousID);
+
+                    //This part loads the productList again and resets the search bar's text.
+
+                    try {
+                        loadProducts();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+            }
+        };
+        editProduct_button.setOnAction(buttonHandler);
+        deleteProduct_button.setOnAction(buttonHandler);
+    }
+
+
+
     @FXML
     protected void addProduct() throws IOException {
 

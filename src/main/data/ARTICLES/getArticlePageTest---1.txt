@@ -32,7 +32,7 @@
 </head>
 
 <body>
-<img src="C:/Users/patri/OneDrive/Dokumenter/GitHub/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png" alt="getArticlePageTest">
+<img src="C:/Users/harry/Documents/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png" alt="getArticlePageTest">
   <h1>getArticlePageTest</h1>
 
 </body>

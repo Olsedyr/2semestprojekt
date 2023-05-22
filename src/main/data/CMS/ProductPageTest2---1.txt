@@ -75,7 +75,7 @@ margin: 10px 0;
 </header>
 <div class="container">
 <div class="product-info">
-<img class="productImage" alt="Image of Product" src="file:///C:/Users/patri/OneDrive/Dokumenter/GitHub/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png">
+<img class="productImage" alt="Image of Product" src="file:///C:/Users/harry/Documents/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png">
 <div class="details">
 <h2>ProductPageTest2</h2>
 <p>Price: $49.99</p>

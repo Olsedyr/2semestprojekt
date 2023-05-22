@@ -1,9 +1,5 @@
 package CMS.Presentation;
 
-import CMS.Domain.Create;
-import CMS.Domain.ShopAccess;
-import CMS.Presentation.PopupWindow;
-import CMS.Presentation.PopupWindowArticle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,30 +15,24 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class CMSController implements Initializable{
 
     @FXML
-    private WebView webView;
+    private ListView<String> productList, articleList;
     @FXML
-    private WebView webView2;
+    private TextField searchBar, searchBar2;
     @FXML
-    private TextField searchBar;
-    @FXML
-    private TextField searchBar2;
-
+    private WebView webView, webView2;
     private WebEngine engine;
-    @FXML
-    private ListView<String> productList;
 
-    @FXML
-    private ListView<String> articleList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //This part loads our products when the application is started up.
-
         try {
             CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
 
@@ -53,11 +43,7 @@ public class CMSController implements Initializable{
         }
 
         //This part ensures that we can view our HTML-files.
-
         engine = webView.getEngine();
-
-
-
         productList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 try {
@@ -69,11 +55,7 @@ public class CMSController implements Initializable{
         });
 
         //This part ensures that we can view our HTML-articles.
-
         engine = webView2.getEngine();
-
-
-
         articleList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 try {
@@ -83,25 +65,22 @@ public class CMSController implements Initializable{
                 }
             }
         });
-
     }
+
+    // region ----------------------------------------Add function----------------------------------------
     @FXML
     protected void addProduct() throws IOException {
-
         //This part makes a new pop-up window to write the information.
-
         PopupWindow popupWindow = new PopupWindow();
         String[] str = popupWindow.getResult();
 
         if (str != null) {
 
             //This part makes the information for the file path with the contents of the pop-up window.
-
             File htmlFile = new File(Paths.get("src/main/data/CMS/" + str[0]
                     + ".txt").toString());
 
             //This part makes a new file with the contents of the pop-up window.
-
             if (htmlFile.createNewFile()) {
                 FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
                 myWriter.write(str[2]);
@@ -109,7 +88,6 @@ public class CMSController implements Initializable{
             }
 
             //This part puts the information about the new file into the HashMap containing this information.
-
             CMS.Domain.LoadingHashMaps.getInstance().getProducts().put(str[0], str[1]);
 
             String[] array = str[1].split(";;");
@@ -119,30 +97,22 @@ public class CMSController implements Initializable{
                     + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
 
             //This part reloads the ListView.
-
             loadProducts();
         }
     }
 
-
     @FXML
     protected void addArticle() throws IOException {
-
         //This part makes a new pop-up window to write the information.
-
         PopupWindowArticle popupWindow = new PopupWindowArticle();
-
         String[] str = popupWindow.getResult();
 
         if (str != null) {
-
             //This part makes the information for the file path with the contents of the pop-up window.
-
             File htmlFile = new File(Paths.get("src/main/data/ARTICLES/" + str[0]
                     + ".txt").toString());
 
             //This part makes a new file with the contents of the pop-up window.
-
             if (htmlFile.createNewFile()) {
                 FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
                 myWriter.write(str[2]);
@@ -150,124 +120,123 @@ public class CMSController implements Initializable{
             }
 
             //This part puts the information about the new file into the HashMap containing this information.
-
             CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(str[0], str[1]);
 
             //This part reloads the ListView.
-
             loadArticles();
         }
+    }
+    //endregion
+
+    // region ----------------------------------------Delete function----------------------------------------
+    @FXML
+    protected void deleteProduct() throws IOException {
+        processDeleting(productList, "src/main/data/CMS/",
+                CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
+                CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
+            try {
+                loadProducts();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @FXML
     protected void deleteArticle() throws IOException {
+        processDeleting(articleList, "src/main/data/ARTICLES/",
+                CMS.Domain.LoadingHashMaps.getInstance().getArticles(), null, () -> {
+                    try {
+                loadArticles();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void processDeleting(ListView<String> listView, String directory, Map<String, String> dataMap,
+                                 Map<String, String> thumbnails, Runnable loadMethod) throws IOException {
 
         //This part gets the index/indexes selected in our UI's ListView.
-
-        ObservableList<Integer> selectedIndices = articleList.getSelectionModel().getSelectedIndices();
+        var selectedIndices = listView.getSelectionModel().getSelectedIndices();
 
         //This part checks if there is only one index selected.
-
         if (selectedIndices.size() == 1) {
 
             //This part gets the information from the selected index and changes it to the correct Path.
+            String item = listView.getItems().get(selectedIndices.get(0));
+            String previousID = item.split(";;")[0];
 
-            String product = articleList.getItems().get(selectedIndices.get(0));
-            String previousID = product.split(";;")[0];
-
-            Path filePath = Paths.get("src/main/data/ARTICLES/" + previousID + ".txt");
+            Path filePath = Paths.get(directory + previousID + ".txt");
 
             //This part converts the Path into a File and deletes it.
-
             File fileToDelete = new File(filePath.toString());
             fileToDelete.delete();
 
             //This part deletes the entry in the corresponding HashMap.
+            dataMap.remove(previousID);
 
-            CMS.Domain.LoadingHashMaps.getInstance().getArticles().remove(previousID);
-
-            CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().remove(previousID.substring(0, previousID.indexOf("---"))
-                    + "_thumbnail");
-
-
-            //This part loads the productList again and resets the search bar's text.
-
-            loadArticles();
-        }
-    }
-
-
-
-
-    @FXML
-    protected void deleteProduct() throws IOException {
-
-        //This part gets the index/indexes selected in our UI's ListView.
-
-        ObservableList<Integer> selectedIndices = productList.getSelectionModel().getSelectedIndices();
-
-        //This part checks if there is only one index selected.
-
-        if (selectedIndices.size() == 1) {
-
-            //This part gets the information from the selected index and changes it to the correct Path.
-
-            String product = productList.getItems().get(selectedIndices.get(0));
-            String previousID = product.split(";;")[0];
-
-            Path filePath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
-
-            //This part converts the Path into a File and deletes it.
-
-            File fileToDelete = new File(filePath.toString());
-            fileToDelete.delete();
-
-            //This part deletes the entry in the corresponding HashMap.
-
-            CMS.Domain.LoadingHashMaps.getInstance().getProducts().remove(previousID);
+            if (thumbnails != null) {
+                thumbnails.remove(previousID.substring(0, previousID.indexOf("---")) + "_thumbnail");
+            }
 
             //This part loads the productList again and resets the search bar's text.
-
-            loadProducts();
+            loadMethod.run();
         }
     }
+    //endregion
 
-
+    // region ----------------------------------------Edit function----------------------------------------
     @FXML
     protected void editProduct() throws IOException {
+        //This part edits the product.
+        processEditing(productList, "src/main/data/CMS/", CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
+                CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
+            try {
+                loadProducts();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
+    @FXML
+    protected void editArticle() throws IOException {
+        //This part edits the article.
+        processEditing(articleList, "src/main/data/ARTICLES/",
+                CMS.Domain.LoadingHashMaps.getInstance().getArticles(), null, () -> {
+            try {
+                loadArticles();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void processEditing(ListView<String> listView, String directory, Map<String, String> dataMap, Map<String, String> thumbnails, Runnable loadMethod) throws IOException {
         //This part gets the index/indexes selected in our UI's ListView.
+        ObservableList<Integer> selectedIndices = listView.getSelectionModel().getSelectedIndices();
 
-        ObservableList<Integer> selectedIndices = productList.getSelectionModel().getSelectedIndices();
-
-        //This part checks if there is only one index selected.
-
+        //This part checks if there is only one index selected
         if (selectedIndices.size() == 1) {
 
             //This part gets the id and template id from the selected index.
-
-            String product = productList.getItems().get(selectedIndices.get(0));
+            String product = listView.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";;")[0];
 
             //This part makes a new pop-up window to write the information.
-
             PopupWindow popupWindow = new PopupWindow();
             String[] str = popupWindow.getResult();
 
             if (str != null) {
                 //This part gets a filepath using the previous id and previous template id.
-
-                Path filepath = Paths.get("src/main/data/CMS/" + previousID + ".txt");
+                File fileToDelete = new File(directory + previousID + ".txt");
 
                 //This part deletes the old file.
-
-                File fileToDelete = new File(filepath.toString());
                 fileToDelete.delete();
 
                 //This part makes a new file with the information from the pop-up window.
-
-                File newFile = new File(Paths.get("src/main/data/CMS/" + str[0]
-                        + ".txt").toString());
+                File newFile = new File(directory + str[0] + ".txt");
 
                 FileWriter myWriter = new FileWriter(String.valueOf(newFile));
                 myWriter.write(str[2]);
@@ -275,224 +244,124 @@ public class CMSController implements Initializable{
 
                 //This part replaces the original information in the corresponding HashMap with
                 //the new information from the pop-up window.
-
-                CMS.Domain.LoadingHashMaps.getInstance().getProducts().replace(str[0], str[1]);
-
-                String[] array = str[1].split(";;");
-
-                CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().replace(str[0].substring(0, array[0].indexOf("---"))
-                        + "_thumbnail", array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
-                        + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
+                dataMap.replace(str[0], str[1]);
+                if (thumbnails != null) {
+                    String[] array = str[1].split(";;");
+                    thumbnails.replace(str[0].substring(0, array[0].indexOf("---"))
+                            + "_thumbnail", array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
+                            + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
+                }
 
                 //This part reloads our ListView.
-
-                loadProducts();
+                loadMethod.run();
             }
         }
     }
+    //endregion
 
-
-    @FXML
-    protected void editArticle() throws IOException {
-
-        //This part gets the index/indexes selected in our UI's ListView.
-
-        ObservableList<Integer> selectedIndices = articleList.getSelectionModel().getSelectedIndices();
-
-        //This part checks if there is only one index selected.
-
-        if (selectedIndices.size() == 1) {
-
-            //This part gets the id and template id from the selected index.
-
-            String product = articleList.getItems().get(selectedIndices.get(0));
-            String previousID = product.split(";;")[0];
-
-            //This part makes a new pop-up window to write the information.
-
-            PopupWindowArticle popupWindowArticle = new PopupWindowArticle();
-            String[] str = popupWindowArticle.getResult();
-
-            if (str != null) {
-                //This part gets a filepath using the previous id and previous template id.
-
-                Path filepath = Paths.get("src/main/data/ARTICLES/" + previousID + ".txt");
-
-                //This part deletes the old file.
-
-                File fileToDelete = new File(filepath.toString());
-                fileToDelete.delete();
-
-                //This part makes a new file with the information from the pop-up window.
-
-                File newFile = new File(Paths.get("src/main/data/ARTICLES/" + str[0]
-                        + ".txt").toString());
-
-                FileWriter myWriter = new FileWriter(String.valueOf(newFile));
-                myWriter.write(str[2]);
-                myWriter.close();
-
-                //This part replaces the original information in the corresponding HashMap with
-                //the new information from the pop-up window.
-
-                CMS.Domain.LoadingHashMaps.getInstance().getArticles().replace(str[0], str[1]);
-
-                //This part reloads our ListView.
-
-                loadArticles();
-            }
-        }
-    }
-
-
-
+    // region ----------------------------------------Load function----------------------------------------
     public void loadProducts() throws IOException {
-
-        CMS.Domain.LoadingHashMaps.getInstance().hashMapProductsIntoTextFiles();
-
-        CMS.Domain.LoadingHashMaps.getInstance().hashMapThumbnailsIntoTextFiles();
-
-        //This part gets the file path and makes an ArrayList of Strings
-        //from the information in every file therein.
-
-
-
-
-        //This part clears the information in ListView containing the product list.
-
-        if(productList != null){
-            productList.getItems().clear();
-
-            //This part copies the information in the text file containing the information of the different products
-            //into the previously mentioned ListView.
-
-            for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getProducts().entrySet()) {
-                productList.getItems().add(entry.getValue());
-            }
-
-            //This part refreshes/updates the ListView.
-
-            productList.refresh();
-        }
+        //This part loads the products.
+        loadData(productList, CMS.Domain.LoadingHashMaps.getInstance().getProducts());
     }
-
-
 
     public void loadArticles() throws IOException {
+        //This part loads the articles.
+        loadData(articleList, CMS.Domain.LoadingHashMaps.getInstance().getArticles());
+    }
 
-        CMS.Domain.LoadingHashMaps.getInstance().hashMapArticlesIntoTextFiles();
+    private void loadData(ListView<String> listView, Map<String, String> dataMap) throws IOException {
 
-
-        //This part clears the information in ListView containing the product list.
-
-        if(articleList != null){
-            articleList.getItems().clear();
+        //This part clears the information in ListView containing the list.
+        if (listView != null) {
+            listView.getItems().clear();
 
             //This part copies the information in the text file containing the information of the different products
             //into the previously mentioned ListView.
-
-            for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getArticles().entrySet()) {
-                articleList.getItems().add(entry.getValue());
+            for (Map.Entry<String, String> entry : dataMap.entrySet()) {
+                listView.getItems().add(entry.getValue());
             }
 
             //This part refreshes/updates the ListView.
-
-            articleList.refresh();
+            listView.refresh();
         }
     }
+    //endregion
 
+    // region ----------------------------------------WebView function----------------------------------------
+    // Display product HTML in web view
     private void webViewShowHtml(String productInfo) throws IOException {
-        String[] productFields = productInfo.split(";;");
-        String id = productFields[0].trim();
-
-        Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + ".txt");
-        String htmlContent = Files.readString(htmlFilePath);
-
-        engine = webView.getEngine();
-        engine.loadContent(htmlContent);
+        webViewShowHtmlContent(productInfo, webView, "src/main/data/CMS/");
     }
 
-
+    // Display article HTML in web view
     private void webViewShowHtmlArticle(String articleInfo) throws IOException {
-        //This parts gets the information from the listview and splits the string with a regex.
-        String[] articleFields = articleInfo.split(";;");
-
-        //This part gets the ID of the selected item in the listview by checking index 0
-        String id = articleFields[0].trim();
-
-        //This part gets the correct file by using the previously obtained id
-        Path htmlFilePath = Paths.get("src/main/data/ARTICLES/" + id + ".txt");
-
-        //This part then reads the file as a string
-        String htmlContent = Files.readString(htmlFilePath);
-
-        //This part loads the htmlContent into the webview, showing the article in the User Interface.
-        engine = webView2.getEngine();
-        engine.loadContent(htmlContent);
+        webViewShowHtmlContent(articleInfo, webView2, "src/main/data/ARTICLES/");
     }
 
+    private void webViewShowHtmlContent(String info, WebView webView, String directory) throws IOException {
+        //This parts gets the information from the listview and splits the string with a regex.
+        String[] fields = info.split(";;");
 
+        File htmlFile = new File(Paths.get(directory + fields[0] + ".txt").toString());
+
+        if (htmlFile.exists()) {
+            String htmlString = Files.readString(Paths.get(htmlFile.getPath()));
+
+            webView.getEngine().loadContent(htmlString);
+        } else {
+            webView.getEngine().loadContent("");
+        }
+    }
+    //endregion
+
+    // region ----------------------------------------Search function----------------------------------------
     @FXML
     protected void searchProducts() throws IOException {
-
-        //This part gets the text in the search bar in lowercase.
-
-        String search_text = searchBar.getText().strip().toLowerCase();
-
-        //This part updates our ListView.
-
-        loadProducts();
-
-        //This part makes an ArrayList of Strings to put any results,which contains the words
-        //the user is searching for. A minimum of 3 symbols must be written to see any results.
-        if (search_text.length() >= 3) {
-            ArrayList<String> results = new ArrayList<>();
-
-            for(String product: productList.getItems()) {
-                if (product.toLowerCase().contains(search_text)) results.add(product);
+        //This part searches the products.
+        searchItems(searchBar, productList, () -> {
+            try {
+                loadProducts();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-
-            //This part clears the ListView and shows the resulting products instead.
-
-            productList.getItems().clear();
-            if (results.size() > 0) {
-                for(String found_product: results) productList.getItems().add(found_product);
-                productList.refresh();
-            }
-        }
+        });
     }
-
 
     @FXML
     protected void searchArticles() throws IOException {
+        //This part searches the articles.
+        searchItems(searchBar2, articleList, () -> {
+            try {
+                loadArticles();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
+    private void searchItems(TextField searchBar, ListView<String> listView, Runnable loadMethod) throws IOException {
         //This part gets the text in the search bar in lowercase.
-
-        String search_text = searchBar2.getText().strip().toLowerCase();
+        String search_text = searchBar.getText().strip().toLowerCase();
 
         //This part updates our ListView.
-
-        loadArticles();
+        loadMethod.run();
 
         //This part makes an ArrayList of Strings to put any results,which contains the words
         //the user is searching for. A minimum of 3 symbols must be written to see any results.
         if (search_text.length() >= 3) {
             ArrayList<String> results = new ArrayList<>();
-
-            for(String product: articleList.getItems()) {
+            for (String product : listView.getItems()) {
                 if (product.toLowerCase().contains(search_text)) results.add(product);
             }
 
             //This part clears the ListView and shows the resulting products instead.
-
-            articleList.getItems().clear();
+            listView.getItems().clear();
             if (results.size() > 0) {
-                for(String found_product: results) articleList.getItems().add(found_product);
-                articleList.refresh();
+                for (String found_product : results) listView.getItems().add(found_product);
+                listView.refresh();
             }
         }
     }
-
-
-
+    //endregion
 }

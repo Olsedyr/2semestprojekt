@@ -32,7 +32,7 @@ margin: 10px 0;
 <body>
 <a href="../../data/CMS/getThumbnailTest.html">
 <div class="thumbnail">
-<img class="productImage" alt="Image of Product" src="file:///C:/Users/patri/OneDrive/Dokumenter/GitHub/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png">
+<img class="productImage" alt="Image of Product" src="file:///C:/Users/harry/Documents/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png">
 <h2>getThumbnailTest</h2>
 <p>Price: $9.99</p>
 </div>

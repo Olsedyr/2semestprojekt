@@ -122,7 +122,7 @@ public class CMSController implements Initializable{
                     if (str != null) {
                         //This part gets a filepath using the previous id and previous template id.
 
-                        Path filepath = Paths.get("src/main/data/CMS/Products" + previousID + ".txt");
+                        Path filepath = Paths.get("src/main/data/CMS/Products/" + previousID + ".txt");
 
                         //This part deletes the old file.
 
@@ -131,7 +131,7 @@ public class CMSController implements Initializable{
 
                         //This part makes a new file with the information from the pop-up window.
 
-                        File newFile = new File(Paths.get("src/main/data/CMS/Products" + str[0]
+                        File newFile = new File(Paths.get("src/main/data/CMS/Products/" + str[0]
                                 + ".txt").toString());
 
                         FileWriter myWriter = null;
@@ -187,7 +187,7 @@ public class CMSController implements Initializable{
                     String product = productList.getItems().get(selectedIndices.get(0));
                     String previousID = product.split(";;")[0];
 
-                    Path filePath = Paths.get("src/main/data/CMS/Products" + previousID + ".txt");
+                    Path filePath = Paths.get("src/main/data/CMS/Products/" + previousID + ".txt");
 
                     //This part converts the Path into a File and deletes it.
 
@@ -535,7 +535,7 @@ public class CMSController implements Initializable{
         String[] productFields = productInfo.split(";;");
         String id = productFields[0].trim();
 
-        Path htmlFilePath = Paths.get("src/main/data/CMS/Products" + id + ".txt");
+        Path htmlFilePath = Paths.get("src/main/data/CMS/Products/" + id + ".txt");
         String htmlContent = Files.readString(htmlFilePath);
 
         engine = webView.getEngine();

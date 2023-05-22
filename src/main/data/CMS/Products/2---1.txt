@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>asd - Product Page</title>
+<title>dsf - Product Page</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
@@ -71,20 +71,20 @@ margin: 10px 0;
 </head>
 <body>
 <header>
-<h1>asd - Product Page</h1>
+<h1>dsf - Product Page</h1>
 </header>
 <div class="container">
 <div class="product-info">
 <img class="productImage" alt="Image of Product" src="file:///asd">
 <div class="details">
-<h2>asd</h2>
-<p>Price: $123</p>
-<p>Stock: 123</p>
+<h2>dsf</h2>
+<p>Price: $456</p>
+<p>Stock: 456</p>
 </div>
 </div>
 <div class="product-description">
 <h2>Product Description</h2>
-<p>asd</p>
+<p>sdf</p>
 </div>
 </div>
 </body>

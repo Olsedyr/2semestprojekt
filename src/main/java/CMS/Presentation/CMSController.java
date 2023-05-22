@@ -1,6 +1,5 @@
 package CMS.Presentation;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -177,7 +176,13 @@ public class CMSController implements Initializable{
             dataMap.remove(previousID);
 
             if (thumbnails != null) {
-                thumbnails.remove(previousID.substring(0, previousID.indexOf("---")) + "_thumbnail");
+                String thumbnailID = previousID.substring(0, previousID.indexOf("---")) + "_thumbnail";
+                thumbnails.remove(thumbnailID);
+
+                // specify the directory of thumbnail files
+                Path thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + thumbnailID + ".txt");
+                File thumbnailFileToDelete = new File(thumbnailFilePath.toString());
+                thumbnailFileToDelete.delete();
             }
 
             //This part loads the productList again and resets the search bar's text.
@@ -215,7 +220,7 @@ public class CMSController implements Initializable{
 
     private void processEditing(ListView<String> listView, String directory, Map<String, String> dataMap, Map<String, String> thumbnails, Runnable loadMethod) throws IOException {
         //This part gets the index/indexes selected in our UI's ListView.
-        ObservableList<Integer> selectedIndices = listView.getSelectionModel().getSelectedIndices();
+        var selectedIndices = listView.getSelectionModel().getSelectedIndices();
 
         //This part checks if there is only one index selected
         if (selectedIndices.size() == 1) {
@@ -234,6 +239,16 @@ public class CMSController implements Initializable{
 
                 //This part deletes the old file.
                 fileToDelete.delete();
+
+                // Delete old thumbnail file.
+                if (thumbnails != null) {
+                    String thumbnailID = previousID.substring(0, previousID.indexOf("---")) + "_thumbnail";
+                    thumbnails.remove(thumbnailID);
+
+                    Path thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + thumbnailID + ".txt");
+                    File thumbnailFileToDelete = new File(thumbnailFilePath.toString());
+                    thumbnailFileToDelete.delete();
+                }
 
                 //This part makes a new file with the information from the pop-up window.
                 File newFile = new File(directory + str[0] + ".txt");

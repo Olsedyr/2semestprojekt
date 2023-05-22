@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>getThumbnailsTest - Product Page</title>
+<title>asd - Product Page</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
@@ -71,20 +71,20 @@ margin: 10px 0;
 </head>
 <body>
 <header>
-<h1>getThumbnailsTest - Product Page</h1>
+<h1>asd - Product Page</h1>
 </header>
 <div class="container">
 <div class="product-info">
-<img class="productImage" alt="Image of Product" src="file:///C:/Users/harry/Documents/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png">
+<img class="productImage" alt="Image of Product" src="file:///asd">
 <div class="details">
-<h2>getThumbnailsTest</h2>
-<p>Price: $9.99</p>
-<p>Stock: 5</p>
+<h2>asd</h2>
+<p>Price: $123</p>
+<p>Stock: 123</p>
 </div>
 </div>
 <div class="product-description">
 <h2>Product Description</h2>
-<p>getThumbnailsTest description</p>
+<p>asd</p>
 </div>
 </div>
 </body>

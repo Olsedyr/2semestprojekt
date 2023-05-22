@@ -1,7 +1,11 @@
 package CMS.Presentation;
 
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
@@ -27,6 +31,12 @@ public class CMSController implements Initializable{
     @FXML
     private WebView webView, webView2;
     private WebEngine engine;
+
+    @FXML
+    private Button deleteProduct_button;
+
+    @FXML
+    private Button editProduct_button;
 
 
     @Override
@@ -65,6 +75,58 @@ public class CMSController implements Initializable{
             }
         });
     }
+
+
+    @FXML
+    protected void buttonEventHandler(){
+        EventHandler<ActionEvent> buttonHandler = (ActionEvent event) -> {
+            if (event.getSource() == editProduct_button) {
+
+                //This part edits the product.
+                try {
+                    processEditing(productList, "src/main/data/CMS/", CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
+                            CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
+                                try {
+                                    loadProducts();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            });
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+
+
+
+            } else if (event.getSource() == deleteProduct_button) {
+                try {
+                    processDeleting(productList, "src/main/data/CMS/",
+                            CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
+                            CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
+                                try {
+                                    loadProducts();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            });
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+
+        };
+        editProduct_button.setOnAction(buttonHandler);
+        deleteProduct_button.setOnAction(buttonHandler);
+    }
+
+
+
+
+
+
 
     // region ----------------------------------------Add function----------------------------------------
     @FXML
@@ -128,18 +190,7 @@ public class CMSController implements Initializable{
     //endregion
 
     // region ----------------------------------------Delete function----------------------------------------
-    @FXML
-    protected void deleteProduct() throws IOException {
-        processDeleting(productList, "src/main/data/CMS/",
-                CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
-                CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
-            try {
-                loadProducts();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
+
 
     @FXML
     protected void deleteArticle() throws IOException {
@@ -192,18 +243,7 @@ public class CMSController implements Initializable{
     //endregion
 
     // region ----------------------------------------Edit function----------------------------------------
-    @FXML
-    protected void editProduct() throws IOException {
-        //This part edits the product.
-        processEditing(productList, "src/main/data/CMS/", CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
-                CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
-            try {
-                loadProducts();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
+
 
     @FXML
     protected void editArticle() throws IOException {

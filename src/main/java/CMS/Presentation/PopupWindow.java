@@ -1,4 +1,5 @@
-package CMS;
+package CMS.Presentation;
+import CMS.Domain.Create;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -7,16 +8,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 import java.util.Optional;
+import static CMS.Domain.Create.createThumbnail;
 
 public class PopupWindow extends CMSController {
 
-        private String result;
+        private String[] result;
 
-        public String getResult() {
+        public String[] getResult() {
             return this.result;
         }
         public PopupWindow() {
-            Dialog<String> dialog = new Dialog<>();
+            Dialog<String[]> dialog = new Dialog<>();
             dialog.setTitle("Pop-up Window");
             dialog.setHeaderText("Pop-up Window");
 
@@ -76,24 +78,42 @@ public class PopupWindow extends CMSController {
             dialog.getDialogPane().setContent(grid);
 
             dialog.setResultConverter(dialogButton -> {
-                if (dialogButton == confirm) {
-                    String htmlContent = null;
+                TextField[] textFields = {id, name, description, price, stock, productImage, templateID};
+
+                boolean emptyFields = false;
+
+                for(int i = 0; i < textFields.length; i++){
+                    if(textFields[i].getText().isEmpty()){
+                        emptyFields = true;
+                    }
+                }
+
+                if (dialogButton == confirm && emptyFields != true) {
+                    String[] array = new String[3];
                     try {
 
-                        htmlContent = id.getText() + "-" + templateID.getText() + ";" + Create.create(name.getText(), description.getText(),
+                        array[0] = id.getText() + "---" + templateID.getText();
+
+                        array[1] = id.getText() + "---" + templateID.getText() + ";;" + name.getText() + ";;" + description.getText()
+                                        + ";;" + price.getText() + ";;" + stock.getText() + ";;" + productImage.getText();
+
+                        array[2] = Create.create(name.getText(), description.getText(),
                                 price.getText(), stock.getText(), productImage.getText(), Integer.parseInt(templateID.getText()));
+
+
+                                createThumbnail(id.getText(), name.getText(), price.getText(), productImage.getText());
 
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
 
-                    return htmlContent;
+                    return array;
                 }
 
                 return null;
             });
 
-            Optional<String> rslt = dialog.showAndWait();
+            Optional<String[]> rslt = dialog.showAndWait();
             if (rslt.isPresent() ) {
                 this.result = rslt.get();
             }

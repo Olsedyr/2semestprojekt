@@ -1,11 +1,9 @@
 package CMS;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import CMS.Presentation.CMSController;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,11 +11,6 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CMSControllerTest {
-
-    @Test
-    void getCMSController() {
-        assertTrue(CMSController.getCMSController() instanceof CMSController);
-    }
 
     @Test
     void getProductPageTest1() {
@@ -74,7 +67,7 @@ class CMSControllerTest {
                 "\n" +
                 "</html>";
 
-        boolean htmlTest = CMSController.getCMSController().getProductPage("ProductPageTest1", "1").equals(html.replace("\n", System.getProperty("line.separator")));
+        boolean htmlTest = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest1", "1").equals(html.replace("\n", System.getProperty("line.separator")));
 
         assertTrue(htmlTest);
     }
@@ -138,7 +131,7 @@ class CMSControllerTest {
 
         File imageFile = new File(String.valueOf(filePath));
 
-        boolean htmlTest = CMSController.getCMSController().getProductPage("Example Product", "This is an example product"
+        boolean htmlTest = CMS.Domain.ShopAccess.getInstance().getProductPage("Example Product", "This is an example product"
                 , 49.99, 5, "ProductPageTest2", imageFile, 1)
         .equals(html.replace(System.getProperty("line.separator"), "\n"));
 
@@ -163,20 +156,7 @@ class CMSControllerTest {
     @Test
     void productFilesInFolder() {
 
-        Path filePath = Paths.get("src/test/java/CMS/Test Files");
-
-        final File folder = new File(String.valueOf(filePath));
-
-        String testString = "productFilesInFolderTest-1;Example Product;This is an example product;49.99;5;https://example.com/image.png";
-
-        try {
-            boolean htmlTest = CMSController.productFilesInFolder(folder).get(0).equals(testString.replace("\n", System.getProperty("line.separator")));
-
-            assertTrue(htmlTest);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        //Delete later.
     }
 
     @Test

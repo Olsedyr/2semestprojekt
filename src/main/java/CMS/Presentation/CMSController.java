@@ -102,36 +102,47 @@ public class CMSController implements Initializable {
 
     private void processAdding(ListView<String> listView, String directory, Map<String, String> dataMap, Map<String, String> thumbnails, Runnable loadMethod) throws IOException {
 
+        //String array
         String[] str;
 
         //Makes a new pop-up window to write the information in based on whether it is a product or article.
+        //If it's a product thumbnail is not null else it's an article
         if (thumbnails != null) {
             PopupWindow popupWindow = new PopupWindow();
+            //Retrieves the information in the PopUpWindow to the string array
             str = popupWindow.getResult();
         } else {
             PopupWindowArticle popupWindow = new PopupWindowArticle();
+            //Retrieves the information in the PopUpWindow to the string array
             str = popupWindow.getResult();
         }
 
+        //If String array str is not null (The user has given information in the PopUpWindow)
         if (str != null) {
-
-            //Makes a new file with the information from the pop-up window.
+            //Makes a new file using the first element of the string array.
             File newFile = new File(directory + str[0] + ".txt");
 
-            //Makes a new file with the contents of the pop-up window.
+            //Makes a new file with the contents of the pop-up window that the user gave.
             if (newFile.createNewFile()) {
                 FileWriter myWriter = new FileWriter(String.valueOf(newFile));
                 myWriter.write(str[2]);
                 myWriter.close();
             }
 
-            //Puts the information from the pop-up window into the corresponding HashMap with the id and template id used for the key.
-
+            //Puts the information from the pop-up window into the corresponding HashMap with the id and template id used for the key in the HashMap.
             dataMap.put(str[0], str[1]);
 
+            //if thumbnail is null, then it's a product
             if (thumbnails != null) {
+                //split at the second element by using ";;"
+                //This will give array with the rest of the values for the specific product
                 String[] array = str[1].split(";;");
+
+                //Add the values to the thumbnails to the thumbnails HashMap getting a key value from beginning to "---"
+                //This key is what stores the value for a thumbnail
                 thumbnails.put(str[0].substring(0, array[0].indexOf("---"))
+
+                        //This is the value string the key corresponds to
                         + "_thumbnail", array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
                         + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
             }

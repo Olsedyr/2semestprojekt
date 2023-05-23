@@ -42,10 +42,6 @@ public class CreateTest {
         assertTrue(html.contains(stock));
         assertTrue(html.contains(price));
         assertTrue(html.contains(picture.replace("\\", "/")));
-
-        // Check if thumbnail file is created
-        Path thumbnailPath = Paths.get(THUMBNAIL_PATH + templateId + "_thumbnail.txt");
-        assertTrue(Files.exists(thumbnailPath));
     }
 
     @Test

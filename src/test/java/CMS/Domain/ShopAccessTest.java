@@ -126,7 +126,7 @@ class ShopAccessTest {
                     + (file.getAbsolutePath()).replace("\\", "/"));
 
 
-            CMS.Domain.LoadingHashMaps.getInstance().hashMapArticlesIntoTextFiles();
+            CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("articlesFile",  CMS.Domain.LoadingHashMaps.getInstance().getArticles());;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -194,7 +194,7 @@ class ShopAccessTest {
                     + ";;" + "getArticlePagesTest Subject" + ";;" + "getArticlePagesTest description" + ";;"
                     + (file.getAbsolutePath()).replace("\\", "/"));
 
-            CMS.Domain.LoadingHashMaps.getInstance().hashMapArticlesIntoTextFiles();
+            CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("articlesFile",  CMS.Domain.LoadingHashMaps.getInstance().getArticles());;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

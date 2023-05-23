@@ -73,8 +73,8 @@ public class ShopAccess implements ICMS {
         }
         //This part writes the HashMaps' information into the respective text files.
 
-        CMS.Domain.LoadingHashMaps.getInstance().hashMapProductsIntoTextFiles();
-        CMS.Domain.LoadingHashMaps.getInstance().hashMapThumbnailsIntoTextFiles();
+        CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("productsFile",  CMS.Domain.LoadingHashMaps.getInstance().getProducts());
+        CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("thumbnailsFile",  CMS.Domain.LoadingHashMaps.getInstance().getThumbnails());
 
 
         try {

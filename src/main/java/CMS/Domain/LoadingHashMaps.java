@@ -36,52 +36,14 @@ public class LoadingHashMaps {
         return thumbnails;
     }
 
-    //This function writes the contents of the HashMap products into a file for later retrieval.
-    public void hashMapProductsIntoTextFiles() {
-        Path productsfilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
+    public void hashMapIntoTextFiles(String filename, HashMap<String, String> hashMap) {
+        Path filePath = Paths.get("src/main/data/Files for ListViews/" + filename + ".txt");
 
         try {
-            FileWriter myWriter = new FileWriter(productsfilePath.toString());
+            FileWriter myWriter = new FileWriter(filePath.toString());
 
-            for(Map.Entry<String, String> product : products.entrySet()) {
-                myWriter.write(product.getValue() + ";;;");
-            }
-
-            myWriter.close();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    //This function writes the contents of the HashMap articles into a file for later retrieval.
-    public void hashMapArticlesIntoTextFiles() {
-
-        Path articlesfilePath = Paths.get("src/main/data/Files for ListViews/articlesFile.txt");
-
-        try {
-
-            FileWriter myWriter = new FileWriter(articlesfilePath.toString());
-
-            for(Map.Entry<String, String> article : articles.entrySet()) {
-                myWriter.write(article.getValue() + ";;;");
-            }
-
-            myWriter.close();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    //This function writes the contents of the HashMap thumbnails into a file for later retrieval.
-    public void hashMapThumbnailsIntoTextFiles() {
-        Path thumbnailsfilePath = Paths.get("src/main/data/Files for ListViews/thumbnailsFile.txt");
-
-        try {
-            FileWriter myWriter = new FileWriter(thumbnailsfilePath.toString());
-
-            for(Map.Entry<String, String> thumbnail : thumbnails.entrySet()) {
-                myWriter.write(thumbnail.getValue() + ";;;");
+            for(Map.Entry<String, String> entry : hashMap.entrySet()) {
+                myWriter.write(entry.getValue() + ";;;");
             }
 
             myWriter.close();
@@ -167,9 +129,9 @@ public class LoadingHashMaps {
 
                 //New files holding the updated information about the existing products and thumbnails are created.
 
-                hashMapProductsIntoTextFiles();
+                CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("productsFile",  CMS.Domain.LoadingHashMaps.getInstance().getProducts());
 
-                hashMapThumbnailsIntoTextFiles();
+                CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("thumbnailsFile",  CMS.Domain.LoadingHashMaps.getInstance().getThumbnails());
             }
 
         } catch (IOException e) {
@@ -231,7 +193,7 @@ public class LoadingHashMaps {
 
                 //A new file holding the updated information about the existing articles is created.
 
-                hashMapArticlesIntoTextFiles();
+                CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("articlesFile",  CMS.Domain.LoadingHashMaps.getInstance().getArticles());
             }
 
         } catch (IOException e) {

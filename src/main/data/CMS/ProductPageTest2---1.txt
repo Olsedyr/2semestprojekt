@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>MonitorInfo - Choosing Monitor </title>
+<title>Example Product - Product Page</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
@@ -9,10 +9,9 @@ body {
 font-family: Arial, sans-serif;
 margin: 0;
 padding: 0;
-background-color: pink;
 }
 header {
-background-color: #c3272b;
+background-color: #333;
 color: white;
 padding: 20px;
 text-align: center;
@@ -72,15 +71,20 @@ margin: 10px 0;
 </head>
 <body>
 <header>
-<h1>Choosing Monitor </h1>
+<h1>Example Product - Product Page</h1>
 </header>
 <div class="container">
 <div class="product-info">
-<img src="MonitorInfo picture" alt="Image of MonitorInfo">
+<img class="productImage" alt="Image of Product" src="file:///C:/Users/patri/OneDrive/Dokumenter/GitHub/2semestprojekt/src/test/java/CMS/Test Pictures/Example_picture.png">
 <div class="details">
-<h2>Choosing Monitor </h2>
-<p>This is how you choose the best monitor</p>
+<h2>Example Product</h2>
+<p>Price: $49.99</p>
+<p>Stock: 5</p>
 </div>
+</div>
+<div class="product-description">
+<h2>Product Description</h2>
+<p>This is an example product</p>
 </div>
 </div>
 </body>

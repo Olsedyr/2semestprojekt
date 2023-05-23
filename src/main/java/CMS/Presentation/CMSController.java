@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class CMSController implements Initializable{
+public class CMSController implements Initializable {
 
     @FXML
     private ListView<String> productList, articleList;
@@ -71,10 +71,6 @@ public class CMSController implements Initializable{
             }
         });
     }
-
-
-
-
 
 
     // region ----------------------------------------Add function----------------------------------------
@@ -132,7 +128,7 @@ public class CMSController implements Initializable{
             }
 
             //Puts the information about the new file into the HashMap containing this information.
-                CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(str[0], str[1]);
+            CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(str[0], str[1]);
 
             //Reloads the ListView.
             loadArticles();
@@ -148,12 +144,12 @@ public class CMSController implements Initializable{
         processDeleting(productList, "src/main/data/CMS/",
                 CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
                 CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
-            try {
-                loadProducts();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+                    try {
+                        loadProducts();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     @FXML
@@ -161,11 +157,11 @@ public class CMSController implements Initializable{
         processDeleting(articleList, "src/main/data/ARTICLES/",
                 CMS.Domain.LoadingHashMaps.getInstance().getArticles(), null, () -> {
                     try {
-                loadArticles();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+                        loadArticles();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     private void processDeleting(ListView<String> listView, String directory, Map<String, String> dataMap,
@@ -213,24 +209,24 @@ public class CMSController implements Initializable{
     protected void editProduct() throws IOException {
         processEditing(productList, "src/main/data/CMS/", CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
                 CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
-            try {
-                loadProducts();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+                    try {
+                        loadProducts();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     @FXML
     protected void editArticle() throws IOException {
         processEditing(articleList, "src/main/data/ARTICLES/",
                 CMS.Domain.LoadingHashMaps.getInstance().getArticles(), null, () -> {
-            try {
-                loadArticles();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+                    try {
+                        loadArticles();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     private void processEditing(ListView<String> listView, String directory, Map<String, String> dataMap, Map<String, String> thumbnails, Runnable loadMethod) throws IOException {
@@ -244,9 +240,16 @@ public class CMSController implements Initializable{
             String product = listView.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";;")[0];
 
-            //Makes a new pop-up window to write the information.
-            PopupWindow popupWindow = new PopupWindow();
-            String[] str = popupWindow.getResult();
+            String[] str;
+
+            //Makes a new pop-up window to write the information in based on whether it is a product or article.
+            if (thumbnails != null) {
+                PopupWindow popupWindow = new PopupWindow();
+                str = popupWindow.getResult();
+            } else {
+                PopupWindowArticle popupWindow = new PopupWindowArticle();
+                str = popupWindow.getResult();
+            }
 
             if (str != null) {
                 //Gets a filepath using the previous id and previous template id.
@@ -274,10 +277,12 @@ public class CMSController implements Initializable{
 
                 //Replaces the original information in the corresponding HashMap with
                 //the new information from the pop-up window.
-                dataMap.replace(str[0], str[1]);
+                dataMap.remove(previousID);
+                dataMap.put(str[0], str[1]);
+
                 if (thumbnails != null) {
                     String[] array = str[1].split(";;");
-                    thumbnails.replace(str[0].substring(0, array[0].indexOf("---"))
+                    thumbnails.put(str[0].substring(0, array[0].indexOf("---"))
                             + "_thumbnail", array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
                             + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
                 }
@@ -292,10 +297,13 @@ public class CMSController implements Initializable{
     // region ----------------------------------------Load function----------------------------------------
     //Load products or articles. The ListView is updated with the content of the HashMap.
     public void loadProducts() throws IOException {
+        CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("productsFile", CMS.Domain.LoadingHashMaps.getInstance().getProducts());
+        CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("thumbnailsFile", CMS.Domain.LoadingHashMaps.getInstance().getThumbnails());
         loadData(productList, CMS.Domain.LoadingHashMaps.getInstance().getProducts());
     }
 
     public void loadArticles() throws IOException {
+        CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("articlesFile", CMS.Domain.LoadingHashMaps.getInstance().getArticles());
         loadData(articleList, CMS.Domain.LoadingHashMaps.getInstance().getArticles());
     }
 
@@ -390,6 +398,7 @@ public class CMSController implements Initializable{
             }
         }
     }
+    //endregion
 
 
     private void createFolders() throws Exception {
@@ -400,8 +409,6 @@ public class CMSController implements Initializable{
                 "src/main/data/Files for ListViews/",
                 "src/main/data/Thumbnails/",
         };
-
-
 
         //Loops through each folderPath from the String array
         try {
@@ -420,28 +427,39 @@ public class CMSController implements Initializable{
                     {"ChangeGPU", "Change GPU", "This is how to change your GPU", "GPU picture", "1"},
                     {"MonitorInfo", "Choosing Monitor ", "This is how you choose the best monitor", "MonitorInfo picture", "1"}};
 
-            //
-            for (String[] fileInfo : createInfo){
+
+            //iterates over each fileInfo array within the createInfo two-dimensional-array
+            for (String[] fileInfo : createInfo) {
+                //Creates a filePath using a predefined path + fileInfo[0] + "---" + fileInfo[4]
                 String filePath = "src/main/data/ARTICLES/" + fileInfo[0] + "---" + fileInfo[4] + ".txt";
+
+                //Using the String filePath it gets the filepath using Paths.get method
                 Path path = Paths.get(filePath);
 
-
-                if(!Files.exists(path)){
+                //if the file doesn't exist it will create a String containing all the info from the fileInfo array from the loop.
+                //then it writes it to the path and converts it to a byte array. Bytes is the more suitable format for filewriting
+                //instead of strings, which is a sequence of characters.
+                if (!Files.exists(path)) {
                     String result = Create.create(fileInfo[0], fileInfo[1], fileInfo[2], fileInfo[3], Integer.parseInt(fileInfo[4]));
                     Files.write(path, result.getBytes());
                 }
 
-                CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(fileInfo[0] + "---" + fileInfo[4], fileInfo[0]+ "---" + fileInfo[4] + ";;" + fileInfo[1] + ";;" + fileInfo[2]
+                //Update the Articles in the hashmap in the CMS.Domain.LoadingHashMaps using. The key for the HashMap is fileInfo[0] & fileInfo[4]
+                //fileInfo[0] to fileInfo[4] is the value for the article in the HashMap
+                CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(fileInfo[0] + "---" + fileInfo[4], fileInfo[0] + "---" + fileInfo[4] + ";;" + fileInfo[1] + ";;" + fileInfo[2]
                         + ";;" + fileInfo[3]);
 
+                //Load the updated/new Articles in the CMS.Domain.LoadingHashMaps using the getArticles method
                 loadData(articleList, CMS.Domain.LoadingHashMaps.getInstance().getArticles());
 
-                CMS.Domain.LoadingHashMaps.getInstance().hashMapArticlesIntoTextFiles();
+                //Run the hashMapIntoTextFiles method with the string "articlesFile" and the Articles Hashmap.
+                // This will convert the article HashMap data into a TextFile representation.
+                CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("articlesFile", CMS.Domain.LoadingHashMaps.getInstance().getArticles());
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    //endregion
 }
+//endregion}

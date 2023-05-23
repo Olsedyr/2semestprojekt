@@ -254,6 +254,8 @@ class ShopAccessTest {
             throw new RuntimeException(e);
         }
 
+        
+
         boolean htmlTest = htmlContent.equals(CMS.Domain.ShopAccess.getInstance().getThumbnails().get("getThumbnailsTest_thumbnail"));
 
         assertTrue(htmlTest);

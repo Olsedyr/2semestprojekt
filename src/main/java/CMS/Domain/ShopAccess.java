@@ -101,7 +101,7 @@ public class ShopAccess implements ICMS {
 
             //This part makes a new file using the id and template id.
 
-            Path thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + id + "_thumbnails.txt");
+            Path thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + id + "_thumbnail.txt");
 
             File thumbnailFile = new File(String.valueOf(thumbnailFilePath));
 

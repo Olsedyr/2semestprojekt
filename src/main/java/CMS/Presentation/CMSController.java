@@ -288,10 +288,13 @@ public class CMSController implements Initializable{
     // region ----------------------------------------Load function----------------------------------------
     //Load products or articles. The ListView is updated with the content of the HashMap.
     public void loadProducts() throws IOException {
+        CMS.Domain.LoadingHashMaps.getInstance().hashMapProductsIntoTextFiles();
+        CMS.Domain.LoadingHashMaps.getInstance().hashMapThumbnailsIntoTextFiles();
         loadData(productList, CMS.Domain.LoadingHashMaps.getInstance().getProducts());
     }
 
     public void loadArticles() throws IOException {
+        CMS.Domain.LoadingHashMaps.getInstance().hashMapArticlesIntoTextFiles();
         loadData(articleList, CMS.Domain.LoadingHashMaps.getInstance().getArticles());
     }
 

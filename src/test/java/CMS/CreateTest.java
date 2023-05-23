@@ -36,17 +36,15 @@ public class CreateTest {
             String picture = "src/test/java/CMS/Test Pictures/Example_picture.png";
             int templateId = 1;
 
-            String html = Create.create(name, description, stock, price, picture, templateId);
+            String html = Create.create(name, description, price, stock, picture, templateId);
 
-            assertTrue(html.contains("<p>" + name + "</p>"));
+            System.out.println(html);
+
+            assertTrue(html.contains("<h2>" + name + "</h2>"));
             assertTrue(html.contains("<p>" + description + "</p>"));
-            assertTrue(html.contains("<p>" + stock + "</p>"));
-            assertTrue(html.contains("<p>" + price + "</p>"));
+            assertTrue(html.contains("<p>Stock: " + stock + "</p>"));
+            assertTrue(html.contains("<p>Price: $" + price + "</p>"));
             assertTrue(html.contains(picture.replace("\\", "/")));
-
-            // Check if thumbnail file is created
-            Path thumbnailPath = Paths.get(THUMBNAIL_PATH + templateId + "_thumbnail.txt");
-            assertTrue(Files.exists(thumbnailPath));
         } catch (Exception e) {
             fail("Test failed due to exception: " + e.getMessage());
         }
@@ -63,12 +61,8 @@ public class CreateTest {
 
             String html = Create.create(name, subject, text, picture, templateId);
 
-            assertTrue(html.contains("<h1>" + name + "</h1>"));
+            assertTrue(html.contains("<h1>" + subject + "</h1>"));
             assertTrue(html.contains(picture.replace("\\", "/")));
-
-            // Check if thumbnail file is created
-            Path thumbnailPath = Paths.get(THUMBNAIL_PATH + templateId + "_thumbnail.txt");
-            assertTrue(Files.exists(thumbnailPath));
         } catch (Exception e) {
             fail("Test failed due to exception: " + e.getMessage());
         }

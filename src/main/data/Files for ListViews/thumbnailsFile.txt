@@ -1,1 +1,1 @@
-ProductPageTest2_thumbnail;;Example Product;;49.99;;C:\Users\patri\OneDrive\Dokumenter\GitHub\2semestprojekt\src\test\java\CMS\Test Pictures\Example_picture.png;;;
+ProductPageTest2_thumbnail;;Example Product;;This is an example product;;49.99;;C:\Users\patri\OneDrive\Dokumenter\GitHub\2semestprojekt\src\test\java\CMS\Test Pictures\Example_picture.png;;;

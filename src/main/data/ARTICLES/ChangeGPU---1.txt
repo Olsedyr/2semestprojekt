@@ -1,40 +1,87 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <title>ChangeGPU</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-
-    h1 {
-      color: #333;
-    }
-
-    h2 {
-      color: #555;
-      margin-top: 30px;
-    }
-
-    p {
-      color: #444;
-      line-height: 1.6;
-    }
-
-    a {
-      color: #007bff;
-      text-decoration: none;
-    }
-  </style>
+<title>ChangeGPU - Change GPU</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 0;
+background-color: pink;
+}
+header {
+background-color: #c3272b;
+color: white;
+padding: 20px;
+text-align: center;
+}
+h1 {
+font-size: 36px;
+margin-bottom: 0;
+}
+.container {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+align-items: flex-start;
+margin: 20px;
+}
+.product-info {
+background-color: #f2f2f2;
+border: 1px solid #ccc;
+border-radius: 5px;
+box-shadow: 0 2px 2px #ccc;
+display: flex;
+flex-wrap: wrap;
+margin: 10px;
+padding: 10px;
+width: 800px;
+}
+.product-info img {
+flex: 1 1 300px;
+margin: 0 auto;
+max-width: 100%;
+}
+.product-info .details {
+flex: 1 1 300px;
+margin: 0 20px;
+}
+.product-info h2 {
+font-size: 24px;
+margin: 10px 0;
+}
+.product-info p {
+font-size: 18px;
+margin: 10px 0;
+}
+.product-description {
+margin: 20px;
+width: 800px;
+}
+.product-description h2 {
+font-size: 24px;
+margin: 10px 0;
+}
+.product-description p {
+font-size: 18px;
+margin: 10px 0;
+}
+</style>
 </head>
-
 <body>
-<img src="GPU picture" alt="ChangeGPU">
-  <h1>ChangeGPU</h1>
-
+<header>
+<h1>Change GPU</h1>
+</header>
+<div class="container">
+<div class="product-info">
+<img src="GPU picture" alt="Image of ChangeGPU">
+<div class="details">
+<h2>Change GPU</h2>
+<p>This is how to change your GPU</p>
+</div>
+</div>
+</div>
 </body>
-
 </html>

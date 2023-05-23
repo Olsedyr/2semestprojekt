@@ -3,6 +3,7 @@ package CMS.Presentation;
 // In this file, various FXML elements are imported for UI functionality,
 // including ListView, TextField, WebView, and more.
 
+import CMS.Domain.Create;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -37,7 +38,7 @@ public class CMSController implements Initializable{
         //Loads our products when the application is started up.
         try {
             CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
-
+            createFolders();
             loadProducts();
             loadArticles();
         } catch (IOException e) {
@@ -68,6 +69,11 @@ public class CMSController implements Initializable{
             }
         });
     }
+
+
+
+
+
 
     // region ----------------------------------------Add function----------------------------------------
     // Add a new product. A popup window is displayed for input.
@@ -382,5 +388,60 @@ public class CMSController implements Initializable{
             }
         }
     }
+
+
+    private void createFolders() {
+        // Specify the folder paths
+        String articleFolder = "src/main/data/ARTICLES/";
+        String cmsFolder = "src/main/data/CMS/";
+        String listViewsFolder = "src/main/data/Files for ListViews/";
+        String thumbnailsFolder= "src/main/data/Thumbnails/";
+        // Add more folder paths as needed
+
+        try {
+            // Create the folders paths
+            Path path1 = Paths.get(articleFolder);
+            Path path2 = Paths.get(cmsFolder);
+            Path path3 = Paths.get(listViewsFolder);
+            Path path4 = Paths.get(thumbnailsFolder);
+
+
+            //These if-statements checks if the folders exist. If they don't,
+            //the create.Directories method is called and creates the folder from the paths assigned above
+            if (!Files.exists(path1)) {
+                Files.createDirectories(path1);
+                System.out.println("ArticleFolder created..");
+            }else{
+                System.out.println("ArticleFolder already exists..");
+            }
+
+            if (!Files.exists(path2)) {
+                Files.createDirectories(path2);
+                System.out.println("CMSFolder created..");
+            }else{
+                System.out.println("CMSFolder already exist..");
+            }
+
+
+            if (!Files.exists(path3)) {
+                Files.createDirectories(path3);
+                System.out.println("ListViewsFolder created..");
+            }else{
+                System.out.println("ListViewsFolder already exists..");
+            }
+
+            if (!Files.exists(path4)) {
+                Files.createDirectories(path4);
+                System.out.println("ThumbnailsFolder created..");
+            }else{
+                System.out.println("ThumbnailsFolder already exists");
+            }
+            
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //endregion
 }

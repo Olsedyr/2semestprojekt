@@ -3,7 +3,6 @@ package CMS.Presentation;
 // In this file, various FXML elements are imported for UI functionality,
 // including ListView, TextField, WebView, and more.
 
-import CMS.Domain.Create;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -69,9 +68,6 @@ public class CMSController implements Initializable{
             }
         });
     }
-
-
-
 
 
 
@@ -272,10 +268,12 @@ public class CMSController implements Initializable{
 
                 //Replaces the original information in the corresponding HashMap with
                 //the new information from the pop-up window.
-                dataMap.replace(str[0], str[1]);
+                dataMap.remove(previousID);
+                dataMap.put(str[0], str[1]);
+
                 if (thumbnails != null) {
                     String[] array = str[1].split(";;");
-                    thumbnails.replace(str[0].substring(0, array[0].indexOf("---"))
+                    thumbnails.put(str[0].substring(0, array[0].indexOf("---"))
                             + "_thumbnail", array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
                             + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
                 }

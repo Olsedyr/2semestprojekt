@@ -1,71 +1,69 @@
 package CMS;
 
-import CMS.Presentation.CMSController;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CMSControllerTest {
 
     @Test
     void getProductPageTest1() {
         String html = "<!DOCTYPE html>\n" +
-                "<html>\n" +
-                "\n" +
-                "<head>\n" +
-                "  <title>Example Product</title>\n" +
-                "  <style>\n" +
-                "    body {\n" +
-                "      font-family: Arial, sans-serif;\n" +
-                "      margin: 0;\n" +
-                "      padding: 20px;\n" +
-                "    }\n" +
-                "\n" +
-                "    h1 {\n" +
-                "      color: #333;\n" +
-                "    }\n" +
-                "\n" +
-                "    h2 {\n" +
-                "      color: #555;\n" +
-                "      margin-top: 30px;\n" +
-                "    }\n" +
-                "\n" +
-                "    p {\n" +
-                "      color: #444;\n" +
-                "      line-height: 1.6;\n" +
-                "    }\n" +
-                "\n" +
-                "    a {\n" +
-                "      color: #007bff;\n" +
-                "      text-decoration: none;\n" +
-                "    }\n" +
-                "  </style>\n" +
-                "</head>\n" +
-                "\n" +
-                "<body>\n" +
-                "<img src=\"https://example.com/image.png\" alt=\"Example Product\">\n" +
-                "  <h1>Example Product</h1>\n" +
-                "\n" +
-                "  <h2>Product Description:</h2>\n" +
-                "  <p>\n" +
-                "This is an example product  </p>\n" +
-                "\n" +
-                "  <h2>Price:</h2>\n" +
-                "  <p>\n" +
-                "$49.99  </p>\n" +
-                "\n" +
-                "  <h2>Stock:</h2>\n" +
-                "  <p>\n" +
-                "5  </p>\n" +
-                "\n" +
-                "</body>\n" +
-                "\n" +
-                "</html>";
+            "<html>\n" +
+            "\n" +
+            "<head>\n" +
+            "  <title>Example Product</title>\n" +
+            "  <style>\n" +
+            "    body {\n" +
+            "      font-family: Arial, sans-serif;\n" +
+            "      margin: 0;\n" +
+            "      padding: 20px;\n" +
+            "    }\n" +
+            "\n" +
+            "    h1 {\n" +
+            "      color: #333;\n" +
+            "    }\n" +
+            "\n" +
+            "    h2 {\n" +
+            "      color: #555;\n" +
+            "      margin-top: 30px;\n" +
+            "    }\n" +
+            "\n" +
+            "    p {\n" +
+            "      color: #444;\n" +
+            "      line-height: 1.6;\n" +
+            "    }\n" +
+            "\n" +
+            "    a {\n" +
+            "      color: #007bff;\n" +
+            "      text-decoration: none;\n" +
+            "    }\n" +
+            "  </style>\n" +
+            "</head>\n" +
+            "\n" +
+            "<body>\n" +
+            "<img src=\"https://example.com/image.png\" alt=\"Example Product\">\n" +
+            "  <h1>Example Product</h1>\n" +
+            "\n" +
+            "  <h2>Product Description:</h2>\n" +
+            "  <p>\n" +
+            "This is an example product  </p>\n" +
+            "\n" +
+            "  <h2>Price:</h2>\n" +
+            "  <p>\n" +
+            "$49.99  </p>\n" +
+            "\n" +
+            "  <h2>Stock:</h2>\n" +
+            "  <p>\n" +
+            "5  </p>\n" +
+            "\n" +
+            "</body>\n" +
+            "\n" +
+            "</html>";
 
         boolean htmlTest = CMS.Domain.ShopAccess.getInstance().getProductPage("ProductPageTest1", "1").equals(html.replace("\n", System.getProperty("line.separator")));
 
@@ -154,22 +152,12 @@ class CMSControllerTest {
     }
 
     @Test
-    void productFilesInFolder() {
-
-        //Delete later.
-    }
-
-    @Test
     void loadProducts() {
-    }
-
-    @Test
-    void htmlToString() {
-        //Either Java or IntelliJ has a bug. We don't know which, and we do not care.
-        //If you want to know the details, dead our report or ask us at the exam.
+        //This would be very difficult to make a test for, given that it uses the ListView's selected indexes.
     }
 
     @Test
     void searchProducts() {
+        //This would be very difficult to make a test for, given that it uses the ListView's selected indexes.
     }
 }

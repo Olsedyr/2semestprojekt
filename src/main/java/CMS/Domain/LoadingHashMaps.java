@@ -11,30 +11,18 @@ import java.util.Map;
 
 public class LoadingHashMaps {
     private HashMap<String, String> products = new HashMap<>();
-
     private HashMap<String, String> articles = new HashMap<>();
-
     private HashMap<String, String> thumbnails = new HashMap<>();
 
     //Makes LoadingHashMaps a Singleton.
     private final static LoadingHashMaps instance = new LoadingHashMaps();
 
     //Gets the Singleton instance of LoadingHashMaps.
-    public static LoadingHashMaps getInstance() {
-        return instance;
-    }
+    public static LoadingHashMaps getInstance() {return instance;}
 
-    public HashMap<String, String> getProducts(){
-        return products;
-    }
-
-    public HashMap<String, String> getArticles() {
-        return articles;
-    }
-
-    public HashMap<String, String> getThumbnails() {
-        return thumbnails;
-    }
+    public HashMap<String, String> getProducts(){return products;}
+    public HashMap<String, String> getArticles() {return articles;}
+    public HashMap<String, String> getThumbnails() {return thumbnails;}
 
     public void hashMapIntoTextFiles(String filename, HashMap<String, String> hashMap) {
         Path filePath = Paths.get("src/main/data/Files for ListViews/" + filename + ".txt");

@@ -94,7 +94,7 @@ public class LoadingHashMaps {
 
                         newHashMap.put(array[0], lines[i]);
 
-                        if(array.length == 7){
+                        if(array.length == 6){
                             newThumbnails.put(array[0].substring(0, array[0].indexOf("---")) + "_thumbnail",
                                     array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
                                             + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
@@ -102,7 +102,7 @@ public class LoadingHashMaps {
                     } else {
                         file.delete();
 
-                        if(array.length == 7){
+                        if(array.length == 6){
                             thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + lines[i].substring(0, lines[i].indexOf("---")) + "_thumbnail.txt");
                             File thumbnail = new File(String.valueOf(thumbnailFilePath));
                             thumbnail.delete();

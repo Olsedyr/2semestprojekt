@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoadingHashMaps {
+
+    //Initialzing 3 Hashmaps
     private HashMap<String, String> products = new HashMap<>();
     private HashMap<String, String> articles = new HashMap<>();
     private HashMap<String, String> thumbnails = new HashMap<>();
@@ -20,20 +22,28 @@ public class LoadingHashMaps {
     //Gets the Singleton instance of LoadingHashMaps.
     public static LoadingHashMaps getInstance() {return instance;}
 
+
+    //3 getter methods for the HashMaps. This allows for retrieving the info in the Hashmaps
     public HashMap<String, String> getProducts(){return products;}
     public HashMap<String, String> getArticles() {return articles;}
     public HashMap<String, String> getThumbnails() {return thumbnails;}
 
+
+
     public void hashMapIntoTextFiles(String filename, HashMap<String, String> hashMap) {
+
+        //Gets a filePath by using the filename given as an argument
         Path filePath = Paths.get("src/main/data/Files for ListViews/" + filename + ".txt");
 
         try {
+            //Creates a new fileWrtier object, which gets the filePath and converts it to a string
             FileWriter myWriter = new FileWriter(filePath.toString());
 
+            //Iterates over every key-value pair(Entry) in the HashMap
             for(Map.Entry<String, String> entry : hashMap.entrySet()) {
+                //Writes the entries to the file ending with ";;;" as delimiter
                 myWriter.write(entry.getValue() + ";;;");
             }
-
             myWriter.close();
 
         } catch (IOException e) {

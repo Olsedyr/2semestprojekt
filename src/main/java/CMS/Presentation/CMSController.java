@@ -394,8 +394,11 @@ public class CMSController implements Initializable{
                 "src/main/data/ARTICLES/",
                 "src/main/data/CMS/",
                 "src/main/data/Files for ListViews/",
-                "src/main/data/Thumbnails/"
+                "src/main/data/Thumbnails/",
         };
+
+        String premadeArticlesPath = "src/main/premadeArticles/";
+        Path Folder = Paths.get(premadeArticlesPath);
 
 
         //Loops through each folderPath from the String array
@@ -413,6 +416,8 @@ public class CMSController implements Initializable{
                     System.out.println("Folders already exists: " + folderPath);
                 }
             }
+
+
 
 
 

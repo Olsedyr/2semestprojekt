@@ -37,7 +37,11 @@ public class CMSController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Loads our products when the application is started up.
         try {
+
+            //Loads the singleton instance of LoadingHashMaps and runs the textFilesIntoHashMaps
             CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
+
+            //Runs these methods when application is executed
             createFolders();
             loadProducts();
             loadArticles();
@@ -47,8 +51,11 @@ public class CMSController implements Initializable {
             throw new RuntimeException(e);
         }
 
-        //Ensures that we can view our HTML-files.
+        //Ensures that we can view our HTML-files. The engine renders and executes webpages
         engine = webView.getEngine();
+
+        //This is a listener that tracks what is selected by the user in the productList
+        //If a user changes what is selected this listener will change what is shown in the webView
         productList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 try {
@@ -59,8 +66,11 @@ public class CMSController implements Initializable {
             }
         });
 
-        //Ensures that we can view our HTML-articles.
+        //Ensures that we can view our HTML-files. The engine renders and executes webpages
         engine = webView2.getEngine();
+
+        //This is a listener that tracks what is selected by the user in the articleList
+        //If a user changes what is selected this listener will change what is shown in the webView
         articleList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 try {
@@ -78,9 +88,12 @@ public class CMSController implements Initializable {
     // The input is then used to create a new file and update the HashMaps.
     @FXML
     protected void addProduct() throws IOException {
+        //The processAdding is run and takes in multiple arguments/parameters
         processAdding(productList, "src/main/data/CMS/", CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
+                //The -> is a lambda expression showing an action need to be made
                 CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
                     try {
+                        //Loads the products
                         loadProducts();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -90,9 +103,13 @@ public class CMSController implements Initializable {
 
     @FXML
     protected void addArticle() throws IOException {
+        //The processAdding is run and takes in multiple arguments/parameters
         processAdding(articleList, "src/main/data/ARTICLES/",
+                //The -> is a lambda expression showing an action need to be made
+                //Thumbnails is null because an article doesn't have a thumbnail
                 CMS.Domain.LoadingHashMaps.getInstance().getArticles(), null, () -> {
                     try {
+                        //Loads the articles
                         loadArticles();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -158,10 +175,14 @@ public class CMSController implements Initializable {
     // the product or article is also deleted and HashMaps updated.
     @FXML
     protected void deleteProduct() throws IOException {
+        //The processDeleting is run and takes in multiple arguments/parameters
         processDeleting(productList, "src/main/data/CMS/",
                 CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
+
+                //The -> is a lambda expression showing an action need to be made
                 CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
                     try {
+                        //Loads the products
                         loadProducts();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -171,9 +192,14 @@ public class CMSController implements Initializable {
 
     @FXML
     protected void deleteArticle() throws IOException {
+        //The processDeleting is run and takes in multiple arguments/parameters
         processDeleting(articleList, "src/main/data/ARTICLES/",
+
+                //The -> is a lambda expression showing an action need to be made
+                //Thumbnails are null because an article doesn't have a thumbnail
                 CMS.Domain.LoadingHashMaps.getInstance().getArticles(), null, () -> {
                     try {
+                        //Load the articles
                         loadArticles();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -203,13 +229,19 @@ public class CMSController implements Initializable {
             //Deletes the entry in the corresponding HashMap.
             dataMap.remove(previousID);
 
+            //If the thumbnails is null
             if (thumbnails != null) {
+                //Finds the thumbnail and removes it
                 String thumbnailID = previousID.substring(0, previousID.indexOf("---")) + "_thumbnail";
+
+                //Deletes the entry in the thumbnails HashMap.
                 thumbnails.remove(thumbnailID);
 
-                // specify the directory of thumbnail files
+                //specify the directory of thumbnail files
                 Path thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + thumbnailID + ".txt");
                 File thumbnailFileToDelete = new File(thumbnailFilePath.toString());
+
+                //Deletes the thumbnail from the filesystem
                 thumbnailFileToDelete.delete();
             }
 
@@ -224,9 +256,14 @@ public class CMSController implements Initializable {
     // The input is then used to create a new file and update the HashMaps.
     @FXML
     protected void editProduct() throws IOException {
+        //The processEditing is run and takes in multiple arguments/parameters
         processEditing(productList, "src/main/data/CMS/", CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
+
+                //The -> is a lambda expression showing an action need to be made
                 CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
                     try {
+
+                        //Loads the products
                         loadProducts();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -236,9 +273,15 @@ public class CMSController implements Initializable {
 
     @FXML
     protected void editArticle() throws IOException {
+        //The processDeleting is run and takes in multiple arguments/parameters
         processEditing(articleList, "src/main/data/ARTICLES/",
+
+                //The -> is a lambda expression showing an action need to be made
+                //Thumbnails are null because an article doesn't have a thumbnail
                 CMS.Domain.LoadingHashMaps.getInstance().getArticles(), null, () -> {
                     try {
+
+                        //Loads the articles
                         loadArticles();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -314,13 +357,22 @@ public class CMSController implements Initializable {
     // region ----------------------------------------Load function----------------------------------------
     //Load products or articles. The ListView is updated with the content of the HashMap.
     public void loadProducts() throws IOException {
+        //This runs the hashMapIntoTextFiles method from LoadingHashMaps. It takes productsFile and the method getProducts as arguments
         CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("productsFile", CMS.Domain.LoadingHashMaps.getInstance().getProducts());
+
+        //This runs the hashMapIntoTextFiles method. It takes thumbnailsFile and the method getThumbnails as arguments
+        //This converts the HashMap data to textFiles
         CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("thumbnailsFile", CMS.Domain.LoadingHashMaps.getInstance().getThumbnails());
+
+        //This runs the loadData method and loads the above retrieved info into the productList in the User Interface
         loadData(productList, CMS.Domain.LoadingHashMaps.getInstance().getProducts());
     }
 
     public void loadArticles() throws IOException {
+        //This runs the hashMapIntoTextFiles method from LoadingHashMaps. It takes articleFile and the method getProducts as arguments
         CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("articlesFile", CMS.Domain.LoadingHashMaps.getInstance().getArticles());
+
+        //This runs the loadData method and loads the above retrieved info into the articleList in the User Interface
         loadData(articleList, CMS.Domain.LoadingHashMaps.getInstance().getArticles());
     }
 
@@ -345,24 +397,38 @@ public class CMSController implements Initializable {
     // region ----------------------------------------WebView function----------------------------------------
     // Display HTML content of a product or an article in the associated WebView.
     private void webViewShowHtml(String productInfo) throws IOException {
+
+        //This runs the webViewShowHtmlContent method with takes productInfo as a string
+        //Processes the information and puts it into a WebView which is used in the User interface
         webViewShowHtmlContent(productInfo, webView, "src/main/data/CMS/");
     }
 
     private void webViewShowHtmlArticle(String articleInfo) throws IOException {
+
+        //This runs the webViewShowHtmlContent method with takes articleInfo as a string
+        //Processes the information and puts it into a WebView which is used in the User interface
         webViewShowHtmlContent(articleInfo, webView2, "src/main/data/ARTICLES/");
     }
 
     private void webViewShowHtmlContent(String info, WebView webView, String directory) throws IOException {
+
         //Gets the information from the listview and splits the string with a regex.
         String[] fields = info.split(";;");
 
+        //Then creates a new file from the directory and the first element in the String array "fields",
+        //given as argument when method is run.
         File htmlFile = new File(Paths.get(directory + fields[0] + ".txt").toString());
 
+        //If the file already exists
         if (htmlFile.exists()) {
+
+            //Turn the file into a string using the Files.readString method
             String htmlString = Files.readString(Paths.get(htmlFile.getPath()));
 
+            //Load it into a webView
             webView.getEngine().loadContent(htmlString);
         } else {
+            //Else it will just load nothing/empty WebPage content into the WebView
             webView.getEngine().loadContent("");
         }
     }
@@ -372,8 +438,13 @@ public class CMSController implements Initializable {
     //Search for products or articles based on input in the search bar.
     @FXML
     protected void searchProducts() throws IOException {
+
+        //This runs the searchItems method which takes in the searchbar and the productList as arguments
+        //The -> is a lambda expression that shows an action is needed to be made
         searchItems(searchBar, productList, () -> {
             try {
+
+                //This loads the products
                 loadProducts();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -383,8 +454,12 @@ public class CMSController implements Initializable {
 
     @FXML
     protected void searchArticles() throws IOException {
+        //This runs the searchItems method which takes in the searchbar and the articleList as arguments
+        //The -> is a lambda expression that shows an action is needed to be made
         searchItems(searchBar2, articleList, () -> {
             try {
+
+                //This loads the articles
                 loadArticles();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -403,12 +478,19 @@ public class CMSController implements Initializable {
         //the user is searching for. A minimum of 3 symbols must be written to see any results.
         if (search_text.length() >= 3) {
             ArrayList<String> results = new ArrayList<>();
+
+            //Iterates over each item in the listView
             for (String product : listView.getItems()) {
+                //This adds product to the arraylist "results" if it matches the searched text
                 if (product.toLowerCase().contains(search_text)) results.add(product);
             }
 
-            //Clears the ListView and shows the resulting products instead.
+            //Clears the ListView
             listView.getItems().clear();
+
+            //If the results.size is over 0 (There are matches to the search)
+            //The results are shown in the listView by iterating over them and adding them to a String called found_product
+            //The ListView is then refreshed
             if (results.size() > 0) {
                 for (String found_product : results) listView.getItems().add(found_product);
                 listView.refresh();

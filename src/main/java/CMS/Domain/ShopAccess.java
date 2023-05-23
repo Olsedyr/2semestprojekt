@@ -24,7 +24,7 @@ public class ShopAccess implements ICMS {
     @Override
     public String getProductPage(String id, String template_id){
         //This part gets the current information about the existing products and thumbnails and puts it into their
-        //respective HashMaps.
+        //respective HashMaps located in the class LoadingHashMaps.
 
         CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
 
@@ -46,7 +46,7 @@ public class ShopAccess implements ICMS {
     public String getProductPage(String name, String description, double price, int stock, String id, File imageFile,
                           int template_id){
         //This part gets the current information about the existing products and thumbnails and puts it into their
-        //respective HashMaps.
+        //respective HashMaps  located in the class LoadingHashMaps.
 
         CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
 
@@ -58,7 +58,8 @@ public class ShopAccess implements ICMS {
 
         String filepath = imageFile.getAbsolutePath();
 
-        //This part puts the given information into the respective HashMap, overwriting when necessary.
+        //This part puts the given information into the respective HashMap located in the class LoadingHashMaps,
+        //overwriting when necessary.
 
         if (CMS.Domain.LoadingHashMaps.getInstance().getProducts().containsKey(id + "---" + template_id)){
             CMS.Domain.LoadingHashMaps.getInstance().getProducts().replace(id + "---" + template_id, id + "---" + template_id + ";;" + name + ";;" + description + ";;" + price_String + ";;" + stock_String + ";;" + filepath);
@@ -128,14 +129,23 @@ public class ShopAccess implements ICMS {
     //Read all article files into this HashMap and get a specific Entry based on its id.
     @Override
     public Map.Entry<String, String> getArticlePage(String title){
+        //This part gets the current information about the existing products and thumbnails and puts it into their
+        //respective HashMaps located in the class LoadingHashMaps.
 
         CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
 
+        //This part iterates over every entry in the HashMap articles from the class LoadingHashMaps and converts the information in the entry's value into HTML
+        //using the information from the entry's value.
+
         for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getArticles().entrySet()) {
+
+            //This part splits the article entry's information into parts.
 
             String[] array = entry.getValue().split(";;");
 
             String articleInHTML;
+
+            //This part converts the information into HTML.
 
             try {
                 articleInHTML = Create.create(array[0].substring(0, array[0].indexOf("---")), array[1], array[2], array[3], Integer.parseInt(array[0].substring(array[0].indexOf("---") + 3)));
@@ -143,28 +153,45 @@ public class ShopAccess implements ICMS {
                 throw new RuntimeException(e);
             }
 
+            //This part puts the entry into this class' articles HashMap.
+
             articles.put(entry.getKey(), articleInHTML);
 
         }
+
+        //This part returns the HTML content of entry with the given title as the entry's key.
 
         for (Map.Entry<String, String> entry : articles.entrySet()) {
             if (entry.getKey().equals(title)) {
                 return entry;
             }
         }
-        return null; // Key not found in the HashMap
+
+        //If the key is not found in the HashMap, null is returned.
+
+        return null;
     }
 
     //Read all article files into this HashMap and get them all.
     @Override
     public HashMap<String, String> getArticlePages(){
+        //This part gets the current information about the existing products and thumbnails and puts it into their
+        //respective HashMaps located in the class LoadingHashMaps.
+
         CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
 
+        //This part iterates over every entry in the HashMap articles from the class LoadingHashMaps and converts the information in the entry's value into HTML
+        //using the information from the entry's value.
+
         for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getArticles().entrySet()) {
+
+            //This part splits the article entry's information into parts.
 
             String[] array = entry.getValue().split(";;");
 
             String articleInHTML;
+
+            //This part converts the information into HTML.
 
             try {
                 articleInHTML = Create.create(array[0].substring(0, array[0].indexOf("---")), array[1], array[2], array[3], Integer.parseInt(array[0].substring(array[0].indexOf("---") + 3)));
@@ -172,9 +199,13 @@ public class ShopAccess implements ICMS {
                 throw new RuntimeException(e);
             }
 
+            //This part puts the entry into this class' articles HashMap.
+
             articles.put(entry.getKey(), articleInHTML);
 
         }
+
+        //This part returns the HTML content of every existing article. 
 
         return articles;
     }

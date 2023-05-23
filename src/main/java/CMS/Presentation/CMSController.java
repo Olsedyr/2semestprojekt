@@ -396,8 +396,10 @@ public class CMSController implements Initializable{
             }
         }
     }
+    //endregion
 
 
+    // region ----------------------------------------Search function----------------------------------------
     private void createFolders() {
         //The folder paths to create when loading application stored in a String array
         String[] folderPaths = {
@@ -426,16 +428,9 @@ public class CMSController implements Initializable{
                     System.out.println("Folders already exists: " + folderPath);
                 }
             }
-
-
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
     //endregion
 }

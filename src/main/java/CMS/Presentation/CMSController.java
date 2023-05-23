@@ -43,6 +43,8 @@ public class CMSController implements Initializable{
             loadArticles();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         //Ensures that we can view our HTML-files.
@@ -390,7 +392,7 @@ public class CMSController implements Initializable{
     }
 
 
-    private void createFolders() {
+    private void createFolders() throws Exception {
         //The folder paths to create when loading application stored in a String array
         String[] folderPaths = {
                 "src/main/data/ARTICLES/",
@@ -399,8 +401,11 @@ public class CMSController implements Initializable{
                 "src/main/data/Thumbnails/",
         };
 
-        String premadeArticlesPath = "src/main/premadeArticles/";
-        Path Folder = Paths.get(premadeArticlesPath);
+        String[] filePaths = {
+                "src/main/data/ARTICLES/ChangeCPU.txt",
+                "src/main/data/ARTICLES/ChangeGPU.txt",
+                "src/main/data/ARTICLES/MonitorInfo.txt",
+        };
 
 
         //Loops through each folderPath from the String array
@@ -420,14 +425,19 @@ public class CMSController implements Initializable{
             }
 
 
+            //Loops through each filePath in the String filePaths array
+            for (String filePath: filePaths){
+                Path path = Paths.get(filePath);
 
+                if(!Files.exists(path)){
+                    //Create the files here
 
+                }
 
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
     //endregion
 }

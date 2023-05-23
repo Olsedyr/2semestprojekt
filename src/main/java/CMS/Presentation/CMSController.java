@@ -416,11 +416,6 @@ public class CMSController implements Initializable{
                 //Creating the folder using createDirectories method, if the folderpath doesn't exist
                 if (!Files.exists(path)) {
                     Files.createDirectories(path);
-                    System.out.println("Folder created: " + folderPath);
-
-                //Prints out the names of the folderpaths if they already exists
-                }else{
-                    System.out.println("Folders already exists: " + folderPath);
                 }
             }
 
@@ -432,8 +427,7 @@ public class CMSController implements Initializable{
 
             //Loops through each filePath in the String filePaths array
             for (String[] fileInfo : createInfo){
-                String fileName = fileInfo[0];
-                String filePath = "src/main/data/ARTICLES/" + fileName + ".txt";
+                String filePath = "src/main/data/ARTICLES/" + fileInfo[0] + "---" + fileInfo[4] + ".txt";
                 Path path = Paths.get(filePath);
 
 

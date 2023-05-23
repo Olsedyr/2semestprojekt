@@ -78,7 +78,7 @@ public class CMSController implements Initializable {
     // The input is then used to create a new file and update the HashMaps.
     @FXML
     protected void addProduct() throws IOException {
-        processAdding(productList, "src/main/data/CMS/", CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
+        processAdding("src/main/data/CMS/", CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
                 CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
                     try {
                         loadProducts();
@@ -90,7 +90,7 @@ public class CMSController implements Initializable {
 
     @FXML
     protected void addArticle() throws IOException {
-        processAdding(articleList, "src/main/data/ARTICLES/",
+        processAdding("src/main/data/ARTICLES/",
                 CMS.Domain.LoadingHashMaps.getInstance().getArticles(), null, () -> {
                     try {
                         loadArticles();
@@ -100,7 +100,7 @@ public class CMSController implements Initializable {
                 });
     }
 
-    private void processAdding(ListView<String> listView, String directory, Map<String, String> dataMap, Map<String, String> thumbnails, Runnable loadMethod) throws IOException {
+    private void processAdding(String directory, Map<String, String> dataMap, Map<String, String> thumbnails, Runnable loadMethod) throws IOException {
 
         //String array
         String[] str;

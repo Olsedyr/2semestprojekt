@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -351,6 +352,14 @@ class ShopAccessTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
+
+        for(Map.Entry<String, String> entry : CMS.Domain.ShopAccess.getInstance().getThumbnails().entrySet()) {
+            System.out.println(entry.getKey());
+        }
+
+
 
         boolean htmlTest = htmlContent.equals(CMS.Domain.ShopAccess.getInstance().getThumbnails().get("getThumbnailsTest_thumbnail"));
 

@@ -88,16 +88,13 @@ public class LoadingHashMaps {
                     //If the file already exists, the information is put into the previously made HashMaps.
                     //If not, the products and its thumbnail is deleted.
 
+                    String[] array = lines[i].split(";;");
+
                     if(!file.createNewFile()){
-                        String[] array = lines[i].split(";;");
 
                         newHashMap.put(array[0], lines[i]);
 
-                        System.out.println(lines[i]);
-
-                        System.out.println(thumbnailsCheck);
-
-                        if(thumbnailsCheck != null){
+                        if(array.length == 7){
                             newThumbnails.put(array[0].substring(0, array[0].indexOf("---")) + "_thumbnail",
                                     array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
                                             + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
@@ -105,7 +102,7 @@ public class LoadingHashMaps {
                     } else {
                         file.delete();
 
-                        if(thumbnailsCheck != null){
+                        if(array.length == 7){
                             thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + lines[i].substring(0, lines[i].indexOf("---")) + "_thumbnail.txt");
                             File thumbnail = new File(String.valueOf(thumbnailFilePath));
                             thumbnail.delete();

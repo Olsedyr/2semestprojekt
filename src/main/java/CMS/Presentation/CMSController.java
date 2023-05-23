@@ -401,6 +401,7 @@ public class CMSController implements Initializable{
                 "src/main/data/Thumbnails/",
         };
 
+        //The filepaths for all the premade articles that should always be there
         String[] filePaths = {
                 "src/main/data/ARTICLES/ChangeCPU.txt",
                 "src/main/data/ARTICLES/ChangeGPU.txt",
@@ -420,12 +421,12 @@ public class CMSController implements Initializable{
             }
 
             //Two-dimensional array. The inner array holds the information for creating a file, the information in the inner
-            //array holds the information
+            //array holds the information for each file (In this case changing of CPU,GPU and monitor information)
             String[][] createInfo = {{"ChangeCPU", "Change CPU", "This is how to change your CPU", "CPU picture", "1"},
                     {"ChangeGPU", "Change GPU", "This is how to change your GPU", "GPU picture", "1"},
                     {"MonitorInfo", "Choosing Monitor ", "This is how you choose the best monitor", "MonitorInfo picture", "1"}};
 
-            //Loops through each filePath in the String filePaths array
+            //
             for (String[] fileInfo : createInfo){
                 String filePath = "src/main/data/ARTICLES/" + fileInfo[0] + "---" + fileInfo[4] + ".txt";
                 Path path = Paths.get(filePath);
@@ -434,7 +435,6 @@ public class CMSController implements Initializable{
                 if(!Files.exists(path)){
                     String result = Create.create(fileInfo[0], fileInfo[1], fileInfo[2], fileInfo[3], Integer.parseInt(fileInfo[4]));
                     Files.write(path, result.getBytes());
-
                     String[] test = new String[2];
 
                     test[0] = fileInfo[0] + "---" + fileInfo[4];

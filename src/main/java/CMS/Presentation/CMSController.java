@@ -435,23 +435,13 @@ public class CMSController implements Initializable{
                 if(!Files.exists(path)){
                     String result = Create.create(fileInfo[0], fileInfo[1], fileInfo[2], fileInfo[3], Integer.parseInt(fileInfo[4]));
                     Files.write(path, result.getBytes());
-                    String[] test = new String[2];
-
-                    test[0] = fileInfo[0] + "---" + fileInfo[4];
-
-                    test[1] = fileInfo[0]+ "---" + fileInfo[4] + ";;" + fileInfo[1] + ";;" + fileInfo[2]
-                            + ";;" + fileInfo[3];
-
-
-
-                    CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(test[0], test[1]);
-
-
                 }
 
                 CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(fileInfo[0] + "---" + fileInfo[4], fileInfo[0]+ "---" + fileInfo[4] + ";;" + fileInfo[1] + ";;" + fileInfo[2]
                         + ";;" + fileInfo[3]);
+
                 loadData(articleList, CMS.Domain.LoadingHashMaps.getInstance().getArticles());
+
                 CMS.Domain.LoadingHashMaps.getInstance().hashMapArticlesIntoTextFiles();
             }
 

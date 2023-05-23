@@ -132,7 +132,7 @@ public class CMSController implements Initializable{
             }
 
             //Puts the information about the new file into the HashMap containing this information.
-            CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(str[0], str[1]);
+                CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(str[0], str[1]);
 
             //Reloads the ListView.
             loadArticles();
@@ -408,9 +408,6 @@ public class CMSController implements Initializable{
         };
 
 
-
-
-
         //Loops through each folderPath from the String array
         try {
             for (String folderPath : folderPaths) {
@@ -427,21 +424,45 @@ public class CMSController implements Initializable{
                 }
             }
 
-
-            String[] test = new String[3];
-
-            String[][] createInfo = {{"Cpu id", "Cpu subject", "Cpu text", "Cpu picture", "1"}, {"Cpu id", "Cpu subject", "Cpu text", "Cpu picture", "1"}, {"Cpu id", "Cpu subject", "Cpu text", "Cpu picture", "1"}};
+            //Two-dimensional array. The inner array holds the information for creating a file, the information in the inner
+            //array holds the information
+            String[][] createInfo = {{"ChangeCPU", "Change CPU", "This is how to change your CPU", "CPU picture", "1"},
+                    {"ChangeGPU", "Change GPU", "This is how to change your GPU", "GPU picture", "1"},
+                    {"MonitorInfo", "Choosing Monitor ", "This is how you choose the best monitor", "MonitorInfo picture", "1"}};
 
             //Loops through each filePath in the String filePaths array
-            for (int i = 0; i<filePaths.length ; i++){
-                Path path = Paths.get(String.valueOf(i));
+            for (String[] fileInfo : createInfo){
+                String fileName = fileInfo[0];
+                String filePath = "src/main/data/ARTICLES/" + fileName + ".txt";
+                Path path = Paths.get(filePath);
 
-                
+
                 if(!Files.exists(path)){
-                    test[i] = Create.create(createInfo[i][0], createInfo[i][1], createInfo[i][2], createInfo[i][3], Integer.parseInt(createInfo[i][4]));
+                    String result = Create.create(fileInfo[0], fileInfo[1], fileInfo[2], fileInfo[3], Integer.parseInt(fileInfo[4]));
+                    Files.write(path, result.getBytes());
+
+                    String[] test = new String[2];
+
+                    test[0] = fileInfo[0] + "---" + Integer.parseInt(fileInfo[4]);
+
+                    test[1] = fileInfo[0]+ "---" + Integer.parseInt(fileInfo[4]) + ";;" + fileInfo[1] + ";;" + fileInfo[2]
+                            + ";;" + fileInfo[3];
+
+                    System.out.println(test[0]+test[1]);
+
+
+
+                    CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(fileInfo[0], fileInfo[1]);
+                    loadData(articleList, CMS.Domain.LoadingHashMaps.getInstance().getArticles());
+
+                }else{
+                    CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(fileInfo[0], fileInfo[1]);
+                    loadData(articleList, CMS.Domain.LoadingHashMaps.getInstance().getArticles());
+
                 }
 
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -33,7 +33,7 @@ public class LoadingHashMaps {
         return thumbnails;
     }
 
-
+    //This function writes the contents of the HashMap products into a file for later retrieval.
     public void hashMapProductsIntoTextFiles() {
         Path productsfilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
 
@@ -50,7 +50,7 @@ public class LoadingHashMaps {
             throw new RuntimeException(e);
         }
     }
-
+    //This function writes the contents of the HashMap articles into a file for later retrieval.
     public void hashMapArticlesIntoTextFiles() {
 
         Path articlesfilePath = Paths.get("src/main/data/Files for ListViews/articlesFile.txt");
@@ -70,6 +70,7 @@ public class LoadingHashMaps {
         }
     }
 
+    //This function writes the contents of the HashMap thumbnails into a file for later retrieval.
     public void hashMapThumbnailsIntoTextFiles() {
         Path thumbnailsfilePath = Paths.get("src/main/data/Files for ListViews/thumbnailsFile.txt");
 
@@ -87,6 +88,7 @@ public class LoadingHashMaps {
         }
     }
 
+    //This function retrieves the previous contents of the HashMaps products and thumbnails from the files they're respectively written in.
     public void textProductsIntoHashMaps() {
         Path productsFilePath = Paths.get("src/main/data/Files for ListViews/productsFile.txt");
 
@@ -149,6 +151,7 @@ public class LoadingHashMaps {
         }
     }
 
+    //This function retrieves the previous contents of the HashMap articles from the file it is written in.
     public void textArticlesIntoHashMaps() {
         Path filePath = Paths.get("src/main/data/Files for ListViews/articlesFile.txt");
 
@@ -187,7 +190,8 @@ public class LoadingHashMaps {
             throw new RuntimeException(e);
         }
     }
-
+    
+    //This function retrieves the previous contents of the HashMaps articles, products and thumbnails from the files they're respectively written in.
     public void textFilesIntoHashMaps() {
         textProductsIntoHashMaps();
 

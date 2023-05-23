@@ -276,6 +276,8 @@ public class ShopAccess implements ICMS {
         //gets the HTML content from the file with the same id and template and saves it in this class' thumbnails HashMap
         //with the same key.
 
+        System.out.println(CMS.Domain.LoadingHashMaps.getInstance().getThumbnails());
+
         for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().entrySet()) {
             String htmlContent;
             try {

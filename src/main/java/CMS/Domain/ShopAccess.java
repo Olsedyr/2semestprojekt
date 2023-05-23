@@ -229,7 +229,7 @@ public class ShopAccess implements ICMS {
 
             //This part reads the HTML content from any .txt file in the following folder containing the entry's key in its name.
 
-            Path htmlFilePath = Paths.get("src/main/data/Thumbnails/" + entry.getKey() + "_thumbnail.txt");
+            Path htmlFilePath = Paths.get("src/main/data/Thumbnails/" + entry.getKey() + ".txt");
 
             String htmlContent = null;
             try {

@@ -207,18 +207,21 @@ class ShopAccessTest {
     @Test
     void getThumbnail() {
         Path htmlFilePath = Paths.get("src/test/java/CMS/Test Pictures/Example_picture.png");
+        Path FilePath = Paths.get("src/main/data/Thumbnails/" + "getThumbnailTest_thumbnail" + ".txt");
+        String htmlContent;
         try {
             File file = new File(String.valueOf(htmlFilePath));
-            CMS.Domain.ShopAccess.getInstance().getProductPage("getThumbnailTest", "getThumbnailTest description", 9.99,5, "getThumbnailTest",
+            CMS.Domain.ShopAccess.getInstance().getProductPage("getThumbnailTest", "getThumbnailTest description", 99.99,55, "getThumbnailTest",
                     file, 1);
+
+            htmlContent = Files.readString(FilePath);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
 
-        boolean htmlTest = CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().get("getThumbnailTest_thumbnail")
-                .equals(CMS.Domain.ShopAccess.getInstance().getThumbnail("getThumbnailTest_thumbnail").getValue());
+        boolean htmlTest = htmlContent.equals(CMS.Domain.ShopAccess.getInstance().getThumbnail("getThumbnailTest_thumbnail").getValue());
 
         assertTrue(htmlTest);
     }

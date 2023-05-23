@@ -391,57 +391,38 @@ public class CMSController implements Initializable{
 
 
     private void createFolders() {
-        // Specify the folder paths
-        String articleFolder = "src/main/data/ARTICLES/";
-        String cmsFolder = "src/main/data/CMS/";
-        String listViewsFolder = "src/main/data/Files for ListViews/";
-        String thumbnailsFolder= "src/main/data/Thumbnails/";
-        // Add more folder paths as needed
+        //The folder paths to create when loading application stored in a String array
+        String[] folderPaths = {
+                "src/main/data/ARTICLES/",
+                "src/main/data/CMS/",
+                "src/main/data/Files for ListViews/",
+                "src/main/data/Thumbnails/"
+        };
 
+
+        //Loops through each folderPath from the String array
         try {
-            // Create the folders paths
-            Path path1 = Paths.get(articleFolder);
-            Path path2 = Paths.get(cmsFolder);
-            Path path3 = Paths.get(listViewsFolder);
-            Path path4 = Paths.get(thumbnailsFolder);
+            for (String folderPath : folderPaths) {
+                Path path = Paths.get(folderPath);
 
+                //Creating the folder using createDirectories method, if the folderpath doesn't exist
+                if (!Files.exists(path)) {
+                    Files.createDirectories(path);
+                    System.out.println("Folder created: " + folderPath);
 
-            //These if-statements checks if the folders exist. If they don't,
-            //the create.Directories method is called and creates the folder from the paths assigned above
-            if (!Files.exists(path1)) {
-                Files.createDirectories(path1);
-                System.out.println("ArticleFolder created..");
-            }else{
-                System.out.println("ArticleFolder already exists..");
-            }
-
-            if (!Files.exists(path2)) {
-                Files.createDirectories(path2);
-                System.out.println("CMSFolder created..");
-            }else{
-                System.out.println("CMSFolder already exist..");
+                //Prints out the names of the folderpaths if they already exists
+                }else{
+                    System.out.println("Folders already exists: " + folderPath);
+                }
             }
 
 
-            if (!Files.exists(path3)) {
-                Files.createDirectories(path3);
-                System.out.println("ListViewsFolder created..");
-            }else{
-                System.out.println("ListViewsFolder already exists..");
-            }
-
-            if (!Files.exists(path4)) {
-                Files.createDirectories(path4);
-                System.out.println("ThumbnailsFolder created..");
-            }else{
-                System.out.println("ThumbnailsFolder already exists");
-            }
-            
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     //endregion
 }

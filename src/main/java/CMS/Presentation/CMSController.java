@@ -401,7 +401,6 @@ public class CMSController implements Initializable {
     //endregion
 
 
-    // region ----------------------------------------Search function----------------------------------------
     private void createFolders() throws Exception {
         //The folder paths to create when loading application stored in a String array
         String[] folderPaths = {
@@ -428,22 +427,33 @@ public class CMSController implements Initializable {
                     {"ChangeGPU", "Change GPU", "This is how to change your GPU", "GPU picture", "1"},
                     {"MonitorInfo", "Choosing Monitor ", "This is how you choose the best monitor", "MonitorInfo picture", "1"}};
 
-            //
+
+            //iterates over each fileInfo array within the createInfo two-dimensional-array
             for (String[] fileInfo : createInfo) {
+                //Creates a filePath using a predefined path + fileInfo[0] + "---" + fileInfo[4]
                 String filePath = "src/main/data/ARTICLES/" + fileInfo[0] + "---" + fileInfo[4] + ".txt";
+
+                //Using the String filePath it gets the filepath using Paths.get method
                 Path path = Paths.get(filePath);
 
-
+                //if the file doesn't exist it will create a String containing all the info from the fileInfo array from the loop.
+                //then it writes it to the path and converts it to a byte array. Bytes is the more suitable format for filewriting
+                //instead of strings, which is a sequence of characters.
                 if (!Files.exists(path)) {
                     String result = Create.create(fileInfo[0], fileInfo[1], fileInfo[2], fileInfo[3], Integer.parseInt(fileInfo[4]));
                     Files.write(path, result.getBytes());
                 }
 
+                //Update the Articles in the hashmap in the CMS.Domain.LoadingHashMaps using. The key for the HashMap is fileInfo[0] & fileInfo[4]
+                //fileInfo[0] to fileInfo[4] is the value for the article in the HashMap
                 CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(fileInfo[0] + "---" + fileInfo[4], fileInfo[0] + "---" + fileInfo[4] + ";;" + fileInfo[1] + ";;" + fileInfo[2]
                         + ";;" + fileInfo[3]);
 
+                //Load the updated/new Articles in the CMS.Domain.LoadingHashMaps using the getArticles method
                 loadData(articleList, CMS.Domain.LoadingHashMaps.getInstance().getArticles());
 
+                //Run the hashMapIntoTextFiles method with the string "articlesFile" and the Articles Hashmap.
+                // This will convert the article HashMap data into a TextFile representation.
                 CMS.Domain.LoadingHashMaps.getInstance().hashMapIntoTextFiles("articlesFile", CMS.Domain.LoadingHashMaps.getInstance().getArticles());
             }
 

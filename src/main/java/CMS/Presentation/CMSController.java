@@ -78,60 +78,66 @@ public class CMSController implements Initializable {
     // The input is then used to create a new file and update the HashMaps.
     @FXML
     protected void addProduct() throws IOException {
-        //Makes a new pop-up window to write the information.
-        PopupWindow popupWindow = new PopupWindow();
-        String[] str = popupWindow.getResult();
-
-        if (str != null) {
-
-            //Makes the information for the file path with the contents of the pop-up window.
-            File htmlFile = new File(Paths.get("src/main/data/CMS/" + str[0]
-                    + ".txt").toString());
-
-            //Makes a new file with the contents of the pop-up window.
-            if (htmlFile.createNewFile()) {
-                FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
-                myWriter.write(str[2]);
-                myWriter.close();
-            }
-
-            //Puts the information about the new file into the HashMap containing this information.
-            CMS.Domain.LoadingHashMaps.getInstance().getProducts().put(str[0], str[1]);
-
-            String[] array = str[1].split(";;");
-
-            CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().put(str[0].substring(0, array[0].indexOf("---"))
-                    + "_thumbnail", array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
-                    + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
-
-            //Reloads the ListView.
-            loadProducts();
-        }
+        processAdding(productList, "src/main/data/CMS/", CMS.Domain.LoadingHashMaps.getInstance().getProducts(),
+                CMS.Domain.LoadingHashMaps.getInstance().getThumbnails(), () -> {
+                    try {
+                        loadProducts();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     @FXML
     protected void addArticle() throws IOException {
-        //Makes a new pop-up window to write the information.
-        PopupWindowArticle popupWindow = new PopupWindowArticle();
-        String[] str = popupWindow.getResult();
+        processAdding(articleList, "src/main/data/ARTICLES/",
+                CMS.Domain.LoadingHashMaps.getInstance().getArticles(), null, () -> {
+                    try {
+                        loadArticles();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+    }
+
+    private void processAdding(ListView<String> listView, String directory, Map<String, String> dataMap, Map<String, String> thumbnails, Runnable loadMethod) throws IOException {
+
+        String[] str;
+
+        //Makes a new pop-up window to write the information in based on whether it is a product or article.
+        if (thumbnails != null) {
+            PopupWindow popupWindow = new PopupWindow();
+            str = popupWindow.getResult();
+        } else {
+            PopupWindowArticle popupWindow = new PopupWindowArticle();
+            str = popupWindow.getResult();
+        }
 
         if (str != null) {
-            //Makes the information for the file path with the contents of the pop-up window.
-            File htmlFile = new File(Paths.get("src/main/data/ARTICLES/" + str[0]
-                    + ".txt").toString());
+
+            //Makes a new file with the information from the pop-up window.
+            File newFile = new File(directory + str[0] + ".txt");
 
             //Makes a new file with the contents of the pop-up window.
-            if (htmlFile.createNewFile()) {
-                FileWriter myWriter = new FileWriter(String.valueOf(htmlFile));
+            if (newFile.createNewFile()) {
+                FileWriter myWriter = new FileWriter(String.valueOf(newFile));
                 myWriter.write(str[2]);
                 myWriter.close();
             }
 
-            //Puts the information about the new file into the HashMap containing this information.
-            CMS.Domain.LoadingHashMaps.getInstance().getArticles().put(str[0], str[1]);
+            //Puts the information from the pop-up window into the corresponding HashMap with the id and template id used for the key.
 
-            //Reloads the ListView.
-            loadArticles();
+            dataMap.put(str[0], str[1]);
+
+            if (thumbnails != null) {
+                String[] array = str[1].split(";;");
+                thumbnails.put(str[0].substring(0, array[0].indexOf("---"))
+                        + "_thumbnail", array[0].substring(0, array[0].indexOf("---")) + "_thumbnail" + ";;" + array[1]
+                        + ";;" + array[2] + ";;" + array[3] + ";;" + array[5]);
+            }
+
+            //Reloads our ListView.
+            loadMethod.run();
         }
     }
     //endregion

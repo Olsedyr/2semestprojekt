@@ -296,6 +296,7 @@ public class ShopAccess implements ICMS {
                 thumbnails.put(entry.getKey(), htmlContent);
             }
         }
+        
         //This part returns the HTML content of every existing thumbnail.
 
         return thumbnails;

@@ -32,7 +32,7 @@ public class CreateTest {
         String description = "This is a test product.";
         String stock = "100";
         String price = "99.99";
-        String picture = "src/main/resources/images/test.jpg";
+        String picture = "src/test/java/CMS/Test Pictures/Example_picture.png";
         int templateId = 1;
 
         String html = Create.create(name, description, stock, price, picture, templateId);
@@ -53,7 +53,7 @@ public class CreateTest {
         String name = "Test Article";
         String subject = "Test Subject";
         String text = "This is a test article.";
-        String picture = "src/main/resources/images/test.jpg";
+        String picture = "src/test/java/CMS/Test Pictures/Example_picture.png";
         int templateId = 1;
 
         String html = Create.create(name, subject, text, picture, templateId);

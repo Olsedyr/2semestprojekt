@@ -401,12 +401,6 @@ public class CMSController implements Initializable{
                 "src/main/data/Thumbnails/",
         };
 
-        //The filepaths for all the premade articles that should always be there
-        String[] filePaths = {
-                "src/main/data/ARTICLES/ChangeCPU.txt",
-                "src/main/data/ARTICLES/ChangeGPU.txt",
-                "src/main/data/ARTICLES/MonitorInfo.txt",
-        };
 
 
         //Loops through each folderPath from the String array

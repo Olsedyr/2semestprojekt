@@ -430,13 +430,15 @@ public class CMSController implements Initializable{
 
             String[] test = new String[3];
 
+            String[][] createInfo = {{"Cpu id", "Cpu subject", "Cpu text", "Cpu picture", "1"}, {"Cpu id", "Cpu subject", "Cpu text", "Cpu picture", "1"}, {"Cpu id", "Cpu subject", "Cpu text", "Cpu picture", "1"}};
+
             //Loops through each filePath in the String filePaths array
             for (int i = 0; i<filePaths.length ; i++){
                 Path path = Paths.get(String.valueOf(i));
 
                 
                 if(!Files.exists(path)){
-                    test[i] = Create.create("Cpu", "Cpu", "this cpu", "examplepicture", 1);
+                    test[i] = Create.create(createInfo[i][0], createInfo[i][1], createInfo[i][2], createInfo[i][3], Integer.parseInt(createInfo[i][4]));
                 }
 
             }

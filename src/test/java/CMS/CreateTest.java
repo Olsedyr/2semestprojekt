@@ -6,9 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -18,14 +15,17 @@ public class CreateTest {
 
     @BeforeEach
     public void setup() {
+        // Cleans up the thumbnail directory.
         cleanUpThumbnailDirectory();
     }
 
     @AfterEach
     public void tearDown() {
+        // Cleans up the thumbnail directory.
         cleanUpThumbnailDirectory();
     }
 
+    // Tests if a product is properly created
     @Test
     public void testCreateProduct() {
         try {
@@ -43,11 +43,14 @@ public class CreateTest {
             assertTrue(html.contains("<p>Stock: " + stock + "</p>"));
             assertTrue(html.contains("<p>Price: $" + price + "</p>"));
             assertTrue(html.contains(picture.replace("\\", "/")));
+
         } catch (Exception e) {
+            // Call in the catch block to indicate the test has failed if any exception occurs.
             fail("Test failed due to exception: " + e.getMessage());
         }
     }
 
+    // Tests if an article is properly created.
     @Test
     public void testCreateArticle() {
         try {
@@ -61,11 +64,14 @@ public class CreateTest {
 
             assertTrue(html.contains("<h1>" + subject + "</h1>"));
             assertTrue(html.contains(picture.replace("\\", "/")));
+
         } catch (Exception e) {
+            // Call in the catch block to indicate the test has failed if any exception occurs.
             fail("Test failed due to exception: " + e.getMessage());
         }
     }
 
+    // Deletes all the files in the thumbnail directory.
     private void cleanUpThumbnailDirectory() {
         File thumbnailDirectory = new File(THUMBNAIL_PATH);
         File[] files = thumbnailDirectory.listFiles();

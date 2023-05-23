@@ -408,6 +408,9 @@ public class CMSController implements Initializable{
         };
 
 
+
+
+
         //Loops through each folderPath from the String array
         try {
             for (String folderPath : folderPaths) {
@@ -425,13 +428,15 @@ public class CMSController implements Initializable{
             }
 
 
+            String[] test = new String[3];
+
             //Loops through each filePath in the String filePaths array
-            for (String filePath: filePaths){
-                Path path = Paths.get(filePath);
+            for (int i = 0; i<filePaths.length ; i++){
+                Path path = Paths.get(String.valueOf(i));
 
+                
                 if(!Files.exists(path)){
-                    //Create the files here
-
+                    test[i] = Create.create("Cpu", "Cpu", "this cpu", "examplepicture", 1);
                 }
 
             }

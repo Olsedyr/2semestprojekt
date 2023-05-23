@@ -101,7 +101,7 @@ public class ShopAccess implements ICMS {
 
             //This part makes a new file using the id and template id.
 
-            Path thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + id + "_thumbnails.txt");
+            Path thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + id + ".txt");
 
             File thumbnailFile = new File(String.valueOf(thumbnailFilePath));
 
@@ -229,7 +229,7 @@ public class ShopAccess implements ICMS {
 
             //This part reads the HTML content from any .txt file in the following folder containing the entry's key in its name.
 
-            Path htmlFilePath = Paths.get("src/main/data/Thumbnails/" + entry.getKey() + "_thumbnail.txt");
+            Path htmlFilePath = Paths.get("src/main/data/Thumbnails/" + entry.getKey() + ".txt");
 
             String htmlContent = null;
             try {

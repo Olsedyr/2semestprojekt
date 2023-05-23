@@ -113,8 +113,6 @@ public class Create {
                         "</body>\n" +
                         "</html>";
 
-                // Create thumbnail
-                createThumbnail(String.valueOf(template_id), name, price, picture);
                 break;
             case 2:
                 //A variant template, it changes the colors to blue style
@@ -212,9 +210,7 @@ public class Create {
                         "</div>\n" +
                         "</body>\n" +
                         "</html>";
-
-                // Create thumbnail
-                createThumbnail(String.valueOf(template_id), name, price, picture);
+                
                 break;
             default:
                 System.out.println("A template with this id doesn't exist.");

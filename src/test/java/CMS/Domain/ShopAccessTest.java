@@ -17,16 +17,18 @@ class ShopAccessTest {
     @BeforeEach
     void setUp() {
     }
-
     @AfterEach
     void tearDown() {
     }
 
+    //Checks if the ShopAccess singleton instance can be retrieved properly.
     @Test
     void getInstance() {
         assertTrue(CMS.Domain.ShopAccess.getInstance() instanceof ShopAccess);
     }
 
+
+    // Checks if a product page can be retrieved properly when given a product name and a thumbnail ID.
     @Test
     void getProductPageTest1() {
         String html;
@@ -50,6 +52,8 @@ class ShopAccessTest {
         assertTrue(htmlTest);
     }
 
+
+    // Checks if a product page can be retrieved properly when given the full details of a product.
     @Test
     void getProductPageTest2() {
         String html;
@@ -67,6 +71,8 @@ class ShopAccessTest {
         assertTrue(htmlTest);
     }
 
+
+    // Checks if an article page can be retrieved properly when given an article ID.
     @Test
     void getArticlePage() {
         String html;
@@ -136,6 +142,8 @@ class ShopAccessTest {
         assertTrue(htmlTest);
     }
 
+
+    // Checks if multiple article pages can be retrieved properly.
     @Test
     void getArticlePages() {
         String html;
@@ -204,6 +212,8 @@ class ShopAccessTest {
         assertTrue(keyTest);
     }
 
+
+    // Checks if a thumbnail can be retrieved properly when given a thumbnail ID.
     @Test
     void getThumbnail() {
         Path htmlFilePath = Paths.get("src/test/java/CMS/Test Pictures/Example_picture.png");
@@ -226,6 +236,8 @@ class ShopAccessTest {
         assertTrue(htmlTest);
     }
 
+
+    // Checks if multiple thumbnails can be retrieved properly.
     @Test
     void getThumbnails() {
         Path htmlFilePath = Paths.get("src/test/java/CMS/Test Pictures/Example_picture.png");

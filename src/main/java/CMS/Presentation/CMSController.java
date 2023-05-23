@@ -238,9 +238,16 @@ public class CMSController implements Initializable{
             String product = listView.getItems().get(selectedIndices.get(0));
             String previousID = product.split(";;")[0];
 
-            //Makes a new pop-up window to write the information.
-            PopupWindow popupWindow = new PopupWindow();
-            String[] str = popupWindow.getResult();
+            String[] str;
+
+            //Makes a new pop-up window to write the information in based on whether it is a product or article.
+            if(thumbnails != null){
+                PopupWindow popupWindow = new PopupWindow();
+                str = popupWindow.getResult();
+            } else {
+                PopupWindowArticle popupWindow = new PopupWindowArticle();
+                str = popupWindow.getResult();
+            }
 
             if (str != null) {
                 //Gets a filepath using the previous id and previous template id.

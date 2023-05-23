@@ -328,8 +328,6 @@ class ShopAccessTest {
             throw new RuntimeException(e);
         }
 
-        CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
-
         boolean htmlTest = htmlContent.equals(CMS.Domain.ShopAccess.getInstance().getThumbnail("getThumbnailTest_thumbnail").getValue());
 
         assertTrue(htmlTest);

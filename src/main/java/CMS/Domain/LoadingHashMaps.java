@@ -42,7 +42,7 @@ public class LoadingHashMaps {
     }
 
     //This function retrieves the previous contents of the HashMaps articles, products and thumbnails from the files they're respectively written in.
-    public void textFileIntoHashMaps(String filename, HashMap<String, String> dataMap, HashMap<String, String> thumbnailsCheck) {
+    public void textFileIntoHashMaps(String filename, String directory, HashMap<String, String> dataMap, HashMap<String, String> thumbnailsCheck) {
 
         //This part gets the file paths for the .txt-files which hold the saved information used by the HashMaps products and thumbnails.
 
@@ -82,7 +82,7 @@ public class LoadingHashMaps {
 
                     //This part makes a new file based on the product information.
 
-                    hashmapFilePath = Paths.get("src/main/data/CMS/" + lines[i].substring(0, lines[i].indexOf(";;")) + ".txt");
+                    hashmapFilePath = Paths.get(directory + lines[i].substring(0, lines[i].indexOf(";;")) + ".txt");
                     File file = new File(String.valueOf(hashmapFilePath));
 
                     //If the file already exists, the information is put into the previously made HashMaps.
@@ -140,8 +140,8 @@ public class LoadingHashMaps {
     //This function retrieves the previous contents of the HashMaps articles, products and thumbnails from the files they're respectively written in.
     public void textFilesIntoHashMaps() {
 
-        textFileIntoHashMaps("productsFile", CMS.Domain.LoadingHashMaps.getInstance().getProducts(), CMS.Domain.LoadingHashMaps.getInstance().getThumbnails());
+        textFileIntoHashMaps("productsFile", "src/main/data/CMS/", CMS.Domain.LoadingHashMaps.getInstance().getProducts(), CMS.Domain.LoadingHashMaps.getInstance().getThumbnails());
 
-        textFileIntoHashMaps("articlesFile", CMS.Domain.LoadingHashMaps.getInstance().getArticles(), null);
+        textFileIntoHashMaps("articlesFile", "src/main/data/ARTICLES/", CMS.Domain.LoadingHashMaps.getInstance().getArticles(), null);
     }
 }

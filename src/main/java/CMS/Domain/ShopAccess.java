@@ -219,7 +219,13 @@ public class ShopAccess implements ICMS {
         //This part gets the current information about the existing articles, products and thumbnails and puts it into their
         //respective HashMaps located in the class LoadingHashMaps.
 
-        CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
+        //CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
+
+        System.out.println(CMS.Domain.LoadingHashMaps.getInstance().getThumbnails());
+
+        for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().entrySet()) {
+            System.out.println(entry);
+        }
 
         //This part iterates over every entry in the HashMap thumbnails from the class LoadingHashMaps,
         //gets the HTML content from the file with the same id and template and saves it in this class' thumbnails HashMap
@@ -249,6 +255,8 @@ public class ShopAccess implements ICMS {
             }
         }
 
+
+
         //This part tries to return an entry with the given title as the entry's key.
 
         for (Map.Entry<String, String> entry : thumbnails.entrySet()) {
@@ -275,8 +283,6 @@ public class ShopAccess implements ICMS {
         //This part iterates over every entry in the HashMap thumbnails from the class LoadingHashMaps,
         //gets the HTML content from the file with the same id and template and saves it in this class' thumbnails HashMap
         //with the same key.
-
-        System.out.println(CMS.Domain.LoadingHashMaps.getInstance().getThumbnails());
 
         for(Map.Entry<String, String> entry : CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().entrySet()) {
             String htmlContent;

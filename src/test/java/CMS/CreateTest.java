@@ -38,8 +38,6 @@ public class CreateTest {
 
             String html = Create.create(name, description, price, stock, picture, templateId);
 
-            System.out.println(html);
-
             assertTrue(html.contains("<h2>" + name + "</h2>"));
             assertTrue(html.contains("<p>" + description + "</p>"));
             assertTrue(html.contains("<p>Stock: " + stock + "</p>"));

@@ -20,8 +20,12 @@ public class ShopAccess implements ICMS {
         return instance;
     }
 
+    //This function gets the HTML content of a file using the given id and template id.
     @Override
     public String getProductPage(String id, String template_id){
+        //This part gets the current information about the existing products and thumbnails and puts it into their
+        //respective HashMaps.
+
         CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
 
         try {
@@ -41,17 +45,20 @@ public class ShopAccess implements ICMS {
     @Override
     public String getProductPage(String name, String description, double price, int stock, String id, File imageFile,
                           int template_id){
-
+        //This part gets the current information about the existing products and thumbnails and puts it into their
+        //respective HashMaps.
 
         CMS.Domain.LoadingHashMaps.getInstance().textFilesIntoHashMaps();
 
-        //This part makes the not-so-usable given information into usable Strings.
+        //This part makes the not-so-usable given information into usable Strings through typecasting.
 
         String price_String = price + "";
 
         String stock_String = stock + "";
 
         String filepath = imageFile.getAbsolutePath();
+
+        //This part puts the given information into the respective HashMap, overwriting when necessary.
 
         if (CMS.Domain.LoadingHashMaps.getInstance().getProducts().containsKey(id + "---" + template_id)){
             CMS.Domain.LoadingHashMaps.getInstance().getProducts().replace(id + "---" + template_id, id + "---" + template_id + ";;" + name + ";;" + description + ";;" + price_String + ";;" + stock_String + ";;" + filepath);
@@ -62,6 +69,8 @@ public class ShopAccess implements ICMS {
 
             CMS.Domain.LoadingHashMaps.getInstance().getThumbnails().put(id + "_thumbnail", id + "_thumbnail" + ";;" + name + ";;" + price_String + ";;" + filepath);
         }
+        //This part writes the HashMaps' information into the respective text files.
+
         CMS.Domain.LoadingHashMaps.getInstance().hashMapProductsIntoTextFiles();
         CMS.Domain.LoadingHashMaps.getInstance().hashMapThumbnailsIntoTextFiles();
 
@@ -69,30 +78,45 @@ public class ShopAccess implements ICMS {
         try {
             //This part makes the information into HTML through a specific template.
 
-            String html = Create.create(name, description, price_String, stock_String, filepath, template_id);
+            String productHTML = Create.create(name, description, price_String, stock_String, filepath, template_id);
 
             //This part makes a new file using the id and template id.
 
-            Path htmlFilePath = Paths.get("src/main/data/CMS/" + id + "---" + template_id + ".txt");
+            Path productFilePath = Paths.get("src/main/data/CMS/" + id + "---" + template_id + ".txt");
 
-            File htmlFile = new File(String.valueOf(htmlFilePath));
+            File productFile = new File(String.valueOf(productFilePath));
 
             //This part overwrites any old file with the same id and template id.
 
-            if (!htmlFile.createNewFile()) {
-                htmlFile.delete();
+            if (!productFile.createNewFile()) {
+                productFile.delete();
             }
 
-            FileWriter myWriter = new FileWriter(String.valueOf(htmlFilePath));
-            myWriter.write(html);
+            FileWriter myWriter = new FileWriter(String.valueOf(productFilePath));
+            myWriter.write(productHTML);
             myWriter.close();
+
+
+            //This part makes a new file using the id and template id.
+
+            Path thumbnailFilePath = Paths.get("src/main/data/Thumbnails/" + id + "_thumbnails.txt");
+
+            File thumbnailFile = new File(String.valueOf(thumbnailFilePath));
+
+            //This part overwrites any old file with the same id and template id.
+
+            if (!thumbnailFile.createNewFile()) {
+                thumbnailFile.delete();
+            }
+
+            //This part creates a thumbnail using the information from the product.
 
             Create.createThumbnail(id, name, price_String,
                     filepath);
 
+            //This part returns the product's HTML content.
 
-
-            return html;
+            return productHTML;
 
             //This part throws an Exception if the file doesn't actually exist.
 

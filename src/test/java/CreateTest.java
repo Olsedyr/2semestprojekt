@@ -1,5 +1,3 @@
-package CMS;
-
 import CMS.Domain.Create;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

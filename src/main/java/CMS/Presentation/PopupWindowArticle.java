@@ -9,7 +9,7 @@ import javafx.scene.layout.GridPane;
 
 import java.util.Optional;
 
-public class PopupWindowArticle extends CMSController {
+public class PopupWindowArticle {
 
     //This is the String array where the result of the textfields.
     private String[] result;

@@ -10,7 +10,7 @@ import javafx.scene.layout.GridPane;
 import java.util.Optional;
 import static CMS.Domain.Create.createThumbnail;
 
-public class PopupWindow extends CMSController {
+public class PopupWindow {
 
     //This is the String array where the result of the textfields.
         private String[] result;
